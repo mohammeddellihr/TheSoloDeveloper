@@ -57,9 +57,6 @@ export default async function TicketPage({
               <li key={comment.id}>
                 <Card>
                   <p className="text-sm">{comment.text}</p>
-                  <p className="mt-1 text-xs text-zinc-400">
-                    {new Date(comment.createdAt).toLocaleDateString()}
-                  </p>
                 </Card>
               </li>
             ))}
