@@ -63,16 +63,26 @@ export async function addCommentAction(_prev: unknown, formData: FormData) {
   }
 }
 
+function nameFromUrl(url: string): string {
+  try {
+    const { pathname } = new URL(url)
+    return pathname.replace(/^\/+/, "").replace(/\/+$/, "") || url
+  } catch {
+    return url
+  }
+}
+
 export async function createRepositoryAction(_prev: unknown, formData: FormData) {
-  const name = formData.get("name")
   const url = formData.get("url")
 
-  if (typeof name !== "string" || !name.trim()) {
-    return { error: "Name is required" }
+  if (typeof url !== "string" || !url.trim()) {
+    return { error: "URL is required" }
   }
 
+  const name = nameFromUrl(url.trim())
+
   try {
-    const repo = createRepository(name.trim(), typeof url === "string" ? url.trim() : undefined)
+    const repo = createRepository(name, url.trim())
     redirect(`/repository/${repo.id}`)
   } catch (e) {
     if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
@@ -82,15 +92,16 @@ export async function createRepositoryAction(_prev: unknown, formData: FormData)
 
 export async function updateRepositoryAction(_prev: unknown, formData: FormData) {
   const repositoryId = formData.get("repositoryId")
-  const name = formData.get("name")
   const url = formData.get("url")
 
-  if (typeof repositoryId !== "string" || typeof name !== "string" || !name.trim()) {
-    return { error: "Name is required" }
+  if (typeof repositoryId !== "string" || typeof url !== "string" || !url.trim()) {
+    return { error: "URL is required" }
   }
 
+  const name = nameFromUrl(url.trim())
+
   try {
-    const repo = updateRepository(repositoryId, name.trim(), typeof url === "string" ? url.trim() : undefined)
+    const repo = updateRepository(repositoryId, name, url.trim())
     if (!repo) return { error: "Repository not found" }
     redirect(`/repository/${repositoryId}`)
   } catch (e) {

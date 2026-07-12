@@ -24,7 +24,6 @@ export default async function UpdateRepoPage({
       <Card>
         <UpdateRepoForm
           repositoryId={repo.id}
-          name={repo.name}
           url={repo.url}
         />
       </Card>

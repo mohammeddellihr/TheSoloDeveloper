@@ -5,11 +5,9 @@ import { updateRepositoryAction } from "@/app/actions"
 
 export default function UpdateRepoForm({
   repositoryId,
-  name,
   url,
 }: {
   repositoryId: string
-  name: string
   url: string
 }) {
   const [state, action, pending] = useActionState(updateRepositoryAction, null)
@@ -17,23 +15,15 @@ export default function UpdateRepoForm({
   return (
     <form action={action} className="flex flex-col gap-3">
       <input type="hidden" name="repositoryId" value={repositoryId} />
-      <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300" htmlFor="repo-name">Repository name</label>
-      <input
-        id="repo-name"
-        name="name"
-        placeholder="Repository name"
-        defaultValue={name}
-        required
-        className="rounded border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-black dark:focus:border-white focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
-      />
-      <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300" htmlFor="repo-url">Repository URL (optional)</label>
+      <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300" htmlFor="repo-url">Repository URL</label>
       <input
         id="repo-url"
         name="url"
         type="url"
         inputMode="url"
-        placeholder="Repository URL (optional)"
+        placeholder="https://github.com/fastapi/fastapi"
         defaultValue={url}
+        required
         className="rounded border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-black dark:focus:border-white focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
       />
       {state && "error" in state && (
