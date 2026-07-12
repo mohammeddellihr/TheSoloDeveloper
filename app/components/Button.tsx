@@ -7,9 +7,9 @@ type ButtonProps = {
 
 const variants = {
   primary:
-    "bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 disabled:opacity-50",
+    "bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 disabled:opacity-50",
   secondary:
-    "bg-white text-black border border-zinc-300 hover:bg-zinc-100 dark:bg-black dark:text-white dark:border-zinc-700 dark:hover:bg-zinc-800 disabled:opacity-50",
+    "bg-white text-black border border-gray-300 hover:bg-gray-100 dark:bg-black dark:text-white dark:border-gray-700 dark:hover:bg-gray-800 disabled:opacity-50",
 }
 
 export default function Button({

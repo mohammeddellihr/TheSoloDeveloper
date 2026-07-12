@@ -24,16 +24,16 @@ export default function RootLayout({
       className={`${josefinSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
-        <header className="border-b border-zinc-200 dark:border-zinc-800">
+        <header className="border-b border-gray-200 dark:border-gray-800">
           <nav className="mx-auto flex w-full max-w-2xl items-center justify-between px-4 py-3">
             <Link href="/" className="text-lg font-bold">
               The Solo Developer
             </Link>
             <div className="flex gap-1 text-sm">
-              <Link href="/repositories" className="hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded px-2 py-1 cursor-pointer">
+              <Link href="/repositories" className="hover:bg-gray-100 dark:hover:bg-gray-800 rounded px-2 py-1 cursor-pointer">
                 Repositories
               </Link>
-              <Link href="/tickets" className="hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded px-2 py-1 cursor-pointer">
+              <Link href="/tickets" className="hover:bg-gray-100 dark:hover:bg-gray-800 rounded px-2 py-1 cursor-pointer">
                 Tickets
               </Link>
             </div>

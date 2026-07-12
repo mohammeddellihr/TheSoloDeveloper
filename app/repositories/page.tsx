@@ -20,7 +20,7 @@ export default async function RepositoriesPage() {
       />
 
       {repos.length === 0 ? (
-        <p className="text-sm text-zinc-500">No repositories yet.</p>
+        <p className="text-sm text-gray-500">No repositories yet.</p>
       ) : (
         <ul className="flex flex-col gap-2">
           {repos.map((repo) => (

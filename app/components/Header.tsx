@@ -18,14 +18,14 @@ export default function Header({
       <div className="flex items-center justify-between gap-4">
         <div>
           {breadcrumbs.length > 0 && (
-            <nav className="text-sm text-zinc-400">
+            <nav className="text-sm text-gray-400">
               {breadcrumbs.map((crumb, i) => (
                 <span key={i}>
                   {i > 0 && <span className="mx-1.5">/</span>}
                   {crumb.href ? (
                     <Link
                       href={crumb.href}
-                      className="hover:text-zinc-600 dark:hover:text-zinc-300 cursor-pointer"
+                      className="hover:text-gray-600 dark:hover:text-gray-300 cursor-pointer"
                     >
                       {crumb.label}
                     </Link>

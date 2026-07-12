@@ -31,7 +31,7 @@ export default async function TicketPage({
       />
 
       <Card>
-        <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4">
+        <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-4">
           <h1 className="text-xl font-bold">{ticket.title}</h1>
           <Badge variant={ticket.status} />
         </div>
@@ -50,7 +50,7 @@ export default async function TicketPage({
         </h2>
 
         {ticket.comments.length === 0 ? (
-          <p className="text-sm text-zinc-500">No comments yet.</p>
+          <p className="text-sm text-gray-500">No comments yet.</p>
         ) : (
           <ul className="flex flex-col gap-3">
             {ticket.comments.map((comment) => (

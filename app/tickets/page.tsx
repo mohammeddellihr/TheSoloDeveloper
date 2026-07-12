@@ -26,7 +26,7 @@ export default async function TicketsPage({
       />
 
       {tickets.length === 0 ? (
-        <p className="text-sm text-zinc-500">No tickets found.</p>
+        <p className="text-sm text-gray-500">No tickets found.</p>
       ) : (
         <ul className="flex flex-col gap-2">
           {tickets.map((ticket) => (
@@ -36,11 +36,11 @@ export default async function TicketsPage({
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <span className="font-medium">{ticket.title}</span>
-                      <span className="text-sm text-zinc-500">in {ticket.repoName}</span>
+                      <span className="text-sm text-gray-500">in {ticket.repoName}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Badge variant={ticket.status} />
-                      <span className="text-xs text-zinc-400">
+                      <span className="text-xs text-gray-400">
                         {new Date(ticket.createdAt).toLocaleDateString()}
                       </span>
                     </div>

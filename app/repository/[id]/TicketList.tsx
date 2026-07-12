@@ -31,8 +31,8 @@ export default function TicketList({
             onClick={() => setFilter(s)}
             className={`rounded-full px-3 py-1 text-xs font-medium cursor-pointer ${
               filter === s
-                ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
-                : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
+                ? "bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900"
+                : "bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
             }`}
           >
             {FILTER_LABELS[s]}
@@ -41,7 +41,7 @@ export default function TicketList({
       </div>
 
       {filtered.length === 0 ? (
-        <p className="py-8 text-center text-sm text-zinc-500">
+        <p className="py-8 text-center text-sm text-gray-500">
           {tickets.length === 0 ? "No tickets yet." : "No tickets match this filter."}
         </p>
       ) : (
@@ -54,7 +54,7 @@ export default function TicketList({
                     <span className="font-medium">{ticket.title}</span>
                     <div className="flex items-center gap-3">
                       <Badge variant={ticket.status} />
-                      <span className="text-xs text-zinc-400">
+                      <span className="text-xs text-gray-400">
                         {new Date(ticket.createdAt).toLocaleDateString()}
                       </span>
                     </div>

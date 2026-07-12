@@ -22,7 +22,7 @@ export default function TicketFilters({ repositories }: { repositories: Reposito
   return (
     <div className="flex gap-2">
       <select
-        className="rounded-md border border-zinc-300 bg-white px-2 py-1 text-sm cursor-pointer dark:border-zinc-700 dark:bg-zinc-800"
+        className="rounded-md border border-gray-300 bg-white px-2 py-1 text-sm cursor-pointer dark:border-gray-700 dark:bg-gray-800"
         value={searchParams.get("repository_id") ?? ""}
         onChange={(e) => update("repository_id", e.target.value)}
       >
@@ -32,7 +32,7 @@ export default function TicketFilters({ repositories }: { repositories: Reposito
         ))}
       </select>
       <select
-        className="rounded-md border border-zinc-300 bg-white px-2 py-1 text-sm cursor-pointer dark:border-zinc-700 dark:bg-zinc-800"
+        className="rounded-md border border-gray-300 bg-white px-2 py-1 text-sm cursor-pointer dark:border-gray-700 dark:bg-gray-800"
         value={searchParams.get("status") ?? ""}
         onChange={(e) => update("status", e.target.value)}
       >
