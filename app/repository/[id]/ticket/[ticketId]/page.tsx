@@ -24,8 +24,7 @@ export default async function TicketPage({
     <>
       <Header
         breadcrumbs={[
-          { label: "Repositories", href: "/repositories" },
-          { label: repo.name, href: `/repository/${repo.id}` },
+          { label: "Tickets", href: "/tickets" },
         ]}
         title={`Ticket #${ticket.id}`}
         actions={
