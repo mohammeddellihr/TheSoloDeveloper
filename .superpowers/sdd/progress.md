@@ -9,6 +9,6 @@ Task 5: complete (pre-existing, old route deleted)
 
 ## Dockerfile Tasks
 Task 6: complete (commits skipped, git not available — .dockerignore created correctly)
-Task 7: pending (Enable Next.js standalone output)
-Task 8: pending (Create Dockerfile)
-Task 9: pending (Test Docker build)
+Task 7: complete (commits skipped, git not available — next.config.ts updated, build verified)
+Task 8: complete (commits skipped, git not available — Dockerfile created correctly)
+Task 9: blocked (Docker not installed — all prerequisites verified, ready for Docker build test)
