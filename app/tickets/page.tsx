@@ -27,7 +27,7 @@ export default async function TicketsPage({
 
       {tickets.length === 0 ? (
         <Card>
-          <p className="text-sm text-gray-500">No tickets found.</p>
+          <p className="text-center text-sm text-gray-500">No tickets found.</p>
         </Card>
       ) : (
         <ul className="flex flex-col gap-2">
