@@ -68,6 +68,14 @@ export interface Repository {
   updatedAt: string
 }
 
+export interface Stats {
+  totalRepos: number
+  totalTickets: number
+  pending: number
+  inProgress: number
+  completed: number
+}
+
 function iso(): string {
   return new Date().toISOString()
 }
@@ -192,4 +200,14 @@ export function addComment(repositoryId: string, ticketId: string, text: string)
   db.prepare('INSERT INTO comments (id, ticketId, text, createdAt) VALUES (?, ?, ?, ?)').run(id, ticketId, text, now)
   db.prepare('UPDATE tickets SET updatedAt = ? WHERE id = ?').run(now, ticketId)
   return getTicket(repositoryId, ticketId)
+}
+
+export function getStats(): Stats {
+  const db = getDb()
+  const totalRepos = (db.prepare('SELECT COUNT(*) as count FROM repositories').get() as { count: number }).count
+  const totalTickets = (db.prepare('SELECT COUNT(*) as count FROM tickets').get() as { count: number }).count
+  const pending = (db.prepare("SELECT COUNT(*) as count FROM tickets WHERE status = 'pending'").get() as { count: number }).count
+  const inProgress = (db.prepare("SELECT COUNT(*) as count FROM tickets WHERE status = 'in_progress'").get() as { count: number }).count
+  const completed = (db.prepare("SELECT COUNT(*) as count FROM tickets WHERE status = 'completed'").get() as { count: number }).count
+  return { totalRepos, totalTickets, pending, inProgress, completed }
 }
