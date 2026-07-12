@@ -36,9 +36,11 @@ export default async function TicketPage({
           <Badge variant={ticket.status} />
         </div>
         {ticket.description && (
-          <p className="whitespace-pre-wrap text-sm leading-relaxed">
-            {ticket.description}
-          </p>
+          <div className="pt-4">
+            <p className="whitespace-pre-wrap text-sm leading-relaxed">
+              {ticket.description}
+            </p>
+          </div>
         )}
       </Card>
 
