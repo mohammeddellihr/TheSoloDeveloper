@@ -43,29 +43,24 @@ export default async function NotesListPage({
           <p className="text-center text-sm text-gray-500">No notes found.</p>
         </Card>
       ) : (
-        <ul className="flex flex-col gap-2">
+        <ul className="grid grid-cols-3 gap-2">
           {notes.map((note) => (
             <li key={note.id}>
               <Link href={`/note/${note.id}`} className="cursor-pointer hover:opacity-80">
                 <Card>
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium">{note.title}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      {note.keywords.length > 0 && (
-                        <div className="flex gap-2 flex-wrap">
-                          {note.keywords.map((keyword) => (
-                            <span key={keyword} className="inline-flex items-center rounded bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:text-gray-300">
-                              {keyword}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                      <CopyContentButton content={note.content} />
-                    </div>
+                    <span className="font-medium">{note.title}</span>
+                    <CopyContentButton content={note.content} />
                   </div>
-
+                  {note.keywords.length > 0 && (
+                    <div className="border-t border-gray-200 dark:border-gray-800 pt-3 mt-3 flex gap-2 flex-wrap">
+                      {note.keywords.map((keyword) => (
+                        <span key={keyword} className="inline-flex items-center rounded bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:text-gray-300">
+                          {keyword}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </Card>
               </Link>
             </li>
