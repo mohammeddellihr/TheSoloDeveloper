@@ -34,6 +34,14 @@ function getDb(): Database.Database {
       text TEXT NOT NULL,
       createdAt TEXT NOT NULL
     );
+    CREATE TABLE IF NOT EXISTS notes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      content TEXT NOT NULL DEFAULT '',
+      keywords TEXT NOT NULL DEFAULT '[]',
+      createdAt TEXT NOT NULL,
+      updatedAt TEXT NOT NULL
+    );
   `)
   // ponytail: migration for repoId → repositoryId rename
   const columns = _db.prepare("PRAGMA table_info(tickets)").all() as { name: string }[]
@@ -68,9 +76,19 @@ export interface Repository {
   updatedAt: string
 }
 
+export interface Note {
+  id: number
+  title: string
+  content: string
+  keywords: string[]
+  createdAt: string
+  updatedAt: string
+}
+
 export interface Stats {
   totalRepos: number
   totalTickets: number
+  totalNotes: number
   pending: number
   inProgress: number
   completed: number
@@ -206,8 +224,40 @@ export function getStats(): Stats {
   const db = getDb()
   const totalRepos = (db.prepare('SELECT COUNT(*) as count FROM repositories').get() as { count: number }).count
   const totalTickets = (db.prepare('SELECT COUNT(*) as count FROM tickets').get() as { count: number }).count
+  const totalNotes = (db.prepare('SELECT COUNT(*) as count FROM notes').get() as { count: number }).count
   const pending = (db.prepare("SELECT COUNT(*) as count FROM tickets WHERE status = 'pending'").get() as { count: number }).count
   const inProgress = (db.prepare("SELECT COUNT(*) as count FROM tickets WHERE status = 'in_progress'").get() as { count: number }).count
   const completed = (db.prepare("SELECT COUNT(*) as count FROM tickets WHERE status = 'completed'").get() as { count: number }).count
-  return { totalRepos, totalTickets, pending, inProgress, completed }
+  return { totalRepos, totalTickets, totalNotes, pending, inProgress, completed }
+}
+
+export function getNotes(): Note[] {
+  const rows = getDb().prepare('SELECT * FROM notes ORDER BY createdAt DESC').all() as (Omit<Note, 'keywords'> & { keywords: string })[]
+  return rows.map(r => ({ ...r, keywords: JSON.parse(r.keywords) }))
+}
+
+export function getNote(id: number): Note | null {
+  const row = getDb().prepare('SELECT * FROM notes WHERE id = ?').get(id) as (Omit<Note, 'keywords'> & { keywords: string }) | undefined
+  if (!row) return null
+  return { ...row, keywords: JSON.parse(row.keywords) }
+}
+
+export function createNote(title: string, content: string, keywords: string[]): Note {
+  const db = getDb()
+  const now = iso()
+  const result = db.prepare('INSERT INTO notes (title, content, keywords, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?)').run(title, content, JSON.stringify(keywords), now, now)
+  return getNote(result.lastInsertRowid as number)!
+}
+
+export function updateNote(id: number, title: string, content: string, keywords: string[]): Note | null {
+  const db = getDb()
+  const now = iso()
+  const result = db.prepare('UPDATE notes SET title = ?, content = ?, keywords = ?, updatedAt = ? WHERE id = ?').run(title, content, JSON.stringify(keywords), now, id)
+  if (result.changes === 0) return null
+  return getNote(id)
+}
+
+export function deleteNote(id: number): boolean {
+  const result = getDb().prepare('DELETE FROM notes WHERE id = ?').run(id)
+  return result.changes > 0
 }

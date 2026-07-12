@@ -8,7 +8,8 @@ export default function Dashboard() {
 
   const statCards = [
     { label: "Repositories", value: stats.totalRepos, href: "/repositories" },
-    { label: "Total Tickets", value: stats.totalTickets, href: "/tickets" },
+    { label: "Tickets", value: stats.totalTickets, href: "/tickets" },
+    { label: "Notes", value: stats.totalNotes, href: "/notes" },
     { label: "Pending", value: stats.pending, href: "/tickets?status=pending", color: "text-orange-600 dark:text-orange-400" },
     { label: "In Progress", value: stats.inProgress, href: "/tickets?status=in_progress", color: "text-blue-600 dark:text-blue-400" },
     { label: "Completed", value: stats.completed, href: "/tickets?status=completed", color: "text-green-600 dark:text-green-400" },
@@ -18,7 +19,7 @@ export default function Dashboard() {
     <>
       <Header breadcrumbs={[]} title="Dashboard" />
 
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
         {statCards.map((stat) => (
           <Link key={stat.label} href={stat.href} className="cursor-pointer hover:opacity-80">
             <Card>

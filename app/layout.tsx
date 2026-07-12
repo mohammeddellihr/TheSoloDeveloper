@@ -36,6 +36,9 @@ export default function RootLayout({
               <Link href="/tickets" className="hover:bg-gray-100 dark:hover:bg-gray-800 rounded px-2 py-1 cursor-pointer">
                 Tickets
               </Link>
+              <Link href="/notes" className="hover:bg-gray-100 dark:hover:bg-gray-800 rounded px-2 py-1 cursor-pointer">
+                Notes
+              </Link>
             </div>
           </nav>
         </header>

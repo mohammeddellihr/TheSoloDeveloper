@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation"
 import { revalidatePath } from "next/cache"
 import { STATUSES } from "@/lib/constants"
-import { createRepository, createTicket, updateTicketStatus, addComment, updateRepository, deleteRepository, updateTicket, deleteTicket } from "@/lib/db"
+import { createRepository, createTicket, updateTicketStatus, addComment, updateRepository, deleteRepository, updateTicket, deleteTicket, createNote, updateNote, deleteNote } from "@/lib/db"
 import type { Ticket } from "@/lib/db"
 
 export async function createTicketAction(_prev: unknown, formData: FormData) {
@@ -169,5 +169,67 @@ export async function deleteTicketAction(_prev: unknown, formData: FormData) {
   } catch (e) {
     if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
     return { error: "Failed to delete ticket" }
+  }
+}
+
+export async function createNoteAction(_prev: unknown, formData: FormData) {
+  const title = formData.get("title")
+  const content = formData.get("content")
+  const keywords = formData.get("keywords")
+
+  if (typeof title !== "string" || !title.trim()) {
+    return { error: "Title is required" }
+  }
+
+  const keywordList = typeof keywords === "string" && keywords.trim()
+    ? keywords.split(",").map(k => k.trim()).filter(Boolean)
+    : []
+
+  try {
+    const note = createNote(title.trim(), typeof content === "string" ? content.trim() : "", keywordList)
+    redirect(`/note/${note.id}`)
+  } catch (e) {
+    if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
+    return { error: "Failed to create note" }
+  }
+}
+
+export async function updateNoteAction(_prev: unknown, formData: FormData) {
+  const noteId = formData.get("noteId")
+  const title = formData.get("title")
+  const content = formData.get("content")
+  const keywords = formData.get("keywords")
+
+  if (typeof noteId !== "string" || typeof title !== "string" || !title.trim()) {
+    return { error: "Title is required" }
+  }
+
+  const keywordList = typeof keywords === "string" && keywords.trim()
+    ? keywords.split(",").map(k => k.trim()).filter(Boolean)
+    : []
+
+  try {
+    const note = updateNote(Number(noteId), title.trim(), typeof content === "string" ? content.trim() : "", keywordList)
+    if (!note) return { error: "Note not found" }
+    redirect(`/note/${note.id}`)
+  } catch (e) {
+    if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
+    return { error: "Failed to update note" }
+  }
+}
+
+export async function deleteNoteAction(_prev: unknown, formData: FormData) {
+  const noteId = formData.get("noteId")
+
+  if (typeof noteId !== "string") {
+    return { error: "Invalid request" }
+  }
+
+  try {
+    deleteNote(Number(noteId))
+    redirect("/notes")
+  } catch (e) {
+    if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
+    return { error: "Failed to delete note" }
   }
 }

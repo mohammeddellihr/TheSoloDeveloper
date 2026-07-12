@@ -44,10 +44,6 @@ export default async function TicketPage({
         )}
       </Card>
 
-      <h2 className="text-lg font-semibold">
-        Comments ({ticket.comments.length})
-      </h2>
-
       <div className="flex flex-col gap-3">
         {ticket.comments.map((comment) => (
           <Card key={comment.id}>
