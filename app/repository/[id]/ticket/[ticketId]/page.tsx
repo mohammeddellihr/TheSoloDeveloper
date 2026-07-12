@@ -44,31 +44,25 @@ export default async function TicketPage({
         )}
       </Card>
 
-      <div>
-        <h2 className="mb-4 text-lg font-semibold">
-          Comments ({ticket.comments.length})
-        </h2>
+      <h2 className="text-lg font-semibold">
+        Comments ({ticket.comments.length})
+      </h2>
 
-        {ticket.comments.length === 0 ? (
-          <Card>
-            <p className="text-sm text-gray-500">No comments found.</p>
-          </Card>
-        ) : (
-          <ul className="flex flex-col gap-3">
-            {ticket.comments.map((comment) => (
-              <li key={comment.id}>
-                <Card>
-                  <p className="text-sm whitespace-pre-wrap">{comment.text}</p>
-                </Card>
-              </li>
-            ))}
-          </ul>
-        )}
+      {ticket.comments.length > 0 && (
+        <ul className="flex flex-col gap-3">
+          {ticket.comments.map((comment) => (
+            <li key={comment.id}>
+              <Card>
+                <p className="text-sm whitespace-pre-wrap">{comment.text}</p>
+              </Card>
+            </li>
+          ))}
+        </ul>
+      )}
 
-        <Card className="mt-4">
-          <CommentForm repositoryId={repo.id} ticketId={ticket.id} />
-        </Card>
-      </div>
+      <Card>
+        <CommentForm repositoryId={repo.id} ticketId={ticket.id} />
+      </Card>
     </>
   )
 }
