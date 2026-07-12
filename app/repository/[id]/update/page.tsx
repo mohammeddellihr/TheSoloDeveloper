@@ -24,11 +24,14 @@ export default async function UpdateRepoPage({
         actions={<DeleteRepoButton repositoryId={repo.id} />}
       />
       <Card>
-        <UpdateRepoForm
-          repositoryId={repo.id}
-          name={repo.name}
-          url={repo.url}
-        />
+        <h1 className="text-xl font-bold border-b border-zinc-200 dark:border-zinc-800 pb-4">Update Repository</h1>
+        <div className="pt-4">
+          <UpdateRepoForm
+            repositoryId={repo.id}
+            name={repo.name}
+            url={repo.url}
+          />
+        </div>
       </Card>
     </>
   )
