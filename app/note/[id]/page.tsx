@@ -13,7 +13,7 @@ export default async function ViewNotePage({ params }: { params: Promise<{ id: s
   if (!note) notFound()
 
   return (
-    <div className="flex flex-col gap-6">
+    <>
       <Header
         title={note.title}
         breadcrumbs={[{ label: "Notes", href: "/notes" }]}
@@ -46,6 +46,6 @@ export default async function ViewNotePage({ params }: { params: Promise<{ id: s
           <span>Updated {formatDate(note.updatedAt)}</span>
         </Card>
       </Card>
-    </div>
+    </>
   )
 }
