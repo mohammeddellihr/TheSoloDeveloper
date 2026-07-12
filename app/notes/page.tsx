@@ -53,12 +53,19 @@ export default async function NotesListPage({
           {notes.map((note) => (
             <li key={note.id} className="h-full">
               <Card className="h-full">
-                <div className="flex items-center justify-between">
-                  <Link href={`/note/${note.id}`} className="font-medium hover:underline cursor-pointer">
+                <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-3">
+                  <Link href={`/note/${note.id}`} className="font-medium hover:underline cursor-pointer line-clamp-1">
                     {note.title}
                   </Link>
                   <CopyContentButton content={note.content} />
                 </div>
+                {note.content ? (
+                  <p className="pt-3 text-sm leading-relaxed whitespace-pre-wrap line-clamp-2">
+                    {note.content}
+                  </p>
+                ) : (
+                  <p className="pt-3 text-sm text-gray-500 italic">No content</p>
+                )}
                 {note.keywords.length > 0 && (
                   <div className="border-t border-gray-200 dark:border-gray-800 pt-3 mt-3 flex gap-2 flex-wrap">
                     {note.keywords.map((keyword) => (
