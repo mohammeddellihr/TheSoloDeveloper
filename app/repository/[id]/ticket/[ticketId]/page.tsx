@@ -25,7 +25,7 @@ export default async function TicketPage({
         title={`Ticket #${ticket.id}`}
         actions={
           <Link href={`/repository/${repo.id}/ticket/${ticket.id}/update`}>
-            <Button variant="secondary" className="border-0 hover:bg-gray-100 dark:hover:bg-gray-800">Update</Button>
+            <Button>Update Ticket</Button>
           </Link>
         }
       />

@@ -15,7 +15,7 @@ export default function DeleteTicketButton({ repositoryId, ticketId }: { reposit
         <p className="text-sm text-red-500">{state.error}</p>
       )}
       <Button variant="secondary" type="submit" disabled={pending}>
-        {pending ? "Deleting..." : "Delete"}
+        {pending ? "Deleting..." : "Delete Ticket"}
       </Button>
     </form>
   )

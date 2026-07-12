@@ -11,7 +11,7 @@ export default function DeleteNoteButton({ noteId }: { noteId: number }) {
     <form action={action}>
       <input type="hidden" name="noteId" value={noteId} />
       <Button type="submit" variant="secondary" disabled={pending} className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300">
-        {pending ? "Deleting..." : "Delete"}
+        {pending ? "Deleting..." : "Delete Note"}
       </Button>
     </form>
   )
