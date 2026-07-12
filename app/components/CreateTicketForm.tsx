@@ -18,7 +18,7 @@ export default function CreateTicketForm({
       <input
         id="ticket-title"
         name="title"
-        placeholder="Ticket title"
+        placeholder="e.g., Fix login bug"
         required
         className="rounded border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-black dark:focus:border-white focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
       />
