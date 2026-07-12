@@ -52,7 +52,6 @@ export default async function TicketsPage({
                   <Link href={`/repository/${ticket.repositoryId}/ticket/${ticket.id}`} className="font-medium hover:underline cursor-pointer line-clamp-1">
                     {ticket.title}
                   </Link>
-                  <span className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">{ticket.repoName}</span>
                 </div>
                 {ticket.description ? (
                   <p className="pt-3 text-sm leading-relaxed whitespace-pre-wrap line-clamp-2">
@@ -61,7 +60,10 @@ export default async function TicketsPage({
                 ) : (
                   <p className="pt-3 text-sm text-gray-500 italic">No description</p>
                 )}
-                <div className="-mx-4 px-4 pt-3 mt-3 border-t border-gray-200 dark:border-gray-800 flex gap-2">
+                <div className="-mx-4 px-4 pt-3 mt-3 border-t border-gray-200 dark:border-gray-800 flex items-center gap-2">
+                  <span className="inline-flex items-center rounded bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:text-gray-300">
+                    {ticket.repoName}
+                  </span>
                   <Badge variant={ticket.status} />
                 </div>
               </Card>
