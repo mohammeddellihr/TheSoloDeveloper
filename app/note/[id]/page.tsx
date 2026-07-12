@@ -3,6 +3,7 @@ import { getNote } from "@/lib/db"
 import Header from "@/app/components/Header"
 import Card from "@/app/components/Card"
 import Button from "@/app/components/Button"
+import CopyContentButton from "@/app/components/CopyContentButton"
 import Link from "next/link"
 
 export default async function ViewNotePage({ params }: { params: Promise<{ id: string }> }) {
@@ -26,6 +27,7 @@ export default async function ViewNotePage({ params }: { params: Promise<{ id: s
       <Card>
         <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-4">
           <h1 className="text-xl font-bold">{note.title}</h1>
+          <CopyContentButton content={note.content} />
         </div>
         {note.content ? (
           <div className="pt-4">
