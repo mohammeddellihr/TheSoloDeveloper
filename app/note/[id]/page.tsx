@@ -27,15 +27,6 @@ export default async function ViewNotePage({ params }: { params: Promise<{ id: s
         <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-4">
           <h1 className="text-xl font-bold">{note.title}</h1>
         </div>
-        {note.keywords.length > 0 && (
-          <div className="flex gap-2 flex-wrap pt-4">
-            {note.keywords.map((keyword) => (
-              <span key={keyword} className="inline-flex items-center rounded bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:text-gray-300">
-                {keyword}
-              </span>
-            ))}
-          </div>
-        )}
         {note.content ? (
           <div className="pt-4">
             <p className="whitespace-pre-wrap text-sm leading-relaxed">{note.content}</p>
@@ -43,6 +34,15 @@ export default async function ViewNotePage({ params }: { params: Promise<{ id: s
         ) : (
           <div className="pt-4">
             <p className="text-sm text-gray-500 italic">No content</p>
+          </div>
+        )}
+        {note.keywords.length > 0 && (
+          <div className="border-t border-gray-200 dark:border-gray-800 pt-4 mt-4 flex gap-2 flex-wrap">
+            {note.keywords.map((keyword) => (
+              <span key={keyword} className="inline-flex items-center rounded bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:text-gray-300">
+                {keyword}
+              </span>
+            ))}
           </div>
         )}
       </Card>
