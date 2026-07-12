@@ -54,12 +54,7 @@ export default function TicketList({
                 <Card>
                   <div className="flex items-center justify-between">
                     <span className="font-medium">{ticket.title}</span>
-                    <div className="flex items-center gap-3">
-                      <Badge variant={ticket.status} />
-                      <span className="text-xs text-gray-400">
-                        {new Date(ticket.createdAt).toLocaleDateString()}
-                      </span>
-                    </div>
+                    <Badge variant={ticket.status} />
                   </div>
                 </Card>
               </Link>
