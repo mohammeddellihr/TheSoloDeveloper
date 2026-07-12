@@ -56,8 +56,8 @@ export default async function TicketPage({
             <div className="flex items-start justify-between">
               <p className="text-sm whitespace-pre-wrap">{comment.text}</p>
               <div className="flex items-center gap-1">
-                <CopyContentButton content={comment.text} />
                 <DeleteButton repositoryId={repo.id} ticketId={ticket.id} commentId={comment.id} />
+                <CopyContentButton content={comment.text} />
               </div>
             </div>
           </Card>
