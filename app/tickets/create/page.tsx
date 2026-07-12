@@ -1,17 +1,14 @@
-import { notFound } from "next/navigation"
-import { getRepository, getRepositories } from "@/lib/db"
+import { getRepositories } from "@/lib/db"
 import Header from "@/app/components/Header"
 import Card from "@/app/components/Card"
 import CreateTicketForm from "@/app/components/CreateTicketForm"
 
 export default async function NewTicketPage({
-  params,
+  searchParams,
 }: {
-  params: Promise<{ id: string }>
+  searchParams: Promise<{ repository_id?: string }>
 }) {
-  const { id } = await params
-  const repo = getRepository(id)
-  if (!repo) notFound()
+  const { repository_id } = await searchParams
   const repositories = getRepositories()
 
   return (
@@ -23,7 +20,7 @@ export default async function NewTicketPage({
       <Card>
         <h1 className="text-xl font-bold border-b border-gray-200 dark:border-gray-800 pb-4">Create Ticket</h1>
         <div className="pt-4">
-          <CreateTicketForm repositories={repositories} defaultRepositoryId={repo.id} />
+          <CreateTicketForm repositories={repositories} defaultRepositoryId={repository_id} />
         </div>
       </Card>
     </>

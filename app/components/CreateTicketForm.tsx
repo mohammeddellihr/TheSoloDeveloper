@@ -3,18 +3,35 @@
 import { useActionState } from "react"
 import { createTicketAction } from "@/app/actions"
 import { STATUSES, STATUS_LABELS } from "@/lib/constants"
+import type { Repository } from "@/lib/db"
 import Button from "./Button"
 
 export default function CreateTicketForm({
-  repositoryId,
+  repositories,
+  defaultRepositoryId,
 }: {
-  repositoryId: string
+  repositories: Repository[]
+  defaultRepositoryId?: string
 }) {
   const [state, action, pending] = useActionState(createTicketAction, null)
 
   return (
     <form action={action} className="flex flex-col gap-3">
-      <input type="hidden" name="repositoryId" value={repositoryId} />
+      <label className="text-sm font-medium text-gray-700 dark:text-gray-300" htmlFor="ticket-repository">Repository</label>
+      <select
+        id="ticket-repository"
+        name="repositoryId"
+        defaultValue={defaultRepositoryId ?? ""}
+        required
+        className="rounded border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-black dark:focus:border-white focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 cursor-pointer"
+      >
+        <option value="" disabled>Select a repository</option>
+        {repositories.map((repo) => (
+          <option key={repo.id} value={repo.id}>
+            {repo.name}
+          </option>
+        ))}
+      </select>
       <label className="text-sm font-medium text-gray-700 dark:text-gray-300" htmlFor="ticket-title">Title</label>
       <input
         id="ticket-title"
