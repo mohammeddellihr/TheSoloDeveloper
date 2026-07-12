@@ -5,16 +5,19 @@ import Card from "@/app/components/Card"
 import Button from "@/app/components/Button"
 import NoteSearch from "@/app/components/NoteSearch"
 import CopyContentButton from "@/app/components/CopyContentButton"
+import Pagination from "@/app/components/Pagination"
+
+const PAGE_SIZE = 12
 
 export default async function NotesListPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>
+  searchParams: Promise<{ q?: string; page?: string }>
 }) {
-  const { q } = await searchParams
+  const { q, page } = await searchParams
   const term = (q ?? "").toLowerCase().trim()
   const allNotes = getNotes()
-  const notes = term
+  const filtered = term
     ? allNotes.filter(
         (note) =>
           note.keywords.some((k) => k.toLowerCase().includes(term)) ||
@@ -22,6 +25,9 @@ export default async function NotesListPage({
           note.content.toLowerCase().includes(term),
       )
     : allNotes
+  const currentPage = Math.max(1, Number(page) || 1)
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE)
+  const notes = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
 
   return (
     <>
@@ -46,27 +52,28 @@ export default async function NotesListPage({
         <ul className="grid grid-cols-3 gap-2">
           {notes.map((note) => (
             <li key={note.id}>
-              <Link href={`/note/${note.id}`} className="cursor-pointer hover:opacity-80">
-                <Card>
-                  <div className="flex items-center justify-between">
-                    <span className="font-medium">{note.title}</span>
-                    <CopyContentButton content={note.content} />
+              <Card>
+                <div className="flex items-center justify-between">
+                  <Link href={`/note/${note.id}`} className="font-medium hover:underline cursor-pointer">
+                    {note.title}
+                  </Link>
+                  <CopyContentButton content={note.content} />
+                </div>
+                {note.keywords.length > 0 && (
+                  <div className="border-t border-gray-200 dark:border-gray-800 pt-3 mt-3 flex gap-2 flex-wrap">
+                    {note.keywords.map((keyword) => (
+                      <span key={keyword} className="inline-flex items-center rounded bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:text-gray-300">
+                        {keyword}
+                      </span>
+                    ))}
                   </div>
-                  {note.keywords.length > 0 && (
-                    <div className="border-t border-gray-200 dark:border-gray-800 pt-3 mt-3 flex gap-2 flex-wrap">
-                      {note.keywords.map((keyword) => (
-                        <span key={keyword} className="inline-flex items-center rounded bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:text-gray-300">
-                          {keyword}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </Card>
-              </Link>
+                )}
+              </Card>
             </li>
           ))}
         </ul>
       )}
+      <Pagination currentPage={currentPage} totalPages={totalPages} />
     </>
   )
 }

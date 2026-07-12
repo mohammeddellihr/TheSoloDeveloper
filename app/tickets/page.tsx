@@ -5,18 +5,24 @@ import Card from "../components/Card"
 import Badge from "../components/Badge"
 import TicketFilters from "../components/TicketFilters"
 import Button from "../components/Button"
+import Pagination from "../components/Pagination"
+
+const PAGE_SIZE = 12
 
 export default async function TicketsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ repository_id?: string; status?: string }>
+  searchParams: Promise<{ repository_id?: string; status?: string; page?: string }>
 }) {
   const params = await searchParams
   const repositories = getRepositories()
-  const tickets = getAllTickets({
+  const allTickets = getAllTickets({
     repositoryId: params.repository_id || undefined,
     status: params.status || undefined,
   })
+  const currentPage = Math.max(1, Number(params.page) || 1)
+  const totalPages = Math.ceil(allTickets.length / PAGE_SIZE)
+  const tickets = allTickets.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
 
   return (
     <>
@@ -41,23 +47,24 @@ export default async function TicketsPage({
         <ul className="flex flex-col gap-2">
           {tickets.map((ticket) => (
             <li key={ticket.id}>
-              <Link href={`/repository/${ticket.repositoryId}/ticket/${ticket.id}`} className="cursor-pointer hover:opacity-80">
-                <Card>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium">{ticket.title}</span>
-                      <span className="text-sm text-gray-500">in {ticket.repoName}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Badge variant={ticket.status} />
-                    </div>
+              <Card>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Link href={`/repository/${ticket.repositoryId}/ticket/${ticket.id}`} className="font-medium hover:underline cursor-pointer">
+                      {ticket.title}
+                    </Link>
+                    <span className="text-sm text-gray-500">in {ticket.repoName}</span>
                   </div>
-                </Card>
-              </Link>
+                  <div className="flex items-center gap-2">
+                    <Badge variant={ticket.status} />
+                  </div>
+                </div>
+              </Card>
             </li>
           ))}
         </ul>
       )}
+      <Pagination currentPage={currentPage} totalPages={totalPages} />
     </>
   )
 }

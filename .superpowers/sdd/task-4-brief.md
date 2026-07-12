@@ -1,35 +1,68 @@
-# Task 4: Add "Create Ticket" button to the Tickets list header
+# Task 4: Add pagination to Repositories page
 
 **Files:**
-- Modify: `app/tickets/page.tsx`
+- Modify: `app/repositories/page.tsx`
 
-**Step 1: Add the button alongside TicketFilters**
+**Interfaces:**
+- Consumes: `Pagination` from `@/app/components/Pagination`
 
-Change the Header `actions` from:
+- [ ] **Step 1: Add pagination to Repositories page**
+
+Modify `app/repositories/page.tsx`. Add the import:
 
 ```tsx
-actions={<TicketFilters repositories={repositories} />}
+import Pagination from "@/app/components/Pagination"
 ```
 
-to:
+Add page logic. Replace:
 
 ```tsx
-actions={
-  <div className="flex items-center gap-2">
-    <TicketFilters repositories={repositories} />
-    <Link href="/tickets/create">
-      <Button>Create Ticket</Button>
-    </Link>
-  </div>
+export default async function RepositoriesPage() {
+  const repos = getRepositories()
+```
+
+with:
+
+```tsx
+const PAGE_SIZE = 12
+
+export default async function RepositoriesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>
+}) {
+  const { page } = await searchParams
+  const allRepos = getRepositories()
+  const currentPage = Math.max(1, Number(page) || 1)
+  const totalPages = Math.ceil(allRepos.length / PAGE_SIZE)
+  const repos = allRepos.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
+```
+
+Add Pagination after the list. Replace:
+
+```tsx
+        </ul>
+      )}
+    </>
+  )
 }
 ```
 
-Add the `Link` and `Button` imports if not already present (they are both currently imported in this file: `Link` at line 1, `Button` is NOT imported yet — add `import Button from "../components/Button"`).
+with:
 
-**Step 2: Verify**
+```tsx
+        </ul>
+      )}
+      <Pagination currentPage={currentPage} totalPages={totalPages} />
+    </>
+  )
+}
+```
+
+- [ ] **Step 2: Verify**
 
 Run: `npm run build`
-Expected: Compiles. `app/tickets/page.tsx` now shows the filter + Create Ticket button in the header.
+Expected: Compiles. Repositories page shows pagination when more than 12 repos.
 
 Run: `npm run lint`
 Expected: No errors.

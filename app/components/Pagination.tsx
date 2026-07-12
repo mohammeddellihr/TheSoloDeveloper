@@ -1,17 +1,3 @@
-# Task 1: Create the Pagination component
-
-**Files:**
-- Create: `app/components/Pagination.tsx`
-
-**Interfaces:**
-- Consumes: nothing (standalone)
-- Produces: `Pagination` component — `{ currentPage: number; totalPages: number }`
-
-- [ ] **Step 1: Create the Pagination component**
-
-Create `app/components/Pagination.tsx`:
-
-```tsx
 "use client"
 
 import { useRouter, useSearchParams } from "next/navigation"
@@ -56,12 +42,3 @@ export default function Pagination({
     </div>
   )
 }
-```
-
-- [ ] **Step 2: Verify**
-
-Run: `npm run build`
-Expected: Compiles. Component renders nothing when totalPages <= 1.
-
-Run: `npm run lint`
-Expected: No errors.

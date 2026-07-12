@@ -1,25 +1,25 @@
-# Task 1: Add CopyContentButton to note cards
+# Task 1: Create the Pagination component
 
 ## What I Implemented
 
-Created `app/components/CopyContentButton.tsx` — a client component that renders a clipboard icon button. On click, it calls `navigator.clipboard.writeText(content)` with `e.stopPropagation()` and `e.preventDefault()` to prevent the parent Link from navigating.
-
-Modified `app/notes/page.tsx` — added the `CopyContentButton` import and placed `<CopyContentButton content={note.content} />` in the card header, after the keywords, so users can copy the full note content directly from the list.
+Created `app/components/Pagination.tsx` — a client component with Previous/Next buttons that use URL search params (`?page=N`) to track the current page. Returns `null` when `totalPages <= 1`.
 
 ## Verification
 
-- **npm run build**: Compiled successfully. No TypeScript or compilation errors.
-- **npm run lint**: No ESLint errors.
+- `npm run build` — compiled successfully, no TypeScript errors
+- `npm run lint` — passed with no errors
 
 ## Files Changed
 
-- `app/components/CopyContentButton.tsx` (created)
-- `app/notes/page.tsx` (modified — added import + button in card)
+- **Created:** `app/components/Pagination.tsx`
 
-## Self-Review Findings
+## Self-Review
 
-None. Implementation matches the task brief exactly.
+- Component matches the task spec exactly
+- Client component with `"use client"` directive
+- Uses `useRouter` and `useSearchParams` from `next/navigation`
+- Button styles include dark mode classes consistent with the rest of the codebase
+- Proper disabled states on Previous (page 1) and Next (last page)
+- Hidden when `totalPages <= 1`
 
-## Issues or Concerns
-
-None. No commit was made per instructions (git not available).
+No concerns.
