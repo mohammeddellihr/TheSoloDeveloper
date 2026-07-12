@@ -50,7 +50,9 @@ export default async function TicketPage({
         </h2>
 
         {ticket.comments.length === 0 ? (
-          <p className="text-sm text-gray-500">No comments yet.</p>
+          <Card>
+            <p className="text-sm text-gray-500">No comments found.</p>
+          </Card>
         ) : (
           <ul className="flex flex-col gap-3">
             {ticket.comments.map((comment) => (
