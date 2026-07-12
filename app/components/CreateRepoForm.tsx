@@ -2,6 +2,7 @@
 
 import { useActionState } from "react"
 import { createRepositoryAction } from "@/app/actions"
+import Button from "./Button"
 
 export default function CreateRepoForm() {
   const [state, action, pending] = useActionState(createRepositoryAction, null)
@@ -22,13 +23,9 @@ export default function CreateRepoForm() {
         <p className="text-sm text-red-500">{state.error}</p>
       )}
       <div className="border-t border-gray-200 dark:border-gray-800 pt-4 mt-4 flex justify-end">
-        <button
-          type="submit"
-          disabled={pending}
-          className="rounded bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 disabled:opacity-50 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:focus-visible:outline-white"
-        >
+        <Button type="submit" disabled={pending}>
           {pending ? "Creating..." : "Create Repository"}
-        </button>
+        </Button>
       </div>
     </form>
   )
