@@ -24,7 +24,7 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
             <Link href={`/repository/${repo.id}/update`}>
               <Button variant="secondary">Update</Button>
             </Link>
-            <Link href={`/repository/${repo.id}/ticket/new`}>
+            <Link href={`/repository/${repo.id}/ticket/create`}>
               <Button variant="primary">Create Ticket</Button>
             </Link>
           </>
