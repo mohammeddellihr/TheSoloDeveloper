@@ -31,7 +31,7 @@ export default async function TicketPage({
       />
 
       <Card>
-        <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-4">
+        <div className={`flex items-center justify-between ${ticket.description ? "border-b border-gray-200 dark:border-gray-800 pb-4" : ""}`}>
           <h1 className="text-xl font-bold">{ticket.title}</h1>
           <Badge variant={ticket.status} />
         </div>
