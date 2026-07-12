@@ -3,9 +3,24 @@ import { getNotes } from "@/lib/db"
 import Header from "@/app/components/Header"
 import Card from "@/app/components/Card"
 import Button from "@/app/components/Button"
+import NoteSearch from "@/app/components/NoteSearch"
 
-export default function NotesListPage() {
-  const notes = getNotes()
+export default async function NotesListPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string }>
+}) {
+  const { q } = await searchParams
+  const term = (q ?? "").toLowerCase().trim()
+  const allNotes = getNotes()
+  const notes = term
+    ? allNotes.filter(
+        (note) =>
+          note.keywords.some((k) => k.toLowerCase().includes(term)) ||
+          note.title.toLowerCase().includes(term) ||
+          note.content.toLowerCase().includes(term),
+      )
+    : allNotes
 
   return (
     <>
@@ -13,9 +28,12 @@ export default function NotesListPage() {
         breadcrumbs={[{ label: "Dashboard", href: "/" }]}
         title="Notes"
         actions={
-          <Link href="/notes/create">
-            <Button>Create Note</Button>
-          </Link>
+          <div className="flex items-center gap-2">
+            <NoteSearch />
+            <Link href="/notes/create">
+              <Button>Create Note</Button>
+            </Link>
+          </div>
         }
       />
 

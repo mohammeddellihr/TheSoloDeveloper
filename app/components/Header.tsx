@@ -38,7 +38,7 @@ export default function Header({
           )}
           <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
         </div>
-        {actions && <div className="flex items-center gap-2">{actions}</div>}
+        {actions && <div className="flex items-center gap-2 shrink-0">{actions}</div>}
       </div>
     </div>
   )
