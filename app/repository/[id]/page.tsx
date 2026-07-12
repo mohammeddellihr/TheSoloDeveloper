@@ -15,10 +15,8 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
   return (
     <>
       <Header
-        breadcrumbs={[
-          { label: "Repositories", href: "/repositories" },
-          { label: `View Repository #${repo.id}` },
-        ]}
+        breadcrumbs={[{ label: "Repositories", href: "/repositories" }]}
+        title={repo.name}
         actions={
           <>
             <Link href={`/repository/${repo.id}/update`}>
@@ -33,7 +31,6 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
 
       <Card>
         <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4">
-          <h1 className="text-2xl font-bold tracking-tight">{repo.name}</h1>
           {repo.url && (
             <a
               href={repo.url}

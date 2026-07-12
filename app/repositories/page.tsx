@@ -10,10 +10,8 @@ export default async function RepositoriesPage() {
   return (
     <>
       <Header
-        breadcrumbs={[
-          { label: "Dashboard", href: "/" },
-          { label: "Repositories" },
-        ]}
+        breadcrumbs={[{ label: "Dashboard", href: "/" }]}
+        title="Repositories"
         actions={
           <Link href="/repository/create">
             <Button variant="primary">Create Repository</Button>

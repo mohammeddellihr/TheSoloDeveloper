@@ -22,9 +22,10 @@ export default async function TicketPage({
     <>
       <Header
         breadcrumbs={[
-          { label: "Tickets", href: "/tickets" },
-          { label: `View Ticket #${ticket.id}` },
+          { label: "Repositories", href: "/repositories" },
+          { label: repo.name, href: `/repository/${repo.id}` },
         ]}
+        title={ticket.title}
         actions={
           <Link href={`/repository/${repo.id}/ticket/${ticket.id}/update`}>
             <Button variant="secondary">Update</Button>
@@ -34,7 +35,7 @@ export default async function TicketPage({
 
       <Card>
         <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4">
-          <h1 className="text-2xl font-bold tracking-tight">{ticket.title}</h1>
+          <span className="text-sm text-zinc-500">Ticket #{ticket.id}</span>
           <Badge variant={ticket.status} />
         </div>
         {ticket.description && (

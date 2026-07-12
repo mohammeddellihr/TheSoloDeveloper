@@ -20,10 +20,8 @@ export default async function TicketsPage({
   return (
     <>
       <Header
-        breadcrumbs={[
-          { label: "Dashboard", href: "/" },
-          { label: "Tickets" },
-        ]}
+        breadcrumbs={[{ label: "Dashboard", href: "/" }]}
+        title="Tickets"
         actions={<TicketFilters repositories={repositories} />}
       />
 

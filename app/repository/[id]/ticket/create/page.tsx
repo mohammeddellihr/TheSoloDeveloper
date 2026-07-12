@@ -17,15 +17,13 @@ export default async function NewTicketPage({
     <>
       <Header
         breadcrumbs={[
-          { label: "Tickets", href: "/tickets" },
-          { label: "Create Ticket" },
+          { label: "Repositories", href: "/repositories" },
+          { label: repo.name, href: `/repository/${repo.id}` },
         ]}
+        title="Create Ticket"
       />
       <Card>
-        <h1 className="text-xl font-bold border-b border-zinc-200 dark:border-zinc-800 pb-4">Create Ticket</h1>
-        <div className="pt-4">
-          <CreateTicketForm repositoryId={repo.id} />
-        </div>
+        <CreateTicketForm repositoryId={repo.id} />
       </Card>
     </>
   )
