@@ -21,11 +21,8 @@ export default function NotesListPage() {
       />
 
       {notes.length === 0 ? (
-        <Card className="p-12 text-center">
-          <p className="text-gray-500 dark:text-gray-400 mb-4">No notes yet</p>
-          <Link href="/notes/create">
-            <Button>Create Your First Note</Button>
-          </Link>
+        <Card>
+          <p className="text-center text-sm text-gray-500 dark:text-gray-400">No notes yet.</p>
         </Card>
       ) : (
         <ul className="flex flex-col gap-2">
