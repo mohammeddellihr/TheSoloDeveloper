@@ -22,7 +22,7 @@ export default async function TicketPage({
     <>
       <Header
         breadcrumbs={[{ label: "Tickets", href: "/tickets" }]}
-        title={ticket.title}
+        title={`Ticket #${ticket.id}`}
         actions={
           <Link href={`/repository/${repo.id}/ticket/${ticket.id}/update`}>
             <Button variant="secondary">Update</Button>
@@ -32,7 +32,7 @@ export default async function TicketPage({
 
       <Card>
         <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4">
-          <span className="text-sm text-zinc-500">Ticket #{ticket.id}</span>
+          <h1 className="text-xl font-bold">{ticket.title}</h1>
           <Badge variant={ticket.status} />
         </div>
         {ticket.description && (
