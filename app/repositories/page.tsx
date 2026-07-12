@@ -3,6 +3,7 @@ import { getRepositories } from "@/lib/db"
 import Header from "@/app/components/Header"
 import Card from "@/app/components/Card"
 import Button from "@/app/components/Button"
+import SourceBadge from "@/app/components/SourceBadge"
 
 export default async function RepositoriesPage() {
   const repos = getRepositories()
@@ -29,7 +30,10 @@ export default async function RepositoriesPage() {
             <li key={repo.id}>
               <Link href={`/repository/${repo.id}`} className="cursor-pointer hover:opacity-80">
                 <Card>
-                  <span className="font-medium">{repo.name}</span>
+                  <div className="flex items-center justify-between">
+                    <span className="font-medium">{repo.name}</span>
+                    <SourceBadge url={repo.url} />
+                  </div>
                 </Card>
               </Link>
             </li>
