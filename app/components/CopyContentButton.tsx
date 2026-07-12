@@ -10,7 +10,7 @@ export default function CopyContentButton({ content }: { content: string }) {
     e.preventDefault()
     navigator.clipboard.writeText(content)
     setCopied(true)
-    setTimeout(() => setCopied(false), 1500)
+    setTimeout(() => setCopied(false), 500)
   }
 
   return (
