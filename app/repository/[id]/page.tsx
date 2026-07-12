@@ -19,11 +19,11 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
         title={`Repository #${repo.id}`}
         actions={
           <>
-            <Link href={`/repository/${repo.id}/update`}>
-              <Button variant="secondary">Update Repository</Button>
-            </Link>
             <Link href={`/tickets/create?repository_id=${repo.id}`}>
-              <Button variant="primary">Create Ticket</Button>
+              <Button variant="secondary">Create Ticket</Button>
+            </Link>
+            <Link href={`/repository/${repo.id}/update`}>
+              <Button>Update Repository</Button>
             </Link>
           </>
         }
