@@ -25,7 +25,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col font-sans">
         <header className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-          <nav className="mx-auto flex w-full max-w-2xl items-center justify-between px-4 py-3">
+          <nav className="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-3">
             <Link href="/" className="text-lg font-bold">
               The Solo Developer
             </Link>
@@ -39,7 +39,7 @@ export default function RootLayout({
             </div>
           </nav>
         </header>
-        <main className="mx-auto flex w-full max-w-2xl flex-col gap-6 px-4 py-12">
+        <main className="mx-auto flex w-full max-w-5xl flex-col gap-6 px-6 py-12">
           {children}
         </main>
       </body>
