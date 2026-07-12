@@ -16,10 +16,7 @@ export default async function NewTicketPage({
   return (
     <>
       <Header
-        breadcrumbs={[
-          { label: "Repositories", href: "/repositories" },
-          { label: repo.name, href: `/repository/${repo.id}` },
-        ]}
+        breadcrumbs={[{ label: "Tickets", href: "/tickets" }]}
         title="Create Ticket"
       />
       <Card>
