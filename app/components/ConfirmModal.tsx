@@ -1,17 +1,3 @@
-# Task 1: Create ConfirmModal Component
-
-**Files:**
-- Create: `app/components/ConfirmModal.tsx`
-
-**Interfaces:**
-- Consumes: `Button` from `@/app/components/Button`
-- Produces: `ConfirmModal` component with `{ open, title, message, confirmLabel?, onConfirm, onCancel }` props
-
-- [ ] **Step 1: Create the ConfirmModal component**
-
-Create `app/components/ConfirmModal.tsx`:
-
-```tsx
 "use client"
 
 import { useEffect } from "react"
@@ -73,12 +59,3 @@ export default function ConfirmModal({
     </div>
   )
 }
-```
-
-- [ ] **Step 2: Verify**
-
-Run: `& "C:\Program Files\nodejs\npm.cmd" run build`
-Expected: Compiles. ConfirmModal is exported and available.
-
-Run: `& "C:\Program Files\nodejs\npm.cmd" run lint`
-Expected: No errors.

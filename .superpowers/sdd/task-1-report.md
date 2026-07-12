@@ -1,26 +1,24 @@
-# Task 1 Report: Add deleteComment to lib/db.ts
+# Task 1: Create ConfirmModal Component — Report
 
 ## What I Implemented
 
-Added `deleteComment(commentId: string): boolean` to `lib/db.ts` at line 265. It deletes a comment by its ID using a prepared statement and returns whether any row was affected.
+Created `app/components/ConfirmModal.tsx` — a reusable client component for confirmation dialogs. It accepts `open`, `title`, `message`, `confirmLabel?`, `onConfirm`, and `onCancel` props. Features include:
+
+- Escape key dismissal via `useEffect` listener
+- Click-outside-to-cancel via backdrop `onClick`
+- `stopPropagation` on the modal body to prevent accidental close
+- Uses the existing `Button` component (secondary variant) for Cancel
+- Red-themed confirm button with configurable label (defaults to "Delete")
 
 ## Verification Results
 
-- **Build:** `npm run build` — compiled successfully (TypeScript + Turbopack, no errors)
-- **Lint:** `npm run lint` — no errors
+- **`npm run build`**: Compiled successfully, TypeScript passed, all routes generated.
+- **`npm run lint`**: No errors.
 
 ## Files Changed
 
-- `lib/db.ts`: added `deleteComment` function (lines 265–268)
+- **Created:** `app/components/ConfirmModal.tsx`
 
-## Self-Review Findings
+## Self-Review
 
-None. The implementation matches the task brief exactly:
-- Uses `getDb().prepare(...).run(commentId)` with parameterized query
-- Returns `result.changes > 0` (boolean)
-- Follows existing code conventions (e.g., matches `deleteRepository`, `deleteNote`)
-- No comments added, no extra changes
-
-## Issues or Concerns
-
-None.
+Component matches the task brief exactly. Follows project conventions ("use client", Tailwind dark mode classes, Button component integration). No concerns.
