@@ -26,7 +26,9 @@ export default async function TicketsPage({
       />
 
       {tickets.length === 0 ? (
-        <p className="text-sm text-gray-500">No tickets found.</p>
+        <Card>
+          <p className="text-sm text-gray-500">No tickets found.</p>
+        </Card>
       ) : (
         <ul className="flex flex-col gap-2">
           {tickets.map((ticket) => (
