@@ -23,8 +23,8 @@ export default function TicketList({
   const filtered = filter === "all" ? tickets : tickets.filter((t) => t.status === filter)
 
   return (
-    <>
-      <div className="flex flex-wrap items-center gap-2">
+    <div className="mt-6">
+      <div className="flex flex-wrap items-center gap-2 mb-4">
         {FILTER_STATUSES.map((s) => (
           <button
             key={s}
@@ -65,6 +65,6 @@ export default function TicketList({
           ))}
         </ul>
       )}
-    </>
+    </div>
   )
 }

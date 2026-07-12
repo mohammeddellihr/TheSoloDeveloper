@@ -48,7 +48,7 @@ export default async function TicketPage({
         </div>
       </Card>
 
-      <div>
+      <div className="mt-6">
         <h2 className="mb-4 text-lg font-semibold">
           Comments ({ticket.comments.length})
         </h2>
@@ -70,7 +70,7 @@ export default async function TicketPage({
           </ul>
         )}
 
-        <Card>
+        <Card className="mt-4">
           <CommentForm repositoryId={repo.id} ticketId={ticket.id} />
         </Card>
       </div>
