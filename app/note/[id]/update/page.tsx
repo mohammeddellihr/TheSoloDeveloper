@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation"
 import { getNote } from "@/lib/db"
 import Header from "@/app/components/Header"
+import Card from "@/app/components/Card"
 import UpdateNoteForm from "@/app/components/UpdateNoteForm"
 import DeleteNoteButton from "@/app/components/DeleteNoteButton"
 
@@ -24,7 +25,9 @@ export default async function UpdateNotePage({
         ]}
         actions={<DeleteNoteButton noteId={note.id} />}
       />
-      <UpdateNoteForm note={note} />
+      <Card>
+        <UpdateNoteForm note={note} />
+      </Card>
     </>
   )
 }

@@ -3,7 +3,6 @@ import { getNotes } from "@/lib/db"
 import Header from "@/app/components/Header"
 import Card from "@/app/components/Card"
 import Button from "@/app/components/Button"
-import { formatDate } from "@/lib/utils"
 
 export default function NotesListPage() {
   const notes = getNotes()
@@ -22,7 +21,7 @@ export default function NotesListPage() {
 
       {notes.length === 0 ? (
         <Card>
-          <p className="text-center text-sm text-gray-500 dark:text-gray-400">No notes yet.</p>
+          <p className="text-sm text-gray-500">No notes found.</p>
         </Card>
       ) : (
         <ul className="flex flex-col gap-2">
@@ -41,9 +40,6 @@ export default function NotesListPage() {
                   {note.content && (
                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 line-clamp-2 whitespace-pre-wrap">{note.content}</p>
                   )}
-                  <div className="mt-3 text-xs text-gray-500 dark:text-gray-500">
-                    Created {formatDate(note.createdAt)} · Updated {formatDate(note.updatedAt)}
-                  </div>
                 </Card>
               </Link>
             </li>
