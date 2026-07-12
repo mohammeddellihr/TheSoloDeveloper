@@ -29,7 +29,7 @@ export default function TicketList({
           <button
             key={s}
             onClick={() => setFilter(s)}
-            className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+            className={`rounded-full px-3 py-1 text-xs font-medium cursor-pointer ${
               filter === s
                 ? "bg-zinc-900 text-white dark:bg-zinc-100 dark:text-zinc-900"
                 : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:hover:bg-zinc-700"
@@ -48,7 +48,7 @@ export default function TicketList({
         <ul className="flex flex-col gap-2">
           {filtered.map((ticket) => (
             <li key={ticket.id}>
-              <Link href={`/repository/${repositoryId}/ticket/${ticket.id}`}>
+              <Link href={`/repository/${repositoryId}/ticket/${ticket.id}`} className="cursor-pointer hover:opacity-80">
                 <Card>
                   <div className="flex items-center justify-between">
                     <span className="font-medium">{ticket.title}</span>

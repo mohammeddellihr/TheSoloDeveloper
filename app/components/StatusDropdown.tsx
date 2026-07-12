@@ -26,7 +26,7 @@ export default function StatusDropdown({
         defaultValue={currentStatus}
         onChange={(e) => e.target.form?.requestSubmit()}
         disabled={pending}
-        className={`rounded-full px-3 py-1 text-xs font-medium ${colors.bg} ${colors.text} border-0 cursor-pointer disabled:opacity-50`}
+        className={`rounded-full px-3 py-1 text-xs font-medium ${colors.bg} ${colors.text} border-0 cursor-pointer disabled:opacity-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:focus-visible:outline-white`}
       >
         {STATUSES.map((s) => (
           <option key={s} value={s}>

@@ -34,7 +34,7 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
           href={repo.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm text-blue-600 hover:underline dark:text-blue-400"
+          className="text-sm text-blue-600 hover:underline dark:text-blue-400 cursor-pointer"
         >
           {repo.url}
         </a>

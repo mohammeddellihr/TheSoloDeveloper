@@ -18,7 +18,7 @@ export default function Header({
           <span key={i} className="flex items-center gap-1.5">
             {i > 0 && <span className="text-zinc-400">/</span>}
             {crumb.href ? (
-              <Link href={crumb.href} className="hover:text-zinc-700 dark:hover:text-zinc-300">
+              <Link href={crumb.href} className="hover:text-zinc-700 dark:hover:text-zinc-300 cursor-pointer">
                 {crumb.label}
               </Link>
             ) : (

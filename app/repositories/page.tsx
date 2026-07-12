@@ -27,7 +27,7 @@ export default async function RepositoriesPage() {
         <ul className="flex flex-col gap-2">
           {repos.map((repo) => (
             <li key={repo.id}>
-              <Link href={`/repository/${repo.id}`}>
+              <Link href={`/repository/${repo.id}`} className="cursor-pointer hover:opacity-80">
                 <Card>
                   <span className="font-medium">{repo.name}</span>
                   {repo.url && <span className="ml-2 text-sm text-zinc-500">{repo.url}</span>}

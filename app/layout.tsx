@@ -26,14 +26,14 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col font-sans">
         <header className="border-b border-zinc-200 dark:border-zinc-800">
           <nav className="mx-auto flex w-full max-w-2xl items-center justify-between px-4 py-3">
-            <Link href="/" className="font-semibold">
+            <Link href="/" className="text-lg font-bold">
               The Solo Developer
             </Link>
-            <div className="flex gap-4 text-sm">
-              <Link href="/repositories" className="hover:underline">
+            <div className="flex gap-1 text-sm">
+              <Link href="/repositories" className="hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded px-2 py-1 cursor-pointer">
                 Repositories
               </Link>
-              <Link href="/tickets" className="hover:underline">
+              <Link href="/tickets" className="hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded px-2 py-1 cursor-pointer">
                 Tickets
               </Link>
             </div>

@@ -33,7 +33,7 @@ export default async function TicketsPage({
         <ul className="flex flex-col gap-2">
           {tickets.map((ticket) => (
             <li key={ticket.id}>
-              <Link href={`/repository/${ticket.repositoryId}/ticket/${ticket.id}`}>
+              <Link href={`/repository/${ticket.repositoryId}/ticket/${ticket.id}`} className="cursor-pointer hover:opacity-80">
                 <Card>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
