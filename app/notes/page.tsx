@@ -4,6 +4,7 @@ import Header from "@/app/components/Header"
 import Card from "@/app/components/Card"
 import Button from "@/app/components/Button"
 import NoteSearch from "@/app/components/NoteSearch"
+import CopyContentButton from "@/app/components/CopyContentButton"
 
 export default async function NotesListPage({
   searchParams,
@@ -61,13 +62,10 @@ export default async function NotesListPage({
                           ))}
                         </div>
                       )}
+                      <CopyContentButton content={note.content} />
                     </div>
                   </div>
-                  {note.content && (
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 line-clamp-2 whitespace-pre-wrap">
-                      {note.content}
-                    </p>
-                  )}
+
                 </Card>
               </Link>
             </li>
