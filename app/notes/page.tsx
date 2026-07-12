@@ -34,20 +34,17 @@ export default function NotesListPage() {
                       <span className="font-medium">{note.title}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs text-gray-500">
-                        Created {new Date(note.createdAt).toLocaleDateString()}
-                      </span>
+                      {note.keywords.length > 0 && (
+                        <div className="flex gap-2 flex-wrap">
+                          {note.keywords.map((keyword) => (
+                            <span key={keyword} className="inline-flex items-center rounded bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:text-gray-300">
+                              {keyword}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
-                  {note.keywords.length > 0 && (
-                    <div className="flex gap-2 mt-2 flex-wrap">
-                      {note.keywords.map((keyword) => (
-                        <span key={keyword} className="inline-flex items-center rounded bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:text-gray-300">
-                          {keyword}
-                        </span>
-                      ))}
-                    </div>
-                  )}
                   {note.content && (
                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 line-clamp-2 whitespace-pre-wrap">
                       {note.content}
