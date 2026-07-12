@@ -4,6 +4,7 @@ import Header from "@/app/components/Header"
 import Card from "@/app/components/Card"
 import Button from "@/app/components/Button"
 import SourceBadge from "@/app/components/SourceBadge"
+import ExternalLinkButton from "@/app/components/ExternalLinkButton"
 
 export default async function RepositoriesPage() {
   const repos = getRepositories()
@@ -25,14 +26,17 @@ export default async function RepositoriesPage() {
           <p className="text-center text-sm text-gray-500">No repositories yet.</p>
         </Card>
       ) : (
-        <ul className="flex flex-col gap-2">
+        <ul className="grid grid-cols-3 gap-2">
           {repos.map((repo) => (
             <li key={repo.id}>
               <Link href={`/repository/${repo.id}`} className="cursor-pointer hover:opacity-80">
                 <Card>
                   <div className="flex items-center justify-between">
                     <span className="font-medium">{repo.name}</span>
-                    <SourceBadge url={repo.url} />
+                    <div className="flex items-center gap-2">
+                      <SourceBadge url={repo.url} />
+                      {repo.url && <ExternalLinkButton url={repo.url} />}
+                    </div>
                   </div>
                 </Card>
               </Link>
