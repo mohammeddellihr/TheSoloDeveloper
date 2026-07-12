@@ -1,3 +1,22 @@
+# Tickets List Like Notes List Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Redesign the tickets list page to match the notes list visual style with 3-column grid, description preview, and status tag footer.
+
+**Architecture:** Single file change to `app/tickets/page.tsx` — restructure the card layout from vertical list to 3-column grid with header/content/footer sections matching the notes pattern.
+
+**Tech Stack:** Next.js App Router, React, Tailwind CSS
+
+## Global Constraints
+
+- No test suite exists — verify changes visually via `npm run dev`
+- DB is sync — `better-sqlite3` functions are synchronous
+- Server Actions remain async (Next.js requirement)
+- Single file modification: `app/tickets/page.tsx`
+
+---
+
 ### Task 1: Restructure tickets list layout
 
 **Files:**

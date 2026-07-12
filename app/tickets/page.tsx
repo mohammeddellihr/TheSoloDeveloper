@@ -44,20 +44,25 @@ export default async function TicketsPage({
           <p className="text-center text-sm text-gray-500">No tickets found.</p>
         </Card>
       ) : (
-        <ul className="flex flex-col gap-2">
+        <ul className="grid grid-cols-3 gap-2">
           {tickets.map((ticket) => (
-            <li key={ticket.id}>
-              <Card>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Link href={`/repository/${ticket.repositoryId}/ticket/${ticket.id}`} className="font-medium hover:underline cursor-pointer">
-                      {ticket.title}
-                    </Link>
-                    <span className="text-sm text-gray-500">in {ticket.repoName}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Badge variant={ticket.status} />
-                  </div>
+            <li key={ticket.id} className="h-full">
+              <Card className="h-full">
+                <div className="-mx-4 px-4 pb-3 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
+                  <Link href={`/repository/${ticket.repositoryId}/ticket/${ticket.id}`} className="font-medium hover:underline cursor-pointer line-clamp-1">
+                    {ticket.title}
+                  </Link>
+                  <span className="text-sm text-gray-500 line-clamp-1">{ticket.repoName}</span>
+                </div>
+                {ticket.description ? (
+                  <p className="pt-3 text-sm leading-relaxed whitespace-pre-wrap line-clamp-2">
+                    {ticket.description}
+                  </p>
+                ) : (
+                  <p className="pt-3 text-sm text-gray-500 italic">No description</p>
+                )}
+                <div className="-mx-4 px-4 pt-3 mt-3 border-t border-gray-200 dark:border-gray-800 flex gap-2">
+                  <Badge variant={ticket.status} />
                 </div>
               </Card>
             </li>
