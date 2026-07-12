@@ -40,9 +40,6 @@ export default async function TicketsPage({
                     </div>
                     <div className="flex items-center gap-2">
                       <Badge variant={ticket.status} />
-                      <span className="text-xs text-gray-400">
-                        {new Date(ticket.createdAt).toLocaleDateString()}
-                      </span>
                     </div>
                   </div>
                 </Card>
