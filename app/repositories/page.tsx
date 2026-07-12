@@ -30,7 +30,7 @@ export default async function RepositoriesPage() {
               <Link href={`/repository/${repo.id}`}>
                 <Card>
                   <span className="font-medium">{repo.name}</span>
-                  <span className="ml-2 text-sm text-zinc-500">{repo.url}</span>
+                  {repo.url && <span className="ml-2 text-sm text-zinc-500">{repo.url}</span>}
                 </Card>
               </Link>
             </li>

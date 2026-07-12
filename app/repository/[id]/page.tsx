@@ -29,14 +29,16 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
           </>
         }
       />
-      <a
-        href={repo.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-sm text-blue-600 hover:underline dark:text-blue-400"
-      >
-        {repo.url}
-      </a>
+      {repo.url && (
+        <a
+          href={repo.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-sm text-blue-600 hover:underline dark:text-blue-400"
+        >
+          {repo.url}
+        </a>
+      )}
       <TicketList tickets={tickets} repositoryId={repo.id} />
     </>
   )

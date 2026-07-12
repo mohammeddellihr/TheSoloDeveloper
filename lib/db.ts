@@ -80,12 +80,13 @@ export function getRepository(id: string): Repository | null {
   return (getDb().prepare('SELECT * FROM repositories WHERE id = ?').get(id) as Repository) ?? null
 }
 
-export function createRepository(name: string, url: string): Repository {
+export function createRepository(name: string, url?: string): Repository {
   const db = getDb()
   const id = nanoid()
   const now = iso()
-  db.prepare('INSERT INTO repositories (id, name, url, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?)').run(id, name, url, now, now)
-  return { id, name, url, createdAt: now, updatedAt: now }
+  const repoUrl = url?.trim() || ""
+  db.prepare('INSERT INTO repositories (id, name, url, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?)').run(id, name, repoUrl, now, now)
+  return { id, name, url: repoUrl, createdAt: now, updatedAt: now }
 }
 
 export function getTickets(repositoryId: string): Ticket[] {
@@ -148,10 +149,11 @@ export function getAllTickets(filters?: { repositoryId?: string; status?: string
   return db.prepare(`SELECT t.*, r.name as repoName FROM tickets t JOIN repositories r ON r.id = t.repositoryId ${where} ORDER BY t.createdAt DESC`).all(...params) as (Omit<Ticket, "comments"> & { repoName: string })[]
 }
 
-export function updateRepository(id: string, name: string, url: string): Repository | null {
+export function updateRepository(id: string, name: string, url?: string): Repository | null {
   const db = getDb()
   const now = iso()
-  const result = db.prepare('UPDATE repositories SET name = ?, url = ?, updatedAt = ? WHERE id = ?').run(name, url, now, id)
+  const repoUrl = url?.trim() || ""
+  const result = db.prepare('UPDATE repositories SET name = ?, url = ?, updatedAt = ? WHERE id = ?').run(name, repoUrl, now, id)
   if (result.changes === 0) return null
   return getRepository(id)
 }

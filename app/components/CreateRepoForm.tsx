@@ -16,12 +16,11 @@ export default function CreateRepoForm() {
         required
         className="rounded border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-blue-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
       />
-      <label className="sr-only" htmlFor="repo-url">Repository URL</label>
+      <label className="sr-only" htmlFor="repo-url">Repository URL (optional)</label>
       <input
         id="repo-url"
         name="url"
-        placeholder="Repository URL"
-        required
+        placeholder="Repository URL (optional)"
         className="rounded border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-blue-500 focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
       />
       {state && "error" in state && (
