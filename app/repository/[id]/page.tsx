@@ -16,7 +16,7 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
     <>
       <Header
         breadcrumbs={[{ label: "Repositories", href: "/repositories" }]}
-        title={repo.name}
+        title={`Repository #${repo.id}`}
         actions={
           <>
             <Link href={`/repository/${repo.id}/update`}>
@@ -30,8 +30,11 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
       />
 
       <Card>
-        <div className="flex items-center justify-between">
-          {repo.url && (
+        <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4">
+          <h1 className="text-xl font-bold">{repo.name}</h1>
+        </div>
+        {repo.url && (
+          <div className="pt-4">
             <a
               href={repo.url}
               target="_blank"
@@ -40,8 +43,8 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
             >
               {repo.url}
             </a>
-          )}
-        </div>
+          </div>
+        )}
       </Card>
 
       <TicketList tickets={tickets} repositoryId={repo.id} />
