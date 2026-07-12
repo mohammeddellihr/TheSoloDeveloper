@@ -62,7 +62,7 @@ export interface Ticket {
   repositoryId: string
   title: string
   description: string
-  status: 'pending' | 'in_progress' | 'completed'
+  status: 'pending' | 'in_progress' | 'completed' | 'archived'
   comments: Comment[]
   createdAt: string
   updatedAt: string
@@ -156,7 +156,7 @@ export function createTicket(repositoryId: string, title: string, description: s
 export function updateTicketStatus(
   repositoryId: string,
   ticketId: string,
-  status: 'pending' | 'in_progress' | 'completed'
+  status: 'pending' | 'in_progress' | 'completed' | 'archived'
 ): Ticket | null {
   const db = getDb()
   const now = iso()
@@ -194,7 +194,7 @@ export function updateTicket(
   ticketId: string,
   title: string,
   description: string,
-  status: 'pending' | 'in_progress' | 'completed'
+  status: 'pending' | 'in_progress' | 'completed' | 'archived'
 ): Ticket | null {
   const db = getDb()
   const now = iso()
