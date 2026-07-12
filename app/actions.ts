@@ -209,7 +209,7 @@ export async function updateNoteAction(_prev: unknown, formData: FormData) {
     : []
 
   try {
-    const note = updateNote(Number(noteId), title.trim(), typeof content === "string" ? content.trim() : "", keywordList)
+    const note = updateNote(noteId, title.trim(), typeof content === "string" ? content.trim() : "", keywordList)
     if (!note) return { error: "Note not found" }
     redirect(`/note/${note.id}`)
   } catch (e) {
@@ -226,7 +226,7 @@ export async function deleteNoteAction(_prev: unknown, formData: FormData) {
   }
 
   try {
-    deleteNote(Number(noteId))
+    deleteNote(noteId)
     redirect("/notes")
   } catch (e) {
     if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e

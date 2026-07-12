@@ -8,14 +8,14 @@ import Link from "next/link"
 
 export default async function ViewNotePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const note = getNote(Number(id))
+  const note = getNote(id)
 
   if (!note) notFound()
 
   return (
     <>
       <Header
-        title="Note"
+        title={`Note #${note.id}`}
         breadcrumbs={[{ label: "Notes", href: "/notes" }]}
         actions={
           <Link href={`/note/${note.id}/update`}>

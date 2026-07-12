@@ -1,14 +1,19 @@
-# Progress Ledger
+# Progress Ledger: Dark Mode Only Conversion
 
-## Previous Tasks (completed)
-Task 1: complete (pre-existing, CreateTicketForm uses Repository dropdown)
-Task 2: complete (pre-existing, /tickets/create page exists)
-Task 3: complete (pre-existing, repo view links to /tickets/create?repository_id=...)
-Task 4: complete (app/tickets/page.tsx, review clean — build/lint pending Node.js install)
-Task 5: complete (pre-existing, old route deleted)
+## Plan: `docs/superpowers/plans/2026-07-12-dark-mode-only.md`
 
-## Dockerfile Tasks
-Task 6: complete (commits skipped, git not available — .dockerignore created correctly)
-Task 7: complete (commits skipped, git not available — next.config.ts updated, build verified)
-Task 8: complete (commits skipped, git not available — Dockerfile created correctly)
-Task 9: blocked (Docker not installed — all prerequisites verified, ready for Docker build test)
+## Tasks
+
+| Task | Status | Commits | Review |
+|------|--------|---------|--------|
+| 1: Update globals.css | pending | — | — |
+| 2: Update lib/constants.ts | pending | — | — |
+| 3: Update components batch 1 | pending | — | — |
+| 4: Update components batch 2 | pending | — | — |
+| 5: Update page files | pending | — | — |
+
+## Notes
+
+- App is already dark by default (CSS variables at top of file)
+- `dark:` classes are now redundant
+- `prefers-color-scheme` media query can be removed

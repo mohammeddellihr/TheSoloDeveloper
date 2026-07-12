@@ -6,7 +6,7 @@ import { deleteNoteAction } from "@/app/actions"
 import Button from "./Button"
 import ConfirmModal from "@/app/components/ConfirmModal"
 
-export default function DeleteNoteButton({ noteId }: { noteId: number }) {
+export default function DeleteNoteButton({ noteId }: { noteId: string }) {
   const [, action, pending] = useActionState(deleteNoteAction, null)
   const [modalOpen, setModalOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)

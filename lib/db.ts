@@ -35,7 +35,7 @@ function getDb(): Database.Database {
       createdAt TEXT NOT NULL
     );
     CREATE TABLE IF NOT EXISTS notes (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id TEXT PRIMARY KEY,
       title TEXT NOT NULL,
       content TEXT NOT NULL DEFAULT '',
       keywords TEXT NOT NULL DEFAULT '[]',
@@ -77,7 +77,7 @@ export interface Repository {
 }
 
 export interface Note {
-  id: number
+  id: string
   title: string
   content: string
   keywords: string[]
@@ -236,7 +236,7 @@ export function getNotes(): Note[] {
   return rows.map(r => ({ ...r, keywords: JSON.parse(r.keywords) }))
 }
 
-export function getNote(id: number): Note | null {
+export function getNote(id: string): Note | null {
   const row = getDb().prepare('SELECT * FROM notes WHERE id = ?').get(id) as (Omit<Note, 'keywords'> & { keywords: string }) | undefined
   if (!row) return null
   return { ...row, keywords: JSON.parse(row.keywords) }
@@ -244,12 +244,13 @@ export function getNote(id: number): Note | null {
 
 export function createNote(title: string, content: string, keywords: string[]): Note {
   const db = getDb()
+  const id = nanoid()
   const now = iso()
-  const result = db.prepare('INSERT INTO notes (title, content, keywords, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?)').run(title, content, JSON.stringify(keywords), now, now)
-  return getNote(result.lastInsertRowid as number)!
+  db.prepare('INSERT INTO notes (id, title, content, keywords, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?)').run(id, title, content, JSON.stringify(keywords), now, now)
+  return getNote(id)!
 }
 
-export function updateNote(id: number, title: string, content: string, keywords: string[]): Note | null {
+export function updateNote(id: string, title: string, content: string, keywords: string[]): Note | null {
   const db = getDb()
   const now = iso()
   const result = db.prepare('UPDATE notes SET title = ?, content = ?, keywords = ?, updatedAt = ? WHERE id = ?').run(title, content, JSON.stringify(keywords), now, id)
@@ -257,7 +258,7 @@ export function updateNote(id: number, title: string, content: string, keywords:
   return getNote(id)
 }
 
-export function deleteNote(id: number): boolean {
+export function deleteNote(id: string): boolean {
   const result = getDb().prepare('DELETE FROM notes WHERE id = ?').run(id)
   return result.changes > 0
 }

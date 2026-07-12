@@ -11,7 +11,7 @@ export default async function UpdateNotePage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const note = getNote(Number(id))
+  const note = getNote(id)
 
   if (!note) notFound()
 

@@ -7,9 +7,9 @@ type ButtonProps = {
 
 const variants = {
   primary:
-    "bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 disabled:opacity-50",
+    "bg-black text-white hover:bg-gray-800 disabled:opacity-50",
   secondary:
-    "bg-white text-black border border-gray-300 hover:bg-gray-100 dark:bg-black dark:text-white dark:border-gray-700 dark:hover:bg-gray-800 disabled:opacity-50",
+    "bg-white text-black border border-gray-300 hover:bg-gray-100 disabled:opacity-50",
 }
 
 export default function Button({
@@ -20,7 +20,7 @@ export default function Button({
 }: ButtonProps) {
   return (
     <button
-      className={`rounded px-4 py-2 text-sm font-medium whitespace-nowrap cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:focus-visible:outline-white disabled:cursor-not-allowed ${variants[variant]} ${className}`}
+      className={`rounded px-4 py-2 text-sm font-medium whitespace-nowrap cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:cursor-not-allowed ${variants[variant]} ${className}`}
       {...props}
     >
       {children}
