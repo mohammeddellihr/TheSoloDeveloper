@@ -1,0 +1,29 @@
+import { notFound } from "next/navigation"
+import { getRepository } from "@/lib/db"
+import Header from "@/app/components/Header"
+import Card from "@/app/components/Card"
+import CreateTicketForm from "@/app/components/CreateTicketForm"
+
+export default async function NewTicketPage({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+  const { id } = await params
+  const repo = getRepository(id)
+  if (!repo) notFound()
+
+  return (
+    <>
+      <Header
+        breadcrumbs={[
+          { label: "Tickets", href: "/tickets" },
+          { label: "New Ticket" },
+        ]}
+      />
+      <Card>
+        <CreateTicketForm repositoryId={repo.id} />
+      </Card>
+    </>
+  )
+}

@@ -6,11 +6,11 @@ import { STATUS_LABELS, STATUS_COLORS, STATUSES } from "@/lib/constants"
 import type { Ticket } from "@/lib/db"
 
 export default function StatusDropdown({
-  repoId,
+  repositoryId,
   ticketId,
   currentStatus,
 }: {
-  repoId: string
+  repositoryId: string
   ticketId: string
   currentStatus: Ticket["status"]
 }) {
@@ -19,7 +19,7 @@ export default function StatusDropdown({
 
   return (
     <form action={formAction}>
-      <input type="hidden" name="repoId" value={repoId} />
+      <input type="hidden" name="repositoryId" value={repositoryId} />
       <input type="hidden" name="ticketId" value={ticketId} />
       <select
         name="status"

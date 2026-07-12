@@ -4,17 +4,17 @@ import { useActionState } from "react"
 import { addCommentAction } from "@/app/actions"
 
 export default function CommentForm({
-  repoId,
+  repositoryId,
   ticketId,
 }: {
-  repoId: string
+  repositoryId: string
   ticketId: string
 }) {
   const [state, formAction, pending] = useActionState(addCommentAction, undefined)
 
   return (
     <form action={formAction} className="flex flex-col gap-2">
-      <input type="hidden" name="repoId" value={repoId} />
+      <input type="hidden" name="repositoryId" value={repositoryId} />
       <input type="hidden" name="ticketId" value={ticketId} />
       <textarea
         name="text"
