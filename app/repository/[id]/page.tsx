@@ -33,7 +33,7 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
         <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-4">
           <h1 className="text-xl font-bold">{repo.name}</h1>
         </div>
-        {repo.url && (
+        {repo.url ? (
           <div className="pt-4">
             <a
               href={repo.url}
@@ -43,6 +43,10 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
             >
               {repo.url}
             </a>
+          </div>
+        ) : (
+          <div className="pt-4">
+            <p className="text-sm text-gray-500 italic">No content</p>
           </div>
         )}
       </Card>
