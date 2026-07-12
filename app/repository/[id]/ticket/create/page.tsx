@@ -20,7 +20,10 @@ export default async function NewTicketPage({
         title="Create Ticket"
       />
       <Card>
-        <CreateTicketForm repositoryId={repo.id} />
+        <h1 className="text-xl font-bold border-b border-zinc-200 dark:border-zinc-800 pb-4">Create Ticket</h1>
+        <div className="pt-4">
+          <CreateTicketForm repositoryId={repo.id} />
+        </div>
       </Card>
     </>
   )
