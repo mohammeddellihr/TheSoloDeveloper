@@ -13,7 +13,7 @@ export default function DeleteRepoButton({ repositoryId }: { repositoryId: strin
       {state && "error" in state && (
         <p className="text-sm text-red-500">{state.error}</p>
       )}
-      <Button variant="secondary" type="submit" disabled={pending}>
+      <Button type="submit" disabled={pending}>
         {pending ? "Deleting..." : "Delete Repository"}
       </Button>
     </form>
