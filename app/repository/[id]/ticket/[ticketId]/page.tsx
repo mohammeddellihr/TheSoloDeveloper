@@ -56,7 +56,7 @@ export default async function TicketPage({
             {ticket.comments.map((comment) => (
               <li key={comment.id}>
                 <Card>
-                  <p className="text-sm">{comment.text}</p>
+                  <p className="text-sm whitespace-pre-wrap">{comment.text}</p>
                 </Card>
               </li>
             ))}
