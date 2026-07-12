@@ -1,26 +1,24 @@
-# Task 2 Report: Add pagination to Notes page
+# Task 2: Add deleteCommentAction — Report
 
-## What I implemented
+## What I Implemented
 
-Modified `app/notes/page.tsx` with three changes:
-1. Added `import Pagination from "@/app/components/Pagination"`
-2. Added `PAGE_SIZE = 12` constant, expanded `searchParams` type to include `page`, computed `currentPage`, `totalPages`, and sliced `filtered` into `notes`
-3. Added `<Pagination currentPage={currentPage} totalPages={totalPages} />` after the notes list
+Added `deleteCommentAction` server action to `app/actions.ts`, exactly as specified in the task brief:
 
-All changes match the task brief exactly.
+- Imports `deleteComment` from `@/lib/db` (added to the existing import statement)
+- `deleteCommentAction(_prev, formData)` extracts `repositoryId`, `ticketId`, `commentId` from FormData
+- Validates all three are strings, returns error if not
+- Calls `deleteComment(commentId)`, revalidates the ticket page path, returns `{ error: null }`
+- Catches errors and returns `{ error: "Failed to delete comment" }`
 
-## Verification
+## Verification Results
 
-- **`npm run build`**: Compiled successfully. No TypeScript errors.
-- **`npm run lint`**: Passed with no errors.
+- **`npm run build`**: ✅ Compiled successfully, TypeScript passes, all routes generated
+- **`npm run lint`**: ✅ No errors
 
-## Files changed
+## Files Changed
 
-- `app/notes/page.tsx` — added pagination logic and Pagination component
+- `app/actions.ts` — added `deleteComment` to imports (line 6), appended `deleteCommentAction` function at end of file (lines 237–256)
 
-## Self-review
+## Self-Review Findings
 
-- File matches the task brief exactly — imports, variable names, logic, and JSX all align.
-- Pagination renders after the list; when `totalPages <= 1` the Pagination component returns null (handles edge case).
-- Search filtering works on the full set before slicing, so pagination + search work together correctly.
-- No issues found.
+No issues. The action follows the exact same pattern as `addCommentAction` and other delete actions in the file. The `NEXT_REDIRECT` catch pattern used by actions that call `redirect()` is not needed here since this action doesn't redirect — it returns an error/status object like `addCommentAction`.

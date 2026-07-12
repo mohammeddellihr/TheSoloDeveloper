@@ -1,91 +1,40 @@
-# Task 2: Add pagination to Notes page
+# Task 2: Add deleteCommentAction to app/actions.ts
 
 **Files:**
-- Modify: `app/notes/page.tsx`
+- Modify: `app/actions.ts`
 
 **Interfaces:**
-- Consumes: `Pagination` from `@/app/components/Pagination`
+- Consumes: `deleteComment` from `@/lib/db`
+- Produces: `deleteCommentAction(repositoryId: string, ticketId: string, commentId: string)`
 
-- [ ] **Step 1: Add pagination to Notes page**
+- [ ] **Step 1: Add the server action**
 
-Modify `app/notes/page.tsx`. Add the import:
+Add to the end of `app/actions.ts` (before the closing of the file):
 
-```tsx
-import Pagination from "@/app/components/Pagination"
-```
+```ts
+export async function deleteCommentAction(_prev: unknown, formData: FormData) {
+  const repositoryId = formData.get("repositoryId")
+  const ticketId = formData.get("ticketId")
+  const commentId = formData.get("commentId")
 
-Change the searchParams type and add page logic. Replace:
+  if (typeof repositoryId !== "string" || typeof ticketId !== "string" || typeof commentId !== "string") {
+    return { error: "Invalid request" }
+  }
 
-```tsx
-export default async function NotesListPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ q?: string }>
-}) {
-  const { q } = await searchParams
-  const term = (q ?? "").toLowerCase().trim()
-  const allNotes = getNotes()
-  const notes = term
-    ? allNotes.filter(
-        (note) =>
-          note.keywords.some((k) => k.toLowerCase().includes(term)) ||
-          note.title.toLowerCase().includes(term) ||
-          note.content.toLowerCase().includes(term),
-      )
-    : allNotes
-```
-
-with:
-
-```tsx
-const PAGE_SIZE = 12
-
-export default async function NotesListPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ q?: string; page?: string }>
-}) {
-  const { q, page } = await searchParams
-  const term = (q ?? "").toLowerCase().trim()
-  const allNotes = getNotes()
-  const filtered = term
-    ? allNotes.filter(
-        (note) =>
-          note.keywords.some((k) => k.toLowerCase().includes(term)) ||
-          note.title.toLowerCase().includes(term) ||
-          note.content.toLowerCase().includes(term),
-      )
-    : allNotes
-  const currentPage = Math.max(1, Number(page) || 1)
-  const totalPages = Math.ceil(filtered.length / PAGE_SIZE)
-  const notes = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
-```
-
-Add Pagination after the list. Replace:
-
-```tsx
-        </ul>
-      )}
-    </>
-  )
-}
-```
-
-with:
-
-```tsx
-        </ul>
-      )}
-      <Pagination currentPage={currentPage} totalPages={totalPages} />
-    </>
-  )
+  try {
+    deleteComment(commentId)
+    revalidatePath(`/repository/${repositoryId}/ticket/${ticketId}`)
+    return { error: null }
+  } catch {
+    return { error: "Failed to delete comment" }
+  }
 }
 ```
 
 - [ ] **Step 2: Verify**
 
 Run: `npm run build`
-Expected: Compiles. Notes page shows pagination when more than 12 notes.
+Expected: Compiles. The action is exported and available.
 
 Run: `npm run lint`
 Expected: No errors.

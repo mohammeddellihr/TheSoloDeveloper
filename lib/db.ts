@@ -261,3 +261,8 @@ export function deleteNote(id: number): boolean {
   const result = getDb().prepare('DELETE FROM notes WHERE id = ?').run(id)
   return result.changes > 0
 }
+
+export function deleteComment(commentId: string): boolean {
+  const result = getDb().prepare('DELETE FROM comments WHERE id = ?').run(commentId)
+  return result.changes > 0
+}

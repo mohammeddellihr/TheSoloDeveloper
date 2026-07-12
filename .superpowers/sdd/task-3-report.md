@@ -1,28 +1,19 @@
-# Task 3 Report: Add pagination to Tickets page
+# Task 3 Report: Create DeleteButton and integrate into ticket page
 
-## What was implemented
+## What I Implemented
 
-Modified `app/tickets/page.tsx` to add pagination with 12 items per page:
+Created `app/components/DeleteButton.tsx` — a client component that calls `deleteCommentAction` and refreshes the page. Added a trash icon button to each comment card in the ticket detail page.
 
-1. Added `Pagination` component import
-2. Added `PAGE_SIZE = 12` constant
-3. Extended `searchParams` type with optional `page` parameter
-4. Added pagination logic: computed `currentPage`, `totalPages`, and sliced `tickets` from `allTickets`
-5. Rendered `<Pagination>` component after the ticket list
+## Verification
 
-## Verification results
-
-- **Build:** Compiled successfully, all pages generated
+- **Build:** Compiled successfully (TypeScript + Turbopack, no errors)
 - **Lint:** No errors
 
-## Files changed
+## Files Changed
 
-- `app/tickets/page.tsx` — added pagination logic and Pagination component
+- **Created:** `app/components/DeleteButton.tsx` — new client component with `useTransition` + `useRouter` pattern
+- **Modified:** `app/repository/[id]/ticket/[ticketId]/page.tsx` — added `DeleteButton` import and wrapped `CopyContentButton` + `DeleteButton` in a flex container per comment card
 
-## Self-review findings
+## Self-Review
 
-No issues. The implementation matches the task brief exactly:
-- Page defaults to page 1 when no `page` param provided
-- `Math.max(1, ...)` prevents negative/zero page numbers
-- Empty state still shows "No tickets found" when zero tickets exist overall
-- Pagination renders correctly below the list
+Implementation matches the task brief exactly. The component follows the same patterns used by `DeleteNoteButton` and `DeleteRepoButton` (stopPropagation, useTransition, router.refresh). The icon and styling are consistent with the existing button components. No issues found.

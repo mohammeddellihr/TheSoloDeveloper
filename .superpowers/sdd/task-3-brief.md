@@ -1,81 +1,116 @@
-# Task 3: Add pagination to Tickets page
+# Task 3: Create DeleteButton and integrate into ticket page
 
 **Files:**
-- Modify: `app/tickets/page.tsx`
+- Create: `app/components/DeleteButton.tsx`
+- Modify: `app/repository/[id]/ticket/[ticketId]/page.tsx`
 
 **Interfaces:**
-- Consumes: `Pagination` from `@/app/components/Pagination`
+- Consumes: `deleteCommentAction` from `@/app/actions`
+- Produces: `DeleteButton` component — `{ repositoryId: string; ticketId: string; commentId: string }`
 
-- [ ] **Step 1: Add pagination to Tickets page**
+- [ ] **Step 1: Create the DeleteButton component**
 
-Modify `app/tickets/page.tsx`. Add the import:
+Create `app/components/DeleteButton.tsx`:
 
 ```tsx
-import Pagination from "../components/Pagination"
+"use client"
+
+import { useRouter } from "next/navigation"
+import { useTransition } from "react"
+import { deleteCommentAction } from "@/app/actions"
+
+export default function DeleteButton({
+  repositoryId,
+  ticketId,
+  commentId,
+}: {
+  repositoryId: string
+  ticketId: string
+  commentId: string
+}) {
+  const router = useRouter()
+  const [pending, startTransition] = useTransition()
+
+  function handleClick(e: React.MouseEvent) {
+    e.stopPropagation()
+    e.preventDefault()
+    const formData = new FormData()
+    formData.set("repositoryId", repositoryId)
+    formData.set("ticketId", ticketId)
+    formData.set("commentId", commentId)
+    startTransition(async () => {
+      await deleteCommentAction(null, formData)
+      router.refresh()
+    })
+  }
+
+  return (
+    <button
+      onClick={handleClick}
+      disabled={pending}
+      className="rounded p-1 text-gray-400 hover:text-red-500 dark:hover:text-red-400 disabled:opacity-50 cursor-pointer"
+      aria-label="Delete comment"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="h-4 w-4"
+      >
+        <path d="M3 6h18" />
+        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+      </svg>
+    </button>
+  )
+}
 ```
 
-Change the searchParams type and add page logic. Replace:
+- [ ] **Step 2: Add DeleteButton to the ticket page**
+
+Modify `app/repository/[id]/ticket/[ticketId]/page.tsx`. Add the import:
 
 ```tsx
-export default async function TicketsPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ repository_id?: string; status?: string }>
-}) {
-  const params = await searchParams
-  const repositories = getRepositories()
-  const tickets = getAllTickets({
-    repositoryId: params.repository_id || undefined,
-    status: params.status || undefined,
-  })
+import DeleteButton from "@/app/components/DeleteButton"
+```
+
+Replace the comment card section:
+
+```tsx
+        {ticket.comments.map((comment) => (
+          <Card key={comment.id}>
+            <div className="flex items-start justify-between">
+              <p className="text-sm whitespace-pre-wrap">{comment.text}</p>
+              <CopyContentButton content={comment.text} />
+            </div>
+          </Card>
+        ))}
 ```
 
 with:
 
 ```tsx
-const PAGE_SIZE = 12
-
-export default async function TicketsPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ repository_id?: string; status?: string; page?: string }>
-}) {
-  const params = await searchParams
-  const repositories = getRepositories()
-  const allTickets = getAllTickets({
-    repositoryId: params.repository_id || undefined,
-    status: params.status || undefined,
-  })
-  const currentPage = Math.max(1, Number(params.page) || 1)
-  const totalPages = Math.ceil(allTickets.length / PAGE_SIZE)
-  const tickets = allTickets.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
+        {ticket.comments.map((comment) => (
+          <Card key={comment.id}>
+            <div className="flex items-start justify-between">
+              <p className="text-sm whitespace-pre-wrap">{comment.text}</p>
+              <div className="flex items-center gap-1">
+                <CopyContentButton content={comment.text} />
+                <DeleteButton repositoryId={repo.id} ticketId={ticket.id} commentId={comment.id} />
+              </div>
+            </div>
+          </Card>
+        ))}
 ```
 
-Add Pagination after the list. Replace:
-
-```tsx
-        </ul>
-      )}
-    </>
-  )
-}
-```
-
-with:
-
-```tsx
-        </ul>
-      )}
-      <Pagination currentPage={currentPage} totalPages={totalPages} />
-    </>
-  )
-}
-```
-
-- [ ] **Step 2: Verify**
+- [ ] **Step 3: Verify**
 
 Run: `npm run build`
-Expected: Compiles. Tickets page shows pagination when more than 12 tickets.
+Expected: Compiles. Each comment card shows a copy icon and a trash icon.
 
 Run: `npm run lint`
 Expected: No errors.
