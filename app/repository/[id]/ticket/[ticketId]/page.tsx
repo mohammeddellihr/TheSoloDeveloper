@@ -48,7 +48,7 @@ export default async function TicketPage({
         </div>
       </Card>
 
-      <div className="mt-6">
+      <div>
         <h2 className="mb-4 text-lg font-semibold">
           Comments ({ticket.comments.length})
         </h2>
