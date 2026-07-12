@@ -23,13 +23,14 @@ export default function DeleteRepoButton({ repositoryId }: { repositoryId: strin
         {state && "error" in state && (
           <p className="text-sm text-red-500">{state.error}</p>
         )}
-        <Button
+        <button
           type="button"
           disabled={pending}
           onClick={() => setModalOpen(true)}
+          className="rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-600 disabled:opacity-50 cursor-pointer"
         >
           {pending ? "Deleting..." : "Delete Repository"}
-        </Button>
+        </button>
       </form>
       <ConfirmModal
         open={modalOpen}
