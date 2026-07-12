@@ -9,7 +9,7 @@ const josefinSans = Josefin_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Issues",
+  title: "The Solo Developer",
   description: "A simple issue tracker",
 };
 
