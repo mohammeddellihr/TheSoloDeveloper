@@ -51,8 +51,8 @@ export default async function NotesListPage({
       ) : (
         <ul className="grid grid-cols-3 gap-2">
           {notes.map((note) => (
-            <li key={note.id}>
-              <Card>
+            <li key={note.id} className="h-full">
+              <Card className="h-full">
                 <div className="flex items-center justify-between">
                   <Link href={`/note/${note.id}`} className="font-medium hover:underline cursor-pointer">
                     {note.title}
