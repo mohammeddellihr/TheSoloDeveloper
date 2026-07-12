@@ -26,7 +26,7 @@ export default function CommentForm({
           rows={3}
           placeholder="Add a comment..."
           required
-          className="w-full rounded-lg border border-gray-200 p-2 text-sm focus:border-black dark:focus:border-white focus:outline-none dark:border-gray-800 dark:bg-gray-900"
+          className="w-full rounded border border-gray-200 p-2 text-sm focus:border-black dark:focus:border-white focus:outline-none dark:border-gray-800 dark:bg-gray-900"
         />
       </div>
       {state?.error && <p className="text-xs text-red-500">{state.error}</p>}
