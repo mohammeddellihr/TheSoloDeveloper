@@ -119,12 +119,12 @@ export function getTicket(repositoryId: string, ticketId: string): Ticket | null
   return { ...row, comments }
 }
 
-export function createTicket(repositoryId: string, title: string, description: string): Ticket {
+export function createTicket(repositoryId: string, title: string, description: string, status: Ticket["status"] = "pending"): Ticket {
   const db = getDb()
   const id = nanoid()
   const now = iso()
-  db.prepare('INSERT INTO tickets (id, repositoryId, title, description, status, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?)').run(id, repositoryId, title, description, 'pending', now, now)
-  return { id, repositoryId, title, description, status: 'pending', comments: [], createdAt: now, updatedAt: now }
+  db.prepare('INSERT INTO tickets (id, repositoryId, title, description, status, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?)').run(id, repositoryId, title, description, status, now, now)
+  return { id, repositoryId, title, description, status, comments: [], createdAt: now, updatedAt: now }
 }
 
 export function updateTicketStatus(

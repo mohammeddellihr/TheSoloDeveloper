@@ -28,7 +28,6 @@ export default async function RepositoriesPage() {
               <Link href={`/repository/${repo.id}`} className="cursor-pointer hover:opacity-80">
                 <Card>
                   <span className="font-medium">{repo.name}</span>
-                  {repo.url && <span className="ml-2 text-sm text-zinc-500">{repo.url}</span>}
                 </Card>
               </Link>
             </li>

@@ -2,6 +2,7 @@
 
 import { useActionState } from "react"
 import { createTicketAction } from "@/app/actions"
+import { STATUSES, STATUS_LABELS } from "@/lib/constants"
 
 export default function CreateTicketForm({
   repositoryId,
@@ -29,6 +30,19 @@ export default function CreateTicketForm({
         rows={3}
         className="rounded border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-black dark:focus:border-white focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100"
       />
+      <label className="text-sm font-medium text-zinc-700 dark:text-zinc-300" htmlFor="ticket-status">Status</label>
+      <select
+        id="ticket-status"
+        name="status"
+        defaultValue="pending"
+        className="rounded border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 focus:border-black dark:focus:border-white focus:outline-none dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 cursor-pointer"
+      >
+        {STATUSES.map((s) => (
+          <option key={s} value={s}>
+            {STATUS_LABELS[s]}
+          </option>
+        ))}
+      </select>
       {state && "error" in state && (
         <p className="text-sm text-red-500">{state.error}</p>
       )}

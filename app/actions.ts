@@ -4,18 +4,22 @@ import { redirect } from "next/navigation"
 import { revalidatePath } from "next/cache"
 import { STATUSES } from "@/lib/constants"
 import { createRepository, createTicket, updateTicketStatus, addComment, updateRepository, deleteRepository, updateTicket, deleteTicket } from "@/lib/db"
+import type { Ticket } from "@/lib/db"
 
 export async function createTicketAction(_prev: unknown, formData: FormData) {
   const repositoryId = formData.get("repositoryId")
   const title = formData.get("title")
   const description = formData.get("description")
+  const status = formData.get("status")
 
   if (typeof repositoryId !== "string" || typeof title !== "string" || !title.trim()) {
     return { error: "Title is required" }
   }
 
+  const validStatus = STATUSES.includes(status as Ticket["status"]) ? status as Ticket["status"] : "pending"
+
   try {
-    const ticket = createTicket(repositoryId, title.trim(), typeof description === "string" ? description.trim() : "")
+    const ticket = createTicket(repositoryId, title.trim(), typeof description === "string" ? description.trim() : "", validStatus)
     redirect(`/repository/${repositoryId}/ticket/${ticket.id}`)
   } catch (e) {
     if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
