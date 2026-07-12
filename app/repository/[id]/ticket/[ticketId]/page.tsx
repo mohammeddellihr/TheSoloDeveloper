@@ -5,7 +5,6 @@ import Header from "@/app/components/Header"
 import Card from "@/app/components/Card"
 import Badge from "@/app/components/Badge"
 import Button from "@/app/components/Button"
-import StatusDropdown from "@/app/components/StatusDropdown"
 import CommentForm from "@/app/components/CommentForm"
 
 export default async function TicketPage({
@@ -27,16 +26,9 @@ export default async function TicketPage({
           { label: `View Ticket #${ticket.id}` },
         ]}
         actions={
-          <>
-            <Link href={`/repository/${repo.id}/ticket/${ticket.id}/update`}>
-              <Button variant="secondary">Update</Button>
-            </Link>
-            <StatusDropdown
-              repositoryId={repo.id}
-              ticketId={ticket.id}
-              currentStatus={ticket.status}
-            />
-          </>
+          <Link href={`/repository/${repo.id}/ticket/${ticket.id}/update`}>
+            <Button variant="secondary">Update</Button>
+          </Link>
         }
       />
 
