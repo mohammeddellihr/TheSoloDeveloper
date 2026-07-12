@@ -33,7 +33,7 @@ export default async function TicketPage({
       />
 
       <Card>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4">
           <h1 className="text-2xl font-bold tracking-tight">{ticket.title}</h1>
           <Badge variant={ticket.status} />
         </div>
