@@ -4,6 +4,7 @@ import Header from "../components/Header"
 import Card from "../components/Card"
 import Badge from "../components/Badge"
 import TicketFilters from "../components/TicketFilters"
+import Button from "../components/Button"
 
 export default async function TicketsPage({
   searchParams,
@@ -22,7 +23,14 @@ export default async function TicketsPage({
       <Header
         breadcrumbs={[{ label: "Dashboard", href: "/" }]}
         title="Tickets"
-        actions={<TicketFilters repositories={repositories} />}
+        actions={
+          <div className="flex items-center gap-2">
+            <TicketFilters repositories={repositories} />
+            <Link href="/tickets/create">
+              <Button>Create Ticket</Button>
+            </Link>
+          </div>
+        }
       />
 
       {tickets.length === 0 ? (
