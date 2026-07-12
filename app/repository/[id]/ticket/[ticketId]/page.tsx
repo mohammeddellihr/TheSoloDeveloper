@@ -23,7 +23,10 @@ export default async function TicketPage({
   return (
     <>
       <Header
-        breadcrumbs={[{ label: "Tickets", href: "/tickets" }]}
+        breadcrumbs={[
+          { label: "Repositories", href: "/repositories" },
+          { label: repo.name, href: `/repository/${repo.id}` },
+        ]}
         title={`Ticket #${ticket.id}`}
         actions={
           <Link href={`/repository/${repo.id}/ticket/${ticket.id}/update`}>
@@ -45,16 +48,16 @@ export default async function TicketPage({
           </div>
         ) : (
           <div className="pt-4">
-            <p className="text-sm text-gray-500 italic">No content</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 italic">No content</p>
           </div>
         )}
       </Card>
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2">
         {ticket.comments.map((comment) => (
           <Card key={comment.id}>
             <div className="flex items-start justify-between">
-              <p className="text-sm whitespace-pre-wrap">{comment.text}</p>
+              <p className="text-sm leading-relaxed whitespace-pre-wrap">{comment.text}</p>
               <div className="flex items-center gap-1">
                 <DeleteButton repositoryId={repo.id} ticketId={ticket.id} commentId={comment.id} />
                 <CopyContentButton content={comment.text} />

@@ -46,7 +46,7 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
           </div>
         ) : (
           <div className="pt-4">
-            <p className="text-sm text-gray-500 italic">No content</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 italic">No content</p>
           </div>
         )}
       </Card>

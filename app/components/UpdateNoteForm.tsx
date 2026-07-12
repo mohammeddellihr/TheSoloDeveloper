@@ -11,9 +11,6 @@ export default function UpdateNoteForm({ note }: { note: Note }) {
   return (
     <form action={action} className="flex flex-col gap-3">
       <input type="hidden" name="noteId" value={note.id} />
-      {state && "error" in state && (
-        <p className="text-sm text-red-500">{state.error}</p>
-      )}
       <label className="text-sm font-medium text-gray-700 dark:text-gray-300" htmlFor="title">Title</label>
       <input
         id="title"
@@ -40,6 +37,9 @@ export default function UpdateNoteForm({ note }: { note: Note }) {
         placeholder="Comma separated (e.g., bug, urgent, api)"
         className="rounded border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-black dark:focus:border-white focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
       />
+      {state && "error" in state && (
+        <p className="text-sm text-red-500">{state.error}</p>
+      )}
       <div className="-mx-4 px-4 pt-4 mt-4 border-t border-gray-200 dark:border-gray-800 flex justify-end">
         <Button type="submit" disabled={pending}>
           {pending ? "Saving..." : "Save Changes"}

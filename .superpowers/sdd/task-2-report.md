@@ -1,33 +1,18 @@
-# Task 2 Report: Integrate ConfirmModal into All Delete Buttons
+# Task 2 Report: Fix Form Layout Inconsistencies
 
-## What I Implemented
+## What Was Implemented
 
-Modified all 4 delete button components to add confirmation modals before delete actions:
+- **CommentForm.tsx**: Changed `gap-2` to `gap-3` (line 17) and `mt-2` to `mt-4` (line 34) for consistent spacing.
+- **CreateNoteForm.tsx**: Moved error message from top of form (after `<form>` tag) to just before the submit footer, so order is: fields → error → submit button.
+- **UpdateNoteForm.tsx**: Moved error message from top of form (after hidden input) to just before the submit footer, same order as CreateNoteForm.
 
-1. **DeleteButton.tsx** (comments) — Added `useState` for `modalOpen`. Button click opens modal instead of immediately deleting. `handleConfirm` closes modal and triggers the existing `startTransition` flow.
+## Verification
 
-2. **DeleteRepoButton.tsx** (repositories) — Added `useState` for `modalOpen` and `useRef` for form. Button changed from `type="submit"` to `type="button"` with `onClick` opening modal. `handleConfirm` closes modal and calls `formRef.current?.requestSubmit()`.
-
-3. **DeleteTicketButton.tsx** (tickets) — Same pattern as DeleteRepoButton: `useState` + `useRef`, button opens modal, confirm submits form via ref.
-
-4. **DeleteNoteButton.tsx** (notes) — Same pattern as DeleteRepoButton/Ticket: `useState` + `useRef`, button opens modal, confirm submits form via ref.
-
-## What I Verified
-
-- `npm run build` — Compiled successfully, no TypeScript errors, all pages generated.
-- `npm run lint` — No ESLint warnings or errors.
+- `npm run build`: Compiled successfully with no errors.
+- `npm run lint`: 0 errors (3 pre-existing warnings on unrelated Delete components, not from this task).
 
 ## Files Changed
 
-- `app/components/DeleteButton.tsx`
-- `app/components/DeleteRepoButton.tsx`
-- `app/components/DeleteTicketButton.tsx`
-- `app/components/DeleteNoteButton.tsx`
-
-## Self-Review Findings
-
-None. All changes match the task brief exactly. The ConfirmModal integration is consistent across all 4 buttons:
-- Comment delete uses `useTransition` + direct FormData submission (no form element).
-- Repo/Ticket/Note delete use `useActionState` + form ref submission pattern.
-- All buttons now open a modal instead of immediately deleting.
-- All buttons disable during pending state.
+- `app/components/CommentForm.tsx`
+- `app/components/CreateNoteForm.tsx`
+- `app/components/UpdateNoteForm.tsx`

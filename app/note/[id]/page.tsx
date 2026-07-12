@@ -15,7 +15,7 @@ export default async function ViewNotePage({ params }: { params: Promise<{ id: s
   return (
     <>
       <Header
-        title={note.title}
+        title="Note"
         breadcrumbs={[{ label: "Notes", href: "/notes" }]}
         actions={
           <Link href={`/note/${note.id}/update`}>
@@ -35,7 +35,7 @@ export default async function ViewNotePage({ params }: { params: Promise<{ id: s
           </div>
         ) : (
           <div className="pt-4">
-            <p className="text-sm text-gray-500 italic">No content</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 italic">No content</p>
           </div>
         )}
         {note.keywords.length > 0 && (

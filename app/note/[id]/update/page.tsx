@@ -18,7 +18,7 @@ export default async function UpdateNotePage({
   return (
     <>
       <Header
-        title={`Update Note: ${note.title}`}
+        title="Update Note"
         breadcrumbs={[
           { label: "Notes", href: "/notes" },
           { label: note.title, href: `/note/${note.id}` },

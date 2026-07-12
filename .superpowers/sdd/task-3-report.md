@@ -1,19 +1,26 @@
-# Task 3 Report: Create DeleteButton and integrate into ticket page
+# Task 3: Fix Header and Breadcrumb Inconsistencies
 
 ## What I Implemented
 
-Created `app/components/DeleteButton.tsx` — a client component that calls `deleteCommentAction` and refreshes the page. Added a trash icon button to each comment card in the ticket detail page.
+All 4 steps from the task brief:
+
+1. **Note detail page** (`app/note/[id]/page.tsx:18`): Changed Header title from `note.title` to `"Note"` (Card `<h1>` still shows `note.title`)
+2. **Note update page** (`app/note/[id]/update/page.tsx:21`): Changed Header title from template literal to `"Update Note"`
+3. **Ticket detail page** (`app/repository/[id]/ticket/[ticketId]/page.tsx:26`): Replaced `"Tickets"` breadcrumb with `Repositories` > `repo.name` hierarchy
+4. **Ticket create page** (`app/repository/[id]/ticket/create/page.tsx:20`): Replaced `"Tickets"` breadcrumb with `Repositories` > `repo.name` hierarchy
 
 ## Verification
 
-- **Build:** Compiled successfully (TypeScript + Turbopack, no errors)
-- **Lint:** No errors
+- **Build**: Compiled successfully, no TypeScript errors
+- **Lint**: 0 errors (4 pre-existing warnings in unrelated files)
 
 ## Files Changed
 
-- **Created:** `app/components/DeleteButton.tsx` — new client component with `useTransition` + `useRouter` pattern
-- **Modified:** `app/repository/[id]/ticket/[ticketId]/page.tsx` — added `DeleteButton` import and wrapped `CopyContentButton` + `DeleteButton` in a flex container per comment card
+- `app/note/[id]/page.tsx` — Header title
+- `app/note/[id]/update/page.tsx` — Header title
+- `app/repository/[id]/ticket/[ticketId]/page.tsx` — Breadcrumbs
+- `app/repository/[id]/ticket/create/page.tsx` — Breadcrumbs
 
-## Self-Review
+## Issues
 
-Implementation matches the task brief exactly. The component follows the same patterns used by `DeleteNoteButton` and `DeleteRepoButton` (stopPropagation, useTransition, router.refresh). The icon and styling are consistent with the existing button components. No issues found.
+None.

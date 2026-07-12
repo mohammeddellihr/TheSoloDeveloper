@@ -42,7 +42,7 @@ export default function TicketList({
 
       {filtered.length === 0 ? (
         <Card>
-          <p className="text-center text-sm text-gray-500">
+          <p className="text-center text-sm text-gray-500 dark:text-gray-400">
             {tickets.length === 0 ? "No tickets found." : "No tickets match this filter."}
           </p>
         </Card>

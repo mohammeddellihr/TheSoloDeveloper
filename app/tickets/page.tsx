@@ -1,11 +1,11 @@
 import Link from "next/link"
 import { getAllTickets, getRepositories } from "@/lib/db"
-import Header from "../components/Header"
-import Card from "../components/Card"
-import Badge from "../components/Badge"
-import TicketFilters from "../components/TicketFilters"
-import Button from "../components/Button"
-import Pagination from "../components/Pagination"
+import Header from "@/app/components/Header"
+import Card from "@/app/components/Card"
+import Badge from "@/app/components/Badge"
+import TicketFilters from "@/app/components/TicketFilters"
+import Button from "@/app/components/Button"
+import Pagination from "@/app/components/Pagination"
 
 const PAGE_SIZE = 12
 
@@ -41,7 +41,7 @@ export default async function TicketsPage({
 
       {tickets.length === 0 ? (
         <Card>
-          <p className="text-center text-sm text-gray-500">No tickets found.</p>
+          <p className="text-center text-sm text-gray-500 dark:text-gray-400">No tickets found.</p>
         </Card>
       ) : (
         <ul className="grid grid-cols-3 gap-2">
@@ -52,7 +52,7 @@ export default async function TicketsPage({
                   <Link href={`/repository/${ticket.repositoryId}/ticket/${ticket.id}`} className="font-medium hover:underline cursor-pointer line-clamp-1">
                     {ticket.title}
                   </Link>
-                  <span className="text-sm text-gray-500 line-clamp-1">{ticket.repoName}</span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">{ticket.repoName}</span>
                 </div>
                 {ticket.description ? (
                   <p className="pt-3 text-sm leading-relaxed whitespace-pre-wrap line-clamp-2">

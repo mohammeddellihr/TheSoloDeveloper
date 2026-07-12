@@ -1,116 +1,62 @@
-# Task 3: Create DeleteButton and integrate into ticket page
+# Task 3: Fix Header and Breadcrumb Inconsistencies
 
 **Files:**
-- Create: `app/components/DeleteButton.tsx`
+- Modify: `app/note/[id]/page.tsx`
+- Modify: `app/note/[id]/update/page.tsx`
 - Modify: `app/repository/[id]/ticket/[ticketId]/page.tsx`
+- Modify: `app/repository/[id]/ticket/create/page.tsx`
 
-**Interfaces:**
-- Consumes: `deleteCommentAction` from `@/app/actions`
-- Produces: `DeleteButton` component — `{ repositoryId: string; ticketId: string; commentId: string }`
+- [ ] **Step 1: Fix note detail page duplicate title**
 
-- [ ] **Step 1: Create the DeleteButton component**
-
-Create `app/components/DeleteButton.tsx`:
+In `app/note/[id]/page.tsx`, change the Header title from `note.title` to `"Note"`:
 
 ```tsx
-"use client"
-
-import { useRouter } from "next/navigation"
-import { useTransition } from "react"
-import { deleteCommentAction } from "@/app/actions"
-
-export default function DeleteButton({
-  repositoryId,
-  ticketId,
-  commentId,
-}: {
-  repositoryId: string
-  ticketId: string
-  commentId: string
-}) {
-  const router = useRouter()
-  const [pending, startTransition] = useTransition()
-
-  function handleClick(e: React.MouseEvent) {
-    e.stopPropagation()
-    e.preventDefault()
-    const formData = new FormData()
-    formData.set("repositoryId", repositoryId)
-    formData.set("ticketId", ticketId)
-    formData.set("commentId", commentId)
-    startTransition(async () => {
-      await deleteCommentAction(null, formData)
-      router.refresh()
-    })
-  }
-
-  return (
-    <button
-      onClick={handleClick}
-      disabled={pending}
-      className="rounded p-1 text-gray-400 hover:text-red-500 dark:hover:text-red-400 disabled:opacity-50 cursor-pointer"
-      aria-label="Delete comment"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="h-4 w-4"
-      >
-        <path d="M3 6h18" />
-        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-      </svg>
-    </button>
-  )
-}
+<Header
+  title="Note"
+  breadcrumbs={[{ label: "Notes", href: "/notes" }]}
 ```
 
-- [ ] **Step 2: Add DeleteButton to the ticket page**
+Keep the Card `<h1>` as `note.title`.
 
-Modify `app/repository/[id]/ticket/[ticketId]/page.tsx`. Add the import:
+- [ ] **Step 2: Fix note update page title**
+
+In `app/note/[id]/update/page.tsx`, change the Header title from the template literal to `"Update Note"`:
 
 ```tsx
-import DeleteButton from "@/app/components/DeleteButton"
+<Header
+  title="Update Note"
 ```
 
-Replace the comment card section:
+- [ ] **Step 3: Fix ticket detail page breadcrumbs**
+
+In `app/repository/[id]/ticket/[ticketId]/page.tsx`, add repository context to breadcrumbs:
 
 ```tsx
-        {ticket.comments.map((comment) => (
-          <Card key={comment.id}>
-            <div className="flex items-start justify-between">
-              <p className="text-sm whitespace-pre-wrap">{comment.text}</p>
-              <CopyContentButton content={comment.text} />
-            </div>
-          </Card>
-        ))}
+<Header
+  breadcrumbs={[
+    { label: "Repositories", href: "/repositories" },
+    { label: repo.name, href: `/repository/${repo.id}` },
+  ]}
+  title={`Ticket #${ticket.id}`}
 ```
 
-with:
+- [ ] **Step 4: Fix ticket create page breadcrumbs**
+
+In `app/repository/[id]/ticket/create/page.tsx`, add repository context to breadcrumbs:
 
 ```tsx
-        {ticket.comments.map((comment) => (
-          <Card key={comment.id}>
-            <div className="flex items-start justify-between">
-              <p className="text-sm whitespace-pre-wrap">{comment.text}</p>
-              <div className="flex items-center gap-1">
-                <CopyContentButton content={comment.text} />
-                <DeleteButton repositoryId={repo.id} ticketId={ticket.id} commentId={comment.id} />
-              </div>
-            </div>
-          </Card>
-        ))}
+<Header
+  breadcrumbs={[
+    { label: "Repositories", href: "/repositories" },
+    { label: repo.name, href: `/repository/${repo.id}` },
+  ]}
+  title="Create Ticket"
 ```
 
-- [ ] **Step 3: Verify**
+- [ ] **Step 5: Verify**
 
-Run: `npm run build`
-Expected: Compiles. Each comment card shows a copy icon and a trash icon.
+Run: `& "C:\Program Files\nodejs\npm.cmd" run build`
+Expected: Compiles.
 
-Run: `npm run lint`
+Run: `& "C:\Program Files\nodejs\npm.cmd" run lint`
 Expected: No errors.

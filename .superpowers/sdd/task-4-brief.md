@@ -1,68 +1,40 @@
-# Task 4: Add pagination to Repositories page
+# Task 4: Fix Button Style Inconsistencies
 
 **Files:**
-- Modify: `app/repositories/page.tsx`
+- Modify: `app/repository/[id]/page.tsx`
+- Modify: `app/components/Button.tsx`
+- Modify: `app/components/ConfirmModal.tsx`
 
-**Interfaces:**
-- Consumes: `Pagination` from `@/app/components/Pagination`
+- [ ] **Step 1: Fix "Update Repository" button to primary**
 
-- [ ] **Step 1: Add pagination to Repositories page**
-
-Modify `app/repositories/page.tsx`. Add the import:
-
-```tsx
-import Pagination from "@/app/components/Pagination"
-```
-
-Add page logic. Replace:
+In `app/repository/[id]/page.tsx`, find the "Update Repository" button and remove `variant="secondary"`:
 
 ```tsx
-export default async function RepositoriesPage() {
-  const repos = getRepositories()
+<Link href={`/repository/${repo.id}/update`}>
+  <Button>Update Repository</Button>
+</Link>
 ```
 
-with:
+- [ ] **Step 2: Add disabled:cursor-not-allowed to Button component**
+
+In `app/components/Button.tsx`, add `disabled:cursor-not-allowed` to the button className string, before the `${variants[variant]}` part:
 
 ```tsx
-const PAGE_SIZE = 12
-
-export default async function RepositoriesPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ page?: string }>
-}) {
-  const { page } = await searchParams
-  const allRepos = getRepositories()
-  const currentPage = Math.max(1, Number(page) || 1)
-  const totalPages = Math.ceil(allRepos.length / PAGE_SIZE)
-  const repos = allRepos.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
+className={`rounded px-4 py-2 text-sm font-medium whitespace-nowrap cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:focus-visible:outline-white disabled:cursor-not-allowed ${variants[variant]} ${className}`}
 ```
 
-Add Pagination after the list. Replace:
+- [ ] **Step 3: Add disabled styles to ConfirmModal delete button**
+
+In `app/components/ConfirmModal.tsx`, find the red delete button and add `disabled:opacity-50 disabled:cursor-not-allowed`:
 
 ```tsx
-        </ul>
-      )}
-    </>
-  )
-}
+className="rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
 ```
 
-with:
+- [ ] **Step 4: Verify**
 
-```tsx
-        </ul>
-      )}
-      <Pagination currentPage={currentPage} totalPages={totalPages} />
-    </>
-  )
-}
-```
+Run: `& "C:\Program Files\nodejs\npm.cmd" run build`
+Expected: Compiles.
 
-- [ ] **Step 2: Verify**
-
-Run: `npm run build`
-Expected: Compiles. Repositories page shows pagination when more than 12 repos.
-
-Run: `npm run lint`
+Run: `& "C:\Program Files\nodejs\npm.cmd" run lint`
 Expected: No errors.

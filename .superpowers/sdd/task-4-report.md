@@ -1,24 +1,22 @@
-# Task 4: Add pagination to Repositories page
+# Task 4: Fix Button Style Inconsistencies — Report
 
-## What I implemented
+## What was implemented
 
-Added pagination to the repositories list page (`app/repositories/page.tsx`) with 12 items per page. Changes:
-
-1. Imported `Pagination` from `@/app/components/Pagination`
-2. Added `PAGE_SIZE = 12` constant
-3. Updated component to accept `searchParams` (Next.js App Router pattern with `Promise<{ page?: string }>` type)
-4. Computes `currentPage`, `totalPages`, and slices `repos` accordingly
-5. Renders `<Pagination>` after the list
+1. **Removed `variant="secondary"`** from the "Update Repository" button in `app/repository/[id]/page.tsx:23` — now uses default primary style.
+2. **Added `disabled:cursor-not-allowed`** to `app/components/Button.tsx:23` — disabled buttons now show a not-allowed cursor.
+3. **Added `disabled:opacity-50 disabled:cursor-not-allowed`** to the delete button in `app/components/ConfirmModal.tsx:53` — consistent disabled styling with the Button component.
 
 ## Verification
 
-- **`npm run build`**: Compiled successfully, no errors. `/repositories` correctly shows as a dynamic route.
-- **`npm run lint`**: Clean, no warnings or errors.
+- `npm run build` — compiled successfully with no errors
+- `npm run lint` — no errors or warnings
 
 ## Files changed
 
-- `app/repositories/page.tsx` — added import, pagination logic, and Pagination component
+- `app/repository/[id]/page.tsx` (line 23)
+- `app/components/Button.tsx` (line 23)
+- `app/components/ConfirmModal.tsx` (line 53)
 
-## Self-review findings
+## Issues
 
-None. Implementation matches the task brief exactly. The Pagination component already handles the edge case where `totalPages <= 1` (returns null), so pagination won't show when there are 12 or fewer repos.
+None.

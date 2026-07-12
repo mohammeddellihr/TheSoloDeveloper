@@ -1,244 +1,42 @@
-# Task 2: Integrate ConfirmModal into All Delete Buttons
+# Task 2: Fix Form Layout Inconsistencies
 
 **Files:**
-- Modify: `app/components/DeleteButton.tsx`
-- Modify: `app/components/DeleteRepoButton.tsx`
-- Modify: `app/components/DeleteTicketButton.tsx`
-- Modify: `app/components/DeleteNoteButton.tsx`
+- Modify: `app/components/CommentForm.tsx`
+- Modify: `app/components/CreateNoteForm.tsx`
+- Modify: `app/components/UpdateNoteForm.tsx`
 
-**Interfaces:**
-- Consumes: `ConfirmModal` from `@/app/components/ConfirmModal`
-- Produces: updated versions of all 4 delete buttons with confirmation modals
+- [ ] **Step 1: Fix CommentForm gap from gap-2 to gap-3**
 
-- [ ] **Step 1: Update DeleteButton (comments)**
-
-Replace the contents of `app/components/DeleteButton.tsx`:
+In `app/components/CommentForm.tsx`, line 17, change `gap-2` to `gap-3`:
 
 ```tsx
-"use client"
-
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { useTransition } from "react"
-import { deleteCommentAction } from "@/app/actions"
-import ConfirmModal from "@/app/components/ConfirmModal"
-
-export default function DeleteButton({
-  repositoryId,
-  ticketId,
-  commentId,
-}: {
-  repositoryId: string
-  ticketId: string
-  commentId: string
-}) {
-  const router = useRouter()
-  const [pending, startTransition] = useTransition()
-  const [modalOpen, setModalOpen] = useState(false)
-
-  function handleConfirm() {
-    setModalOpen(false)
-    const formData = new FormData()
-    formData.set("repositoryId", repositoryId)
-    formData.set("ticketId", ticketId)
-    formData.set("commentId", commentId)
-    startTransition(async () => {
-      await deleteCommentAction(null, formData)
-      router.refresh()
-    })
-  }
-
-  return (
-    <>
-      <button
-        onClick={(e) => {
-          e.stopPropagation()
-          e.preventDefault()
-          setModalOpen(true)
-        }}
-        disabled={pending}
-        className="rounded p-1 text-gray-400 hover:text-red-500 dark:hover:text-red-400 disabled:opacity-50 cursor-pointer"
-        aria-label="Delete comment"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth={2}
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="h-4 w-4"
-        >
-          <path d="M3 6h18" />
-          <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-          <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-        </svg>
-      </button>
-      <ConfirmModal
-        open={modalOpen}
-        title="Delete Comment?"
-        message="This comment will be permanently deleted."
-        onConfirm={handleConfirm}
-        onCancel={() => setModalOpen(false)}
-      />
-    </>
-  )
-}
+<form action={formAction} className="flex flex-col gap-3">
 ```
 
-- [ ] **Step 2: Update DeleteRepoButton**
+- [ ] **Step 2: Fix CommentForm footer margin from mt-2 to mt-4**
 
-Replace the contents of `app/components/DeleteRepoButton.tsx`:
+In `app/components/CommentForm.tsx`, line 34, change `mt-2` to `mt-4`:
 
 ```tsx
-"use client"
-
-import { useRef, useState } from "react"
-import { useActionState } from "react"
-import { deleteRepositoryAction } from "@/app/actions"
-import Button from "@/app/components/Button"
-import ConfirmModal from "@/app/components/ConfirmModal"
-
-export default function DeleteRepoButton({ repositoryId }: { repositoryId: string }) {
-  const [state, action, pending] = useActionState(deleteRepositoryAction, null)
-  const [modalOpen, setModalOpen] = useState(false)
-  const formRef = useRef<HTMLFormElement>(null)
-
-  function handleConfirm() {
-    setModalOpen(false)
-    formRef.current?.requestSubmit()
-  }
-
-  return (
-    <>
-      <form ref={formRef} action={action}>
-        <input type="hidden" name="repositoryId" value={repositoryId} />
-        {state && "error" in state && (
-          <p className="text-sm text-red-500">{state.error}</p>
-        )}
-        <Button
-          type="button"
-          disabled={pending}
-          onClick={() => setModalOpen(true)}
-        >
-          {pending ? "Deleting..." : "Delete Repository"}
-        </Button>
-      </form>
-      <ConfirmModal
-        open={modalOpen}
-        title="Delete Repository?"
-        message="This will also delete all its tickets and comments. This action cannot be undone."
-        onConfirm={handleConfirm}
-        onCancel={() => setModalOpen(false)}
-      />
-    </>
-  )
-}
+<div className="-mx-4 px-4 pt-4 mt-4 border-t border-gray-200 dark:border-gray-800 flex justify-end">
 ```
 
-- [ ] **Step 3: Update DeleteTicketButton**
+- [ ] **Step 3: Fix CreateNoteForm error placement**
 
-Replace the contents of `app/components/DeleteTicketButton.tsx`:
+In `app/components/CreateNoteForm.tsx`, move the error message from the top (just after `<form>`) to just before the submit footer `<div className="-mx-4 px-4 pt-4...`. The final order should be: fields, error, submit button.
 
-```tsx
-"use client"
+Read the file first, then move the `{state?.error && ...}` block from after `<form>` to before the submit `<div>`.
 
-import { useRef, useState } from "react"
-import { useActionState } from "react"
-import { deleteTicketAction } from "@/app/actions"
-import Button from "@/app/components/Button"
-import ConfirmModal from "@/app/components/ConfirmModal"
+- [ ] **Step 4: Fix UpdateNoteForm error placement**
 
-export default function DeleteTicketButton({ repositoryId, ticketId }: { repositoryId: string; ticketId: string }) {
-  const [state, action, pending] = useActionState(deleteTicketAction, null)
-  const [modalOpen, setModalOpen] = useState(false)
-  const formRef = useRef<HTMLFormElement>(null)
+In `app/components/UpdateNoteForm.tsx`, move the error message from the top (just after `<form>`) to just before the submit footer `<div className="-mx-4 px-4 pt-4...`. The final order should be: fields, error, submit button.
 
-  function handleConfirm() {
-    setModalOpen(false)
-    formRef.current?.requestSubmit()
-  }
+Read the file first, then move the `{state?.error && ...}` block from after `<form>` to before the submit `<div>`.
 
-  return (
-    <>
-      <form ref={formRef} action={action}>
-        <input type="hidden" name="repositoryId" value={repositoryId} />
-        <input type="hidden" name="ticketId" value={ticketId} />
-        {state && "error" in state && (
-          <p className="text-sm text-red-500">{state.error}</p>
-        )}
-        <Button
-          type="button"
-          disabled={pending}
-          onClick={() => setModalOpen(true)}
-        >
-          {pending ? "Deleting..." : "Delete Ticket"}
-        </Button>
-      </form>
-      <ConfirmModal
-        open={modalOpen}
-        title="Delete Ticket?"
-        message="This will also delete all its comments. This action cannot be undone."
-        onConfirm={handleConfirm}
-        onCancel={() => setModalOpen(false)}
-      />
-    </>
-  )
-}
-```
-
-- [ ] **Step 4: Update DeleteNoteButton**
-
-Replace the contents of `app/components/DeleteNoteButton.tsx`:
-
-```tsx
-"use client"
-
-import { useRef, useState } from "react"
-import { useActionState } from "react"
-import { deleteNoteAction } from "@/app/actions"
-import Button from "./Button"
-import ConfirmModal from "@/app/components/ConfirmModal"
-
-export default function DeleteNoteButton({ noteId }: { noteId: number }) {
-  const [, action, pending] = useActionState(deleteNoteAction, null)
-  const [modalOpen, setModalOpen] = useState(false)
-  const formRef = useRef<HTMLFormElement>(null)
-
-  function handleConfirm() {
-    setModalOpen(false)
-    formRef.current?.requestSubmit()
-  }
-
-  return (
-    <>
-      <form ref={formRef} action={action}>
-        <input type="hidden" name="noteId" value={noteId} />
-        <Button
-          type="button"
-          disabled={pending}
-          onClick={() => setModalOpen(true)}
-        >
-          {pending ? "Deleting..." : "Delete Note"}
-        </Button>
-      </form>
-      <ConfirmModal
-        open={modalOpen}
-        title="Delete Note?"
-        message="This note will be permanently deleted."
-        onConfirm={handleConfirm}
-        onCancel={() => setModalOpen(false)}
-      />
-    </>
-  )
-}
-```
-
-- [ ] **Step 5: Verify all 4 buttons compile**
+- [ ] **Step 5: Verify**
 
 Run: `& "C:\Program Files\nodejs\npm.cmd" run build`
-Expected: Compiles with no errors.
+Expected: Compiles.
 
 Run: `& "C:\Program Files\nodejs\npm.cmd" run lint`
 Expected: No errors.
