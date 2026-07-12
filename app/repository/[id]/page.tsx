@@ -30,7 +30,7 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
       />
 
       <Card>
-        <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4">
+        <div className="flex items-center justify-between">
           {repo.url && (
             <a
               href={repo.url}
@@ -41,10 +41,6 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
               {repo.url}
             </a>
           )}
-        </div>
-        <div className="mt-4 border-t border-zinc-200 dark:border-zinc-800 pt-4 flex items-center gap-4 text-xs text-zinc-500">
-          <span>Created {new Date(repo.createdAt).toLocaleDateString()}</span>
-          <span>Updated {new Date(repo.updatedAt).toLocaleDateString()}</span>
         </div>
       </Card>
 

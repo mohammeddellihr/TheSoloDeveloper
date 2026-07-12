@@ -36,14 +36,10 @@ export default async function TicketPage({
           <Badge variant={ticket.status} />
         </div>
         {ticket.description && (
-          <p className="mt-4 whitespace-pre-wrap text-sm leading-relaxed">
+          <p className="whitespace-pre-wrap text-sm leading-relaxed">
             {ticket.description}
           </p>
         )}
-        <div className="mt-4 border-t border-zinc-200 dark:border-zinc-800 pt-4 flex items-center gap-4 text-xs text-zinc-500">
-          <span>Created {new Date(ticket.createdAt).toLocaleDateString()}</span>
-          <span>Updated {new Date(ticket.updatedAt).toLocaleDateString()}</span>
-        </div>
       </Card>
 
       <div>
