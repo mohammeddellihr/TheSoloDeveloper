@@ -34,7 +34,7 @@ export default function CreateRepoForm() {
           disabled={pending}
           className="rounded bg-black px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 disabled:opacity-50 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:focus-visible:outline-white"
         >
-          {pending ? "Creating..." : "Add Repository"}
+          {pending ? "Creating..." : "Create Repository"}
         </button>
       </div>
     </form>

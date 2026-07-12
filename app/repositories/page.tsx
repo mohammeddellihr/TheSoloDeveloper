@@ -16,7 +16,7 @@ export default async function RepositoriesPage() {
         ]}
         actions={
           <Link href="/repository/new">
-            <Button variant="primary">New Repository</Button>
+            <Button variant="primary">Create Repository</Button>
           </Link>
         }
       />
