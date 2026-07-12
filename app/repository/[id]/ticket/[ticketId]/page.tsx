@@ -41,19 +41,19 @@ export default async function TicketPage({
       />
 
       <Card>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between">
           <h1 className="text-2xl font-bold tracking-tight">{ticket.title}</h1>
           <Badge variant={ticket.status} />
         </div>
-        <div className="mt-1 flex items-center gap-3 text-sm text-zinc-500">
-          <span>Created {new Date(ticket.createdAt).toLocaleDateString()}</span>
-          <span>Updated {new Date(ticket.updatedAt).toLocaleDateString()}</span>
-        </div>
         {ticket.description && (
-          <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed">
+          <p className="mt-4 whitespace-pre-wrap text-sm leading-relaxed">
             {ticket.description}
           </p>
         )}
+        <div className="mt-4 border-t border-zinc-200 dark:border-zinc-800 pt-4 flex items-center gap-4 text-xs text-zinc-500">
+          <span>Created {new Date(ticket.createdAt).toLocaleDateString()}</span>
+          <span>Updated {new Date(ticket.updatedAt).toLocaleDateString()}</span>
+        </div>
       </Card>
 
       <div>
