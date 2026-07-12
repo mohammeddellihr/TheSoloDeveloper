@@ -29,7 +29,7 @@ export default function TicketList({
           <button
             key={s}
             onClick={() => setFilter(s)}
-            className={`rounded-full px-3 py-1 text-xs font-medium cursor-pointer ${
+            className={`rounded px-3 py-1 text-xs font-medium cursor-pointer ${
               filter === s
                 ? "bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900"
                 : "bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
@@ -41,9 +41,11 @@ export default function TicketList({
       </div>
 
       {filtered.length === 0 ? (
-        <p className="py-8 text-center text-sm text-gray-500">
-          {tickets.length === 0 ? "No tickets yet." : "No tickets match this filter."}
-        </p>
+        <Card>
+          <p className="text-center text-sm text-gray-500">
+            {tickets.length === 0 ? "No tickets found." : "No tickets match this filter."}
+          </p>
+        </Card>
       ) : (
         <ul className="flex flex-col gap-2">
           {filtered.map((ticket) => (
