@@ -21,7 +21,7 @@ export default async function RepositoriesPage() {
 
       {repos.length === 0 ? (
         <Card>
-          <p className="text-sm text-gray-500">No repositories yet.</p>
+          <p className="text-center text-sm text-gray-500">No repositories yet.</p>
         </Card>
       ) : (
         <ul className="flex flex-col gap-2">
