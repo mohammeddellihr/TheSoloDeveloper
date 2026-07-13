@@ -67,7 +67,7 @@ export default function UpdateCommentButton({
                 setText(e.target.value)
                 setError(null)
               }}
-              rows={3}
+              rows={5}
               className="w-full rounded border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-gray-100 placeholder:text-gray-400 focus:border-white focus:outline-none"
               disabled={pending}
             />
