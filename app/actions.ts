@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation"
 import { revalidatePath } from "next/cache"
 import { STATUSES } from "@/lib/constants"
-import { createRepository, createTicket, updateTicketStatus, addComment, deleteComment, updateComment, updateRepository, deleteRepository, updateTicket, deleteTicket, createNote, updateNote, deleteNote } from "@/lib/db"
+import { createRepository, createTicket, updateTicketStatus, addComment, addNoteComment, deleteComment, updateComment, updateRepository, deleteRepository, updateTicket, deleteTicket, createNote, updateNote, deleteNote } from "@/lib/db"
 import type { Ticket } from "@/lib/db"
 
 function withRedirect(errorMessage: string, fn: () => void): { error: string } | never {
@@ -74,24 +74,57 @@ export async function addCommentAction(_prev: unknown, formData: FormData) {
   }
 }
 
-export async function updateCommentAction(_prev: unknown, formData: FormData) {
-  const repositoryId = formData.get("repositoryId")
-  const ticketId = formData.get("ticketId")
-  const commentId = formData.get("commentId")
+export async function addNoteCommentAction(_prev: unknown, formData: FormData) {
+  const noteId = formData.get("noteId")
   const text = formData.get("text")
 
-  if (typeof repositoryId !== "string" || typeof ticketId !== "string" || typeof commentId !== "string" || typeof text !== "string" || !text.trim()) {
+  if (typeof noteId !== "string" || typeof text !== "string" || !text.trim()) {
     return { error: "Comment text is required" }
   }
 
   try {
-    const comment = updateComment(commentId, text.trim())
-    if (!comment) return { error: "Comment not found" }
-    revalidatePath(`/tickets/${ticketId}`)
+    addNoteComment(noteId, text.trim())
+    revalidatePath(`/notes/${noteId}`)
     return { error: null }
   } catch {
-    return { error: "Failed to update comment" }
+    return { error: "Failed to add comment" }
   }
+}
+
+export async function updateCommentAction(_prev: unknown, formData: FormData) {
+  const repositoryId = formData.get("repositoryId")
+  const ticketId = formData.get("ticketId")
+  const noteId = formData.get("noteId")
+  const commentId = formData.get("commentId")
+  const text = formData.get("text")
+
+  if (typeof commentId !== "string" || typeof text !== "string" || !text.trim()) {
+    return { error: "Comment text is required" }
+  }
+
+  if (typeof ticketId === "string" && typeof repositoryId === "string") {
+    try {
+      const comment = updateComment(commentId, text.trim())
+      if (!comment) return { error: "Comment not found" }
+      revalidatePath(`/tickets/${ticketId}`)
+      return { error: null }
+    } catch {
+      return { error: "Failed to update comment" }
+    }
+  }
+
+  if (typeof noteId === "string") {
+    try {
+      const comment = updateComment(commentId, text.trim())
+      if (!comment) return { error: "Comment not found" }
+      revalidatePath(`/notes/${noteId}`)
+      return { error: null }
+    } catch {
+      return { error: "Failed to update comment" }
+    }
+  }
+
+  return { error: "Invalid request" }
 }
 
 function nameFromUrl(url: string): string {
@@ -240,17 +273,32 @@ export async function deleteNoteAction(_prev: unknown, formData: FormData) {
 export async function deleteCommentAction(_prev: unknown, formData: FormData) {
   const repositoryId = formData.get("repositoryId")
   const ticketId = formData.get("ticketId")
+  const noteId = formData.get("noteId")
   const commentId = formData.get("commentId")
 
-  if (typeof repositoryId !== "string" || typeof ticketId !== "string" || typeof commentId !== "string") {
+  if (typeof commentId !== "string") {
     return { error: "Invalid request" }
   }
 
-  try {
-    deleteComment(commentId)
-    revalidatePath(`/tickets/${ticketId}`)
-    return { error: null }
-  } catch {
-    return { error: "Failed to delete comment" }
+  if (typeof ticketId === "string" && typeof repositoryId === "string") {
+    try {
+      deleteComment(commentId)
+      revalidatePath(`/tickets/${ticketId}`)
+      return { error: null }
+    } catch {
+      return { error: "Failed to delete comment" }
+    }
   }
+
+  if (typeof noteId === "string") {
+    try {
+      deleteComment(commentId)
+      revalidatePath(`/notes/${noteId}`)
+      return { error: null }
+    } catch {
+      return { error: "Failed to delete comment" }
+    }
+  }
+
+  return { error: "Invalid request" }
 }

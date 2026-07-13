@@ -20,7 +20,8 @@ export function initializeSchema(db: Database.Database) {
     );
     CREATE TABLE IF NOT EXISTS comments (
       id TEXT PRIMARY KEY,
-      ticketId TEXT NOT NULL REFERENCES tickets(id) ON DELETE CASCADE,
+      ticketId TEXT REFERENCES tickets(id) ON DELETE CASCADE,
+      noteId TEXT REFERENCES notes(id) ON DELETE CASCADE,
       text TEXT NOT NULL,
       createdAt TEXT NOT NULL,
       updatedAt TEXT
@@ -45,6 +46,27 @@ export function initializeSchema(db: Database.Database) {
   const commentColumns = db.prepare("PRAGMA table_info(comments)").all() as { name: string }[]
   if (!commentColumns.some(c => c.name === "updatedAt")) {
     db.exec("ALTER TABLE comments ADD COLUMN updatedAt TEXT")
+  }
+
+  // ponytail: migration for note comments — recreate table with nullable ticketId + noteId
+  const commentInfo = db.prepare("PRAGMA table_info(comments)").all() as { name: string; notnull: number }[]
+  const ticketIdCol = commentInfo.find(c => c.name === "ticketId")
+  const hasNoteId = commentInfo.some(c => c.name === "noteId")
+  if (ticketIdCol && (ticketIdCol.notnull === 1 || !hasNoteId)) {
+    db.exec(`
+      CREATE TABLE comments_new (
+        id TEXT PRIMARY KEY,
+        ticketId TEXT REFERENCES tickets(id) ON DELETE CASCADE,
+        noteId TEXT REFERENCES notes(id) ON DELETE CASCADE,
+        text TEXT NOT NULL,
+        createdAt TEXT NOT NULL,
+        updatedAt TEXT
+      );
+      INSERT INTO comments_new (id, ticketId, text, createdAt, updatedAt)
+        SELECT id, ticketId, text, createdAt, updatedAt FROM comments;
+      DROP TABLE comments;
+      ALTER TABLE comments_new RENAME TO comments;
+    `)
   }
 
   // ponytail: migration for description → content column

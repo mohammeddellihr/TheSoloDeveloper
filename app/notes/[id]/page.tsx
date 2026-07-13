@@ -1,14 +1,16 @@
 import { notFound } from "next/navigation"
-import { getNote } from "@/lib/db"
+import { getNoteWithComments } from "@/lib/db"
 import Header from "@/app/components/Header"
 import Card from "@/app/components/Card"
 import Button from "@/app/components/Button"
 import CopyContentButton from "@/app/components/CopyContentButton"
+import UpdateNoteCommentButton from "@/app/components/UpdateNoteCommentButton"
+import NoteCommentForm from "@/app/components/NoteCommentForm"
 import Link from "next/link"
 
 export default async function ViewNotePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const note = getNote(id)
+  const note = getNoteWithComments(id)
 
   if (!note) notFound()
 
@@ -48,6 +50,21 @@ export default async function ViewNotePage({ params }: { params: Promise<{ id: s
           </div>
         )}
       </Card>
+
+      <div className="flex flex-col gap-2">
+        {note.comments.map((comment) => (
+          <UpdateNoteCommentButton
+            key={comment.id}
+            noteId={note.id}
+            commentId={comment.id}
+            initialText={comment.text}
+          />
+        ))}
+
+        <Card>
+          <NoteCommentForm noteId={note.id} />
+        </Card>
+      </div>
     </>
   )
 }

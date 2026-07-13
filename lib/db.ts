@@ -4,8 +4,8 @@ import { initializeSchema } from './schema'
 
 export { getRepositories, getRepository, createRepository, updateRepository, deleteRepository } from './repositories'
 export { getTickets, getTicketById, createTicket, updateTicketStatus, getAllTickets, updateTicket, deleteTicket } from './tickets'
-export { addComment, deleteComment, updateComment } from './comments'
-export { getNotes, getNote, createNote, updateNote, deleteNote } from './notes'
+export { addComment, addNoteComment, deleteComment, updateComment } from './comments'
+export { getNotes, getNote, getNoteWithComments, createNote, updateNote, deleteNote } from './notes'
 
 const DB_PATH = path.join(process.cwd(), 'data.db')
 
@@ -51,6 +51,7 @@ export interface Note {
   title: string
   content: string
   keywords: string[]
+  comments: Comment[]
   createdAt: string
   updatedAt: string
 }
