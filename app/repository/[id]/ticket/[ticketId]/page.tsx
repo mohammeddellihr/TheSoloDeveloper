@@ -7,6 +7,7 @@ import Badge from "@/app/components/Badge"
 import Button from "@/app/components/Button"
 import CopyContentButton from "@/app/components/CopyContentButton"
 import DeleteButton from "@/app/components/DeleteButton"
+import UpdateCommentButton from "@/app/components/UpdateCommentButton"
 import CommentForm from "@/app/components/CommentForm"
 
 export default async function TicketPage({
@@ -58,6 +59,12 @@ export default async function TicketPage({
             <div className="flex items-start justify-between">
               <p className="text-sm leading-relaxed whitespace-pre-wrap">{comment.text}</p>
               <div className="flex items-center gap-1">
+                <UpdateCommentButton
+                  repositoryId={repo.id}
+                  ticketId={ticket.id}
+                  commentId={comment.id}
+                  initialText={comment.text}
+                />
                 <DeleteButton repositoryId={repo.id} ticketId={ticket.id} commentId={comment.id} />
                 <CopyContentButton content={comment.text} />
               </div>
