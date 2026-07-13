@@ -99,6 +99,7 @@ export default function UpdateCommentButton({
       <div className="flex items-start justify-between">
         <p className="text-sm leading-relaxed whitespace-pre-wrap">{initialText}</p>
         <div className="flex items-center gap-1">
+          <DeleteButton repositoryId={repositoryId} ticketId={ticketId} commentId={commentId} />
           <button
             onClick={(e) => {
               e.stopPropagation()
@@ -122,7 +123,6 @@ export default function UpdateCommentButton({
               <path d="m15 5 4 4" />
             </svg>
           </button>
-          <DeleteButton repositoryId={repositoryId} ticketId={ticketId} commentId={commentId} />
           <CopyContentButton content={initialText} />
         </div>
       </div>
