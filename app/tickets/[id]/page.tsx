@@ -5,6 +5,7 @@ import Header from "@/app/components/Header"
 import Card from "@/app/components/Card"
 import Badge from "@/app/components/Badge"
 import Button from "@/app/components/Button"
+import CopyContentButton from "@/app/components/CopyContentButton"
 import UpdateCommentButton from "@/app/components/UpdateCommentButton"
 import CommentForm from "@/app/components/CommentForm"
 
@@ -37,7 +38,10 @@ export default async function TicketPage({
       <Card>
         <div className="-mx-4 px-4 pb-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
           <h1 className="text-xl font-bold">{ticket.title}</h1>
-          <Badge variant={ticket.status} />
+          <div className="flex items-center gap-1">
+            <Badge variant={ticket.status} />
+            <CopyContentButton content={`${ticket.title}\n\n${ticket.description}`} />
+          </div>
         </div>
         {ticket.description ? (
           <div className="pt-4">
