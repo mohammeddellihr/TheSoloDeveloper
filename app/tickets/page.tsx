@@ -41,14 +41,14 @@ export default async function TicketsPage({
 
       {tickets.length === 0 ? (
         <Card>
-          <p className="text-center text-sm text-gray-500 dark:text-gray-400">No tickets found.</p>
+          <p className="text-center text-sm text-gray-400">No tickets found.</p>
         </Card>
       ) : (
         <ul className="grid grid-cols-3 gap-2">
           {tickets.map((ticket) => (
             <li key={ticket.id} className="h-full">
               <Card className="h-full">
-                <div className="-mx-4 px-4 pb-3 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
+                <div className="-mx-4 px-4 pb-3 border-b border-gray-800 flex items-center justify-between">
                   <Link href={`/tickets/${ticket.id}`} className="font-medium hover:underline cursor-pointer line-clamp-1">
                     {ticket.title || "No Title"}
                   </Link>
@@ -60,8 +60,8 @@ export default async function TicketsPage({
                 ) : (
                   <p className="flex-1 pt-3 text-sm text-gray-500">No content</p>
                 )}
-                <div className="-mx-4 px-4 pt-3 mt-3 border-t border-gray-200 dark:border-gray-800 flex items-center gap-2">
-                  <Link href={`/repositories/${ticket.repositoryId}`} className="inline-flex items-center rounded bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:text-gray-300 hover:underline">
+                <div className="-mx-4 px-4 pt-3 mt-3 border-t border-gray-800 flex items-center gap-2">
+                  <Link href={`/repositories/${ticket.repositoryId}`} className="inline-flex items-center rounded bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-gray-300 hover:underline">
                     {ticket.repoName}
                   </Link>
                   <Badge variant={ticket.status} />

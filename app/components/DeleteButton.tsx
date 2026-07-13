@@ -40,7 +40,7 @@ export default function DeleteButton({
           setModalOpen(true)
         }}
         disabled={pending}
-        className="rounded p-1 text-gray-400 hover:text-red-500 dark:hover:text-red-400 disabled:opacity-50 cursor-pointer"
+        className="rounded p-1 text-gray-400 hover:text-red-400 disabled:opacity-50 cursor-pointer"
         aria-label="Delete comment"
       >
         <svg

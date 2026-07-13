@@ -36,7 +36,7 @@ export default async function TicketPage({
       />
 
       <Card>
-        <div className="-mx-4 px-4 pb-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
+        <div className="-mx-4 px-4 pb-4 border-b border-gray-800 flex items-center justify-between">
           <h1 className="text-xl font-bold">{ticket.title || "No Title"}</h1>
           <CopyContentButton content={ticket.content} />
         </div>
@@ -48,11 +48,11 @@ export default async function TicketPage({
           </div>
         ) : (
           <div className="pt-4">
-            <p className="text-sm text-gray-500 dark:text-gray-400 italic">No content</p>
+            <p className="text-sm text-gray-400 italic">No content</p>
           </div>
         )}
-        <div className="-mx-4 px-4 pt-3 mt-3 border-t border-gray-200 dark:border-gray-800 flex items-center gap-2">
-          <Link href={`/repositories/${repository.id}`} className="inline-flex items-center rounded bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:text-gray-300 hover:underline">
+        <div className="-mx-4 px-4 pt-3 mt-3 border-t border-gray-800 flex items-center gap-2">
+          <Link href={`/repositories/${repository.id}`} className="inline-flex items-center rounded bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-gray-300 hover:underline">
             {repository.name}
           </Link>
           <Badge variant={ticket.status} />

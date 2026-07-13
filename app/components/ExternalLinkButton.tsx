@@ -10,7 +10,7 @@ export default function ExternalLinkButton({ url }: { url: string }) {
   return (
     <button
       onClick={handleClick}
-      className="rounded p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 cursor-pointer"
+      className="rounded p-1 text-gray-400 hover:text-gray-300 cursor-pointer"
       aria-label="Open repository"
     >
       <svg

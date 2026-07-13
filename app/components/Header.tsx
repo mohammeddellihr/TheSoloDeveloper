@@ -25,7 +25,7 @@ export default function Header({
                   {crumb.href ? (
                     <Link
                       href={crumb.href}
-                      className="hover:text-gray-600 dark:hover:text-gray-300 cursor-pointer"
+                      className="hover:text-gray-300 cursor-pointer"
                     >
                       {crumb.label}
                     </Link>

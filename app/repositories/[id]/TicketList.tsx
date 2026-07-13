@@ -29,8 +29,8 @@ export default function TicketList({
             onClick={() => setFilter(s)}
             className={`rounded px-3 py-1 text-xs font-medium cursor-pointer ${
               filter === s
-                ? "bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+                ? "bg-gray-100 text-gray-900"
+                : "bg-gray-800 text-gray-400 hover:bg-gray-700"
             }`}
           >
             {FILTER_LABELS[s]}
@@ -40,7 +40,7 @@ export default function TicketList({
 
       {filtered.length === 0 ? (
         <Card>
-          <p className="text-center text-sm text-gray-500 dark:text-gray-400">
+          <p className="text-center text-sm text-gray-400">
             No tickets found.
           </p>
         </Card>

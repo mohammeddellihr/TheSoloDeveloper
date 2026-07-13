@@ -57,7 +57,7 @@ export default function UpdateCommentButton({
     return (
       <Card>
         <div className="flex flex-col gap-3">
-          <div className="-mx-4 px-4 pb-4 border-b border-gray-200 dark:border-gray-800">
+          <div className="-mx-4 px-4 pb-4 border-b border-gray-800">
             <h3 className="text-sm font-semibold">Update Comment</h3>
           </div>
           <div className="pt-2">
@@ -68,12 +68,12 @@ export default function UpdateCommentButton({
                 setError(null)
               }}
               rows={3}
-              className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-black dark:focus:border-white focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
+              className="rounded border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-gray-100 placeholder:text-gray-400 focus:border-white focus:outline-none"
               disabled={pending}
             />
           </div>
           {error && <p className="text-xs text-red-500">{error}</p>}
-          <div className="-mx-4 px-4 pt-4 mt-4 border-t border-gray-200 dark:border-gray-800 flex justify-end gap-2">
+          <div className="-mx-4 px-4 pt-4 mt-4 border-t border-gray-800 flex justify-end gap-2">
             <Button
               variant="secondary"
               onClick={handleCancel}
@@ -106,7 +106,7 @@ export default function UpdateCommentButton({
               e.preventDefault()
               setEditing(true)
             }}
-            className="rounded p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 cursor-pointer"
+            className="rounded p-1 text-gray-400 hover:text-gray-300 cursor-pointer"
             aria-label="Edit comment"
           >
             <svg

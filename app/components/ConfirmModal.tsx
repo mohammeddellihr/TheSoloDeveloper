@@ -37,11 +37,11 @@ export default function ConfirmModal({
       onClick={onCancel}
     >
       <div
-        className="rounded-lg bg-white p-6 shadow-xl dark:bg-gray-900 max-w-md w-full mx-4"
+        className="rounded-lg bg-gray-900 p-6 shadow-xl max-w-md w-full mx-4"
         onClick={(e) => e.stopPropagation()}
       >
         <h2 className="text-lg font-bold">{title}</h2>
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+        <p className="mt-2 text-sm text-gray-400">
           {message}
         </p>
         <div className="mt-6 flex justify-end gap-3">

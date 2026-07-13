@@ -30,7 +30,7 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
       />
 
       <Card>
-        <div className="-mx-4 px-4 pb-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
+        <div className="-mx-4 px-4 pb-4 border-b border-gray-800 flex items-center justify-between">
           <h1 className="text-xl font-bold">{repository.name}</h1>
         </div>
         {repository.url ? (
@@ -39,14 +39,14 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
               href={repository.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-blue-600 hover:underline dark:text-blue-400 cursor-pointer"
+              className="text-sm text-blue-400 hover:underline cursor-pointer"
             >
               {repository.url}
             </a>
           </div>
         ) : (
           <div className="pt-4">
-            <p className="text-sm text-gray-500 dark:text-gray-400 italic">No content</p>
+            <p className="text-sm text-gray-400 italic">No content</p>
           </div>
         )}
       </Card>
