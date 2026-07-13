@@ -9,7 +9,7 @@ import type { Ticket } from "@/lib/db"
 export async function createTicketAction(_prev: unknown, formData: FormData) {
   const repositoryId = formData.get("repositoryId")
   const title = formData.get("title")
-  const description = formData.get("description")
+  const content = formData.get("content")
   const status = formData.get("status")
 
   if (typeof repositoryId !== "string" || typeof title !== "string") {
@@ -19,7 +19,7 @@ export async function createTicketAction(_prev: unknown, formData: FormData) {
   const validStatus = STATUSES.includes(status as Ticket["status"]) ? status as Ticket["status"] : "pending"
 
   try {
-    const ticket = createTicket(repositoryId, title.trim(), typeof description === "string" ? description.trim() : "", validStatus)
+    const ticket = createTicket(repositoryId, title.trim(), typeof content === "string" ? content.trim() : "", validStatus)
     redirect(`/tickets/${ticket.id}`)
   } catch (e) {
     if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
@@ -154,7 +154,7 @@ export async function updateTicketAction(_prev: unknown, formData: FormData) {
   const repositoryId = formData.get("repositoryId")
   const ticketId = formData.get("ticketId")
   const title = formData.get("title")
-  const description = formData.get("description")
+  const content = formData.get("content")
   const status = formData.get("status")
 
   if (typeof repositoryId !== "string" || typeof ticketId !== "string" || typeof title !== "string" || typeof status !== "string") {
@@ -166,7 +166,7 @@ export async function updateTicketAction(_prev: unknown, formData: FormData) {
   }
 
   try {
-    const ticket = updateTicket(ticketId, title.trim(), typeof description === "string" ? description.trim() : "", status as "pending" | "in_progress" | "completed", repositoryId)
+    const ticket = updateTicket(ticketId, title.trim(), typeof content === "string" ? content.trim() : "", status as "pending" | "in_progress" | "completed", repositoryId)
     if (!ticket) return { error: "Ticket not found" }
     redirect(`/tickets/${ticketId}`)
   } catch (e) {

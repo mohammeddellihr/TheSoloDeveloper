@@ -38,12 +38,12 @@ export default async function TicketPage({
       <Card>
         <div className="-mx-4 px-4 pb-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
           <h1 className="text-xl font-bold">{ticket.title || "No Title"}</h1>
-          <CopyContentButton content={`${ticket.title || "No Title"}\n\n${ticket.description}`} />
+          <CopyContentButton content={`${ticket.title || "No Title"}\n\n${ticket.content}`} />
         </div>
-        {ticket.description ? (
+        {ticket.content ? (
           <div className="pt-4">
             <p className="whitespace-pre-wrap text-sm leading-relaxed">
-              {ticket.description}
+              {ticket.content}
             </p>
           </div>
         ) : (

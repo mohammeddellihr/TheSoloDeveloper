@@ -53,9 +53,9 @@ export default async function TicketsPage({
                     {ticket.title || "No Title"}
                   </Link>
                 </div>
-                {ticket.description ? (
+                {ticket.content ? (
                   <p className="flex-1 pt-3 text-sm leading-relaxed whitespace-pre-wrap line-clamp-2">
-                    {ticket.description}
+                    {ticket.content}
                   </p>
                 ) : (
                   <p className="flex-1 pt-3 text-sm text-gray-500">No content</p>

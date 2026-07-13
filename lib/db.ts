@@ -23,7 +23,7 @@ function getDb(): Database.Database {
       id TEXT PRIMARY KEY,
       repositoryId TEXT NOT NULL REFERENCES repositories(id) ON DELETE CASCADE,
       title TEXT NOT NULL DEFAULT '',
-      description TEXT NOT NULL DEFAULT '',
+      content TEXT NOT NULL DEFAULT '',
       status TEXT NOT NULL DEFAULT 'pending',
       createdAt TEXT NOT NULL,
       updatedAt TEXT NOT NULL
@@ -54,6 +54,11 @@ function getDb(): Database.Database {
   if (!commentColumns.some(c => c.name === "updatedAt")) {
     _db.exec("ALTER TABLE comments ADD COLUMN updatedAt TEXT")
   }
+  // ponytail: migration for description → content column
+  const ticketColumns = _db.prepare("PRAGMA table_info(tickets)").all() as { name: string }[]
+  if (ticketColumns.some(c => c.name === "description") && !ticketColumns.some(c => c.name === "content")) {
+    _db.exec("ALTER TABLE tickets RENAME COLUMN description TO content")
+  }
   return _db
 }
 
@@ -68,7 +73,7 @@ export interface Ticket {
   id: string
   repositoryId: string
   title: string
-  description: string
+  content: string
   status: 'pending' | 'in_progress' | 'completed' | 'archived'
   comments: Comment[]
   createdAt: string
@@ -157,12 +162,12 @@ export function getTicket(_repositoryId: string, ticketId: string): Ticket | nul
   return getTicketById(ticketId)
 }
 
-export function createTicket(repositoryId: string, title: string, description: string, status: Ticket["status"] = "pending"): Ticket {
+export function createTicket(repositoryId: string, title: string, content: string, status: Ticket["status"] = "pending"): Ticket {
   const db = getDb()
   const id = nanoid()
   const now = iso()
-  db.prepare('INSERT INTO tickets (id, repositoryId, title, description, status, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?)').run(id, repositoryId, title, description, status, now, now)
-  return { id, repositoryId, title, description, status, comments: [], createdAt: now, updatedAt: now }
+  db.prepare('INSERT INTO tickets (id, repositoryId, title, content, status, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?, ?)').run(id, repositoryId, title, content, status, now, now)
+  return { id, repositoryId, title, content, status, comments: [], createdAt: now, updatedAt: now }
 }
 
 export function updateTicketStatus(
@@ -203,14 +208,14 @@ export function deleteRepository(id: string): boolean {
 export function updateTicket(
   ticketId: string,
   title: string,
-  description: string,
+  content: string,
   status: 'pending' | 'in_progress' | 'completed' | 'archived',
   repositoryId: string
 ): Ticket | null {
   const db = getDb()
   const now = iso()
-  const result = db.prepare('UPDATE tickets SET title = ?, description = ?, status = ?, repositoryId = ?, updatedAt = ? WHERE id = ?')
-    .run(title, description, status, repositoryId, now, ticketId)
+  const result = db.prepare('UPDATE tickets SET title = ?, content = ?, status = ?, repositoryId = ?, updatedAt = ? WHERE id = ?')
+    .run(title, content, status, repositoryId, now, ticketId)
   if (result.changes === 0) return null
   return getTicketById(ticketId)
 }

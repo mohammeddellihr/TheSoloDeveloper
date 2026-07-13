@@ -33,7 +33,7 @@ export default async function UpdateTicketPage({
           repositoryId={repository.id}
           ticketId={ticket.id}
           title={ticket.title}
-          description={ticket.description}
+          content={ticket.content}
           status={ticket.status}
           repositories={repositories}
         />
