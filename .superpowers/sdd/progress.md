@@ -6,7 +6,7 @@
 
 | Task | Status | Commits | Review |
 |------|--------|---------|--------|
-| 1: Update Button Component Styles | pending | — | — |
+| 1: Update Button Component Styles | done | — | — |
 
 ## Notes
 
