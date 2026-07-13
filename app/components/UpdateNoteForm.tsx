@@ -4,6 +4,7 @@ import { useActionState } from "react"
 import { updateNoteAction } from "@/app/actions"
 import type { Note } from "@/lib/db"
 import Button from "./Button"
+import AutoResizeTextarea from "./AutoResizeTextarea"
 
 export default function UpdateNoteForm({ note }: { note: Note }) {
   const [state, action, pending] = useActionState(updateNoteAction, null)
@@ -20,13 +21,13 @@ export default function UpdateNoteForm({ note }: { note: Note }) {
         className="rounded border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-gray-100 placeholder:text-gray-400 focus:border-white focus:outline-none"
       />
       <label className="text-sm font-medium text-gray-300" htmlFor="content">Content</label>
-      <textarea
+      <AutoResizeTextarea
         id="content"
         name="content"
         rows={10}
         defaultValue={note.content}
         placeholder="Write your note..."
-        className="rounded border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-gray-100 resize-y whitespace-pre-wrap placeholder:text-gray-400 focus:border-white focus:outline-none"
+        className="rounded border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-gray-100 whitespace-pre-wrap placeholder:text-gray-400 focus:border-white focus:outline-none"
       />
       <label className="text-sm font-medium text-gray-300" htmlFor="keywords">Keywords</label>
       <input

@@ -7,6 +7,7 @@ import Button from "@/app/components/Button"
 import Card from "@/app/components/Card"
 import DeleteButton from "@/app/components/DeleteButton"
 import CopyContentButton from "@/app/components/CopyContentButton"
+import AutoResizeTextarea from "@/app/components/AutoResizeTextarea"
 
 export default function UpdateCommentButton({
   repositoryId,
@@ -61,7 +62,7 @@ export default function UpdateCommentButton({
             <h3 className="text-sm font-semibold">Update Comment</h3>
           </div>
           <div className="pt-2">
-            <textarea
+            <AutoResizeTextarea
               value={text}
               onChange={(e) => {
                 setText(e.target.value)

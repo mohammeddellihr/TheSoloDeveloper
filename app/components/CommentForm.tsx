@@ -3,6 +3,7 @@
 import { useActionState } from "react"
 import { addCommentAction } from "@/app/actions"
 import Button from "./Button"
+import AutoResizeTextarea from "./AutoResizeTextarea"
 
 export default function CommentForm({
   repositoryId,
@@ -21,7 +22,7 @@ export default function CommentForm({
         <h3 className="text-sm font-semibold">Create Comment</h3>
       </div>
       <div className="pt-2">
-        <textarea
+        <AutoResizeTextarea
           id="comment-text"
           name="text"
           rows={5}
