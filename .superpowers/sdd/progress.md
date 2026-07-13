@@ -1,19 +1,15 @@
-# Progress Ledger: Dark Mode Only Conversion
+# Progress Ledger: Button Styling Redesign
 
-## Plan: `docs/superpowers/plans/2026-07-12-dark-mode-only.md`
+## Plan: `docs/superpowers/plans/2026-07-13-button-styling-redesign.md`
 
 ## Tasks
 
 | Task | Status | Commits | Review |
 |------|--------|---------|--------|
-| 1: Update globals.css | pending | — | — |
-| 2: Update lib/constants.ts | pending | — | — |
-| 3: Update components batch 1 | pending | — | — |
-| 4: Update components batch 2 | pending | — | — |
-| 5: Update page files | pending | — | — |
+| 1: Update Button Component Styles | pending | — | — |
 
 ## Notes
 
-- App is already dark by default (CSS variables at top of file)
-- `dark:` classes are now redundant
-- `prefers-color-scheme` media query can be removed
+- Dark theme only (no light mode considerations)
+- Primary button: white bg, white border, black text
+- Secondary button: black bg, white border, white text
