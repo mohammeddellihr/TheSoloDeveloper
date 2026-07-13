@@ -16,9 +16,9 @@ export default function UpdateRepositoryForm({
   return (
     <form action={action} className="flex flex-col gap-3">
       <input type="hidden" name="repositoryId" value={repositoryId} />
-      <label className="text-sm font-medium text-gray-700 dark:text-gray-300" htmlFor="repo-url">Repository URL</label>
+      <label className="text-sm font-medium text-gray-700 dark:text-gray-300" htmlFor="repository-url">Repository URL</label>
       <input
-        id="repo-url"
+        id="repository-url"
         name="url"
         type="url"
         inputMode="url"
