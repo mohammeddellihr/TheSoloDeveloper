@@ -3,7 +3,6 @@
 import { useRef, useState } from "react"
 import { useActionState } from "react"
 import { deleteNoteAction } from "@/app/actions"
-import Button from "./Button"
 import ConfirmModal from "@/app/components/ConfirmModal"
 
 export default function DeleteNoteButton({ noteId }: { noteId: string }) {

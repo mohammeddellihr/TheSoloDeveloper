@@ -3,7 +3,6 @@
 import { useRef, useState } from "react"
 import { useActionState } from "react"
 import { deleteTicketAction } from "@/app/actions"
-import Button from "@/app/components/Button"
 import ConfirmModal from "@/app/components/ConfirmModal"
 
 export default function DeleteTicketButton({ repositoryId, ticketId }: { repositoryId: string; ticketId: string }) {

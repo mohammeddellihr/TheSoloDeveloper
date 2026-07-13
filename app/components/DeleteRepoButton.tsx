@@ -3,7 +3,6 @@
 import { useRef, useState } from "react"
 import { useActionState } from "react"
 import { deleteRepositoryAction } from "@/app/actions"
-import Button from "@/app/components/Button"
 import ConfirmModal from "@/app/components/ConfirmModal"
 
 export default function DeleteRepoButton({ repositoryId }: { repositoryId: string }) {
