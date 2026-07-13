@@ -8,9 +8,11 @@ import AutoResizeTextarea from "./AutoResizeTextarea"
 export default function CommentForm({
   ownerType,
   ownerId,
+  repositoryId,
 }: {
   ownerType: "ticket" | "note"
   ownerId: string
+  repositoryId?: string
 }) {
   const action = ownerType === "ticket" ? addCommentAction : addNoteCommentAction
   const hiddenFieldName = ownerType === "ticket" ? "ticketId" : "noteId"
@@ -19,6 +21,7 @@ export default function CommentForm({
   return (
     <form action={formAction} className="flex flex-col gap-3">
       <input type="hidden" name={hiddenFieldName} value={ownerId} />
+      {ownerType === "ticket" && repositoryId && <input type="hidden" name="repositoryId" value={repositoryId} />}
       <div className="-mx-4 px-4 pb-4 border-b border-gray-800">
         <h3 className="text-sm font-semibold">Create Comment</h3>
       </div>

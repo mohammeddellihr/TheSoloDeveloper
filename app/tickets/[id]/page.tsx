@@ -71,7 +71,7 @@ export default async function TicketPage({
         ))}
 
         <Card>
-          <CommentForm ownerType="ticket" ownerId={ticket.id} />
+          <CommentForm ownerType="ticket" ownerId={ticket.id} repositoryId={repository.id} />
         </Card>
       </div>
     </>
