@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${josefinSans.variable} h-full antialiased`}
+      className={`${josefinSans.variable} h-full antialiased dark`}
     >
       <body className="min-h-full flex flex-col font-sans">
         <header className="bg-black border-b border-gray-800">
