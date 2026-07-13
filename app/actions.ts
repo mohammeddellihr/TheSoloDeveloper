@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation"
 import { revalidatePath } from "next/cache"
 import { STATUSES } from "@/lib/constants"
-import { createRepository, createTicket, updateTicketStatus, addComment, deleteComment, updateRepository, deleteRepository, updateTicket, deleteTicket, createNote, updateNote, deleteNote } from "@/lib/db"
+import { createRepository, createTicket, updateTicketStatus, addComment, deleteComment, updateComment, updateRepository, deleteRepository, updateTicket, deleteTicket, createNote, updateNote, deleteNote } from "@/lib/db"
 import type { Ticket } from "@/lib/db"
 
 export async function createTicketAction(_prev: unknown, formData: FormData) {
@@ -64,6 +64,26 @@ export async function addCommentAction(_prev: unknown, formData: FormData) {
     return { error: null }
   } catch {
     return { error: "Failed to add comment" }
+  }
+}
+
+export async function updateCommentAction(_prev: unknown, formData: FormData) {
+  const repositoryId = formData.get("repositoryId")
+  const ticketId = formData.get("ticketId")
+  const commentId = formData.get("commentId")
+  const text = formData.get("text")
+
+  if (typeof repositoryId !== "string" || typeof ticketId !== "string" || typeof commentId !== "string" || typeof text !== "string" || !text.trim()) {
+    return { error: "Comment text is required" }
+  }
+
+  try {
+    const comment = updateComment(commentId, text.trim())
+    if (!comment) return { error: "Comment not found" }
+    revalidatePath(`/repository/${repositoryId}/ticket/${ticketId}`)
+    return { error: null }
+  } catch {
+    return { error: "Failed to update comment" }
   }
 }
 
