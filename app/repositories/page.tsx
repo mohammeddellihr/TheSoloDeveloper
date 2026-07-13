@@ -6,8 +6,7 @@ import Button from "@/app/components/Button"
 import SourceBadge from "@/app/components/SourceBadge"
 import ExternalLinkButton from "@/app/components/ExternalLinkButton"
 import Pagination from "@/app/components/Pagination"
-
-const PAGE_SIZE = 12
+import { paginate } from "@/lib/paginate"
 
 export default async function RepositoriesPage({
   searchParams,
@@ -15,10 +14,7 @@ export default async function RepositoriesPage({
   searchParams: Promise<{ page?: string }>
 }) {
   const { page } = await searchParams
-  const allRepositories = getRepositories()
-  const currentPage = Math.max(1, Number(page) || 1)
-  const totalPages = Math.ceil(allRepositories.length / PAGE_SIZE)
-  const repositories = allRepositories.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
+  const { items: repositories, currentPage, totalPages } = paginate(getRepositories(), page)
 
   return (
     <>

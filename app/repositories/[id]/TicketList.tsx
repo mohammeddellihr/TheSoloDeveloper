@@ -51,7 +51,7 @@ export default function TicketList({
               <Link href={`/tickets/${ticket.id}`} className="cursor-pointer hover:opacity-80">
                 <Card>
                   <div className="flex items-center justify-between">
-                    <span className={ticket.title ? "font-medium" : "font-medium text-gray-400"}>{ticket.title || "No Title"}</span>
+                    <span className={ticket.title ? "font-medium line-clamp-1" : "font-medium line-clamp-1 text-gray-400"}>{ticket.title || "No Title"}</span>
                     <Badge variant={ticket.status} />
                   </div>
                 </Card>

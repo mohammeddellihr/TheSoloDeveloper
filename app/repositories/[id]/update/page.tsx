@@ -2,7 +2,8 @@ import { notFound } from "next/navigation"
 import { getRepository } from "@/lib/db"
 import Header from "@/app/components/Header"
 import Card from "@/app/components/Card"
-import DeleteRepositoryButton from "@/app/components/DeleteRepositoryButton"
+import ConfirmDeleteButton from "@/app/components/ConfirmDeleteButton"
+import { deleteRepositoryAction } from "@/app/actions"
 import UpdateRepositoryForm from "@/app/components/UpdateRepositoryForm"
 
 export default async function UpdateRepoPage({
@@ -19,7 +20,15 @@ export default async function UpdateRepoPage({
       <Header
         breadcrumbs={[{ label: "Repositories", href: "/repositories" }]}
         title="Update Repository"
-        actions={<DeleteRepositoryButton repositoryId={repository.id} />}
+        actions={
+          <ConfirmDeleteButton
+            action={deleteRepositoryAction}
+            hiddenFields={{ repositoryId: repository.id }}
+            title="Delete Repository?"
+            message="This will also delete all its tickets and comments. This action cannot be undone."
+            label="Delete Repository"
+          />
+        }
       />
       <Card>
         <UpdateRepositoryForm

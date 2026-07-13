@@ -6,8 +6,7 @@ import Button from "@/app/components/Button"
 import NoteSearch from "@/app/components/NoteSearch"
 import CopyContentButton from "@/app/components/CopyContentButton"
 import Pagination from "@/app/components/Pagination"
-
-const PAGE_SIZE = 12
+import { paginate } from "@/lib/paginate"
 
 export default async function NotesListPage({
   searchParams,
@@ -25,9 +24,7 @@ export default async function NotesListPage({
           note.content.toLowerCase().includes(term),
       )
     : allNotes
-  const currentPage = Math.max(1, Number(page) || 1)
-  const totalPages = Math.ceil(filtered.length / PAGE_SIZE)
-  const notes = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
+  const { items: notes, currentPage, totalPages } = paginate(filtered, page)
 
   return (
     <>

@@ -3,7 +3,8 @@ import { getNote } from "@/lib/db"
 import Header from "@/app/components/Header"
 import Card from "@/app/components/Card"
 import UpdateNoteForm from "@/app/components/UpdateNoteForm"
-import DeleteNoteButton from "@/app/components/DeleteNoteButton"
+import ConfirmDeleteButton from "@/app/components/ConfirmDeleteButton"
+import { deleteNoteAction } from "@/app/actions"
 
 export default async function UpdateNotePage({
   params,
@@ -23,7 +24,15 @@ export default async function UpdateNotePage({
           { label: "Notes", href: "/notes" },
           { label: note.title || "No Title", href: `/notes/${note.id}` },
         ]}
-        actions={<DeleteNoteButton noteId={note.id} />}
+        actions={
+          <ConfirmDeleteButton
+            action={deleteNoteAction}
+            hiddenFields={{ noteId: note.id }}
+            title="Delete Note?"
+            message="This note will be permanently deleted."
+            label="Delete Note"
+          />
+        }
       />
       <Card>
         <UpdateNoteForm note={note} />

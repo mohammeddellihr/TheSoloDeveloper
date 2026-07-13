@@ -6,6 +6,16 @@ import { STATUSES } from "@/lib/constants"
 import { createRepository, createTicket, updateTicketStatus, addComment, deleteComment, updateComment, updateRepository, deleteRepository, updateTicket, deleteTicket, createNote, updateNote, deleteNote } from "@/lib/db"
 import type { Ticket } from "@/lib/db"
 
+function withRedirect(errorMessage: string, fn: () => void): { error: string } | never {
+  try {
+    fn()
+  } catch (e) {
+    if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
+    return { error: errorMessage }
+  }
+  return { error: errorMessage }
+}
+
 export async function createTicketAction(_prev: unknown, formData: FormData) {
   const repositoryId = formData.get("repositoryId")
   const title = formData.get("title")
@@ -18,13 +28,10 @@ export async function createTicketAction(_prev: unknown, formData: FormData) {
 
   const validStatus = STATUSES.includes(status as Ticket["status"]) ? status as Ticket["status"] : "pending"
 
-  try {
+  return withRedirect("Failed to create ticket", () => {
     const ticket = createTicket(repositoryId, title.trim(), typeof content === "string" ? content.trim() : "", validStatus)
     redirect(`/tickets/${ticket.id}`)
-  } catch (e) {
-    if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
-    return { error: "Failed to create ticket" }
-  }
+  })
 }
 
 export async function updateTicketStatusAction(_prev: unknown, formData: FormData) {
@@ -105,13 +112,10 @@ export async function createRepositoryAction(_prev: unknown, formData: FormData)
 
   const name = nameFromUrl(url.trim())
 
-  try {
+  return withRedirect("Failed to create repository", () => {
     const repository = createRepository(name, url.trim())
     redirect(`/repositories/${repository.id}`)
-  } catch (e) {
-    if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
-    return { error: "Failed to create repository" }
-  }
+  })
 }
 
 export async function updateRepositoryAction(_prev: unknown, formData: FormData) {
@@ -124,14 +128,11 @@ export async function updateRepositoryAction(_prev: unknown, formData: FormData)
 
   const name = nameFromUrl(url.trim())
 
-  try {
-    const repository = updateRepository(repositoryId, name, url.trim())
-    if (!repository) return { error: "Repository not found" }
+  const repository = updateRepository(repositoryId, name, url.trim())
+  if (!repository) return { error: "Repository not found" }
+  return withRedirect("Failed to update repository", () => {
     redirect(`/repositories/${repositoryId}`)
-  } catch (e) {
-    if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
-    return { error: "Failed to update repository" }
-  }
+  })
 }
 
 export async function deleteRepositoryAction(_prev: unknown, formData: FormData) {
@@ -141,13 +142,10 @@ export async function deleteRepositoryAction(_prev: unknown, formData: FormData)
     return { error: "Invalid request" }
   }
 
-  try {
+  return withRedirect("Failed to delete repository", () => {
     deleteRepository(repositoryId)
     redirect("/repositories")
-  } catch (e) {
-    if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
-    return { error: "Failed to delete repository" }
-  }
+  })
 }
 
 export async function updateTicketAction(_prev: unknown, formData: FormData) {
@@ -165,14 +163,11 @@ export async function updateTicketAction(_prev: unknown, formData: FormData) {
     return { error: "Invalid status" }
   }
 
-  try {
-    const ticket = updateTicket(ticketId, title.trim(), typeof content === "string" ? content.trim() : "", status as "pending" | "in_progress" | "completed", repositoryId)
-    if (!ticket) return { error: "Ticket not found" }
+  const ticket = updateTicket(ticketId, title.trim(), typeof content === "string" ? content.trim() : "", status as "pending" | "in_progress" | "completed", repositoryId)
+  if (!ticket) return { error: "Ticket not found" }
+  return withRedirect("Failed to update ticket", () => {
     redirect(`/tickets/${ticketId}`)
-  } catch (e) {
-    if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
-    return { error: "Failed to update ticket" }
-  }
+  })
 }
 
 export async function deleteTicketAction(_prev: unknown, formData: FormData) {
@@ -183,13 +178,10 @@ export async function deleteTicketAction(_prev: unknown, formData: FormData) {
     return { error: "Invalid request" }
   }
 
-  try {
+  return withRedirect("Failed to delete ticket", () => {
     deleteTicket(ticketId)
     redirect(`/tickets`)
-  } catch (e) {
-    if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
-    return { error: "Failed to delete ticket" }
-  }
+  })
 }
 
 export async function createNoteAction(_prev: unknown, formData: FormData) {
@@ -205,13 +197,10 @@ export async function createNoteAction(_prev: unknown, formData: FormData) {
     ? keywords.split(",").map(k => k.trim()).filter(Boolean)
     : []
 
-  try {
+  return withRedirect("Failed to create note", () => {
     const note = createNote(title.trim(), typeof content === "string" ? content.trim() : "", keywordList)
     redirect(`/notes/${note.id}`)
-  } catch (e) {
-    if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
-    return { error: "Failed to create note" }
-  }
+  })
 }
 
 export async function updateNoteAction(_prev: unknown, formData: FormData) {
@@ -228,14 +217,11 @@ export async function updateNoteAction(_prev: unknown, formData: FormData) {
     ? keywords.split(",").map(k => k.trim()).filter(Boolean)
     : []
 
-  try {
-    const note = updateNote(noteId, title.trim(), typeof content === "string" ? content.trim() : "", keywordList)
-    if (!note) return { error: "Note not found" }
+  const note = updateNote(noteId, title.trim(), typeof content === "string" ? content.trim() : "", keywordList)
+  if (!note) return { error: "Note not found" }
+  return withRedirect("Failed to update note", () => {
     redirect(`/notes/${note.id}`)
-  } catch (e) {
-    if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
-    return { error: "Failed to update note" }
-  }
+  })
 }
 
 export async function deleteNoteAction(_prev: unknown, formData: FormData) {
@@ -245,13 +231,10 @@ export async function deleteNoteAction(_prev: unknown, formData: FormData) {
     return { error: "Invalid request" }
   }
 
-  try {
+  return withRedirect("Failed to delete note", () => {
     deleteNote(noteId)
     redirect("/notes")
-  } catch (e) {
-    if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
-    return { error: "Failed to delete note" }
-  }
+  })
 }
 
 export async function deleteCommentAction(_prev: unknown, formData: FormData) {

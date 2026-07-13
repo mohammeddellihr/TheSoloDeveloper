@@ -2,7 +2,8 @@ import { notFound } from "next/navigation"
 import { getTicketById, getRepository, getRepositories } from "@/lib/db"
 import Header from "@/app/components/Header"
 import Card from "@/app/components/Card"
-import DeleteTicketButton from "@/app/components/DeleteTicketButton"
+import ConfirmDeleteButton from "@/app/components/ConfirmDeleteButton"
+import { deleteTicketAction } from "@/app/actions"
 import UpdateTicketForm from "@/app/components/UpdateTicketForm"
 
 export default async function UpdateTicketPage({
@@ -26,7 +27,15 @@ export default async function UpdateTicketPage({
           { label: "Tickets", href: "/tickets" },
         ]}
         title="Update Ticket"
-        actions={<DeleteTicketButton repositoryId={repository.id} ticketId={ticket.id} />}
+        actions={
+          <ConfirmDeleteButton
+            action={deleteTicketAction}
+            hiddenFields={{ repositoryId: repository.id, ticketId: ticket.id }}
+            title="Delete Ticket?"
+            message="This will also delete all its comments. This action cannot be undone."
+            label="Delete Ticket"
+          />
+        }
       />
       <Card>
         <UpdateTicketForm

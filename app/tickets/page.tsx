@@ -6,8 +6,7 @@ import Badge from "@/app/components/Badge"
 import TicketFilters from "@/app/components/TicketFilters"
 import Button from "@/app/components/Button"
 import Pagination from "@/app/components/Pagination"
-
-const PAGE_SIZE = 12
+import { paginate } from "@/lib/paginate"
 
 export default async function TicketsPage({
   searchParams,
@@ -20,9 +19,7 @@ export default async function TicketsPage({
     repositoryId: params.repository_id || undefined,
     status: params.status || undefined,
   })
-  const currentPage = Math.max(1, Number(params.page) || 1)
-  const totalPages = Math.ceil(allTickets.length / PAGE_SIZE)
-  const tickets = allTickets.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
+  const { items: tickets, currentPage, totalPages } = paginate(allTickets, params.page)
 
   return (
     <>
