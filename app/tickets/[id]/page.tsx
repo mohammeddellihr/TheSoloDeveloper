@@ -17,8 +17,8 @@ export default async function TicketPage({
   const ticket = getTicketById(ticketId)
   if (!ticket) notFound()
 
-  const repo = getRepository(ticket.repositoryId)
-  if (!repo) notFound()
+  const repository = getRepository(ticket.repositoryId)
+  if (!repository) notFound()
 
   return (
     <>
@@ -56,7 +56,7 @@ export default async function TicketPage({
         {ticket.comments.map((comment) => (
           <UpdateCommentButton
             key={comment.id}
-            repositoryId={repo.id}
+            repositoryId={repository.id}
             ticketId={ticket.id}
             commentId={comment.id}
             initialText={comment.text}
@@ -64,7 +64,7 @@ export default async function TicketPage({
         ))}
 
         <Card>
-          <CommentForm repositoryId={repo.id} ticketId={ticket.id} />
+          <CommentForm repositoryId={repository.id} ticketId={ticket.id} />
         </Card>
       </div>
     </>

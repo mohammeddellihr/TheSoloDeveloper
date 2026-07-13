@@ -35,9 +35,9 @@ export default function UpdateTicketForm({
         className="rounded border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-black dark:focus:border-white focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 cursor-pointer"
       >
         <option value="" disabled>Select a repository</option>
-        {repositories.map((repo) => (
-          <option key={repo.id} value={repo.id}>
-            {repo.name}
+        {repositories.map((repository) => (
+          <option key={repository.id} value={repository.id}>
+            {repository.name}
           </option>
         ))}
       </select>

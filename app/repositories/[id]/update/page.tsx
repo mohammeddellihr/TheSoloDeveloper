@@ -2,8 +2,8 @@ import { notFound } from "next/navigation"
 import { getRepository } from "@/lib/db"
 import Header from "@/app/components/Header"
 import Card from "@/app/components/Card"
-import DeleteRepoButton from "@/app/components/DeleteRepoButton"
-import UpdateRepoForm from "@/app/components/UpdateRepoForm"
+import DeleteRepositoryButton from "@/app/components/DeleteRepositoryButton"
+import UpdateRepositoryForm from "@/app/components/UpdateRepositoryForm"
 
 export default async function UpdateRepoPage({
   params,
@@ -11,20 +11,20 @@ export default async function UpdateRepoPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const repo = getRepository(id)
-  if (!repo) notFound()
+  const repository = getRepository(id)
+  if (!repository) notFound()
 
   return (
     <>
       <Header
         breadcrumbs={[{ label: "Repositories", href: "/repositories" }]}
         title="Update Repository"
-        actions={<DeleteRepoButton repositoryId={repo.id} />}
+        actions={<DeleteRepositoryButton repositoryId={repository.id} />}
       />
       <Card>
-        <UpdateRepoForm
-          repositoryId={repo.id}
-          url={repo.url}
+        <UpdateRepositoryForm
+          repositoryId={repository.id}
+          url={repository.url}
         />
       </Card>
     </>

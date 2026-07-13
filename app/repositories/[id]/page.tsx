@@ -8,21 +8,21 @@ import TicketList from "./TicketList"
 
 export default async function RepoPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const repo = getRepository(id)
-  if (!repo) notFound()
+  const repository = getRepository(id)
+  if (!repository) notFound()
   const tickets = getTickets(id)
 
   return (
     <>
       <Header
         breadcrumbs={[{ label: "Repositories", href: "/repositories" }]}
-        title={`Repository #${repo.id}`}
+        title={`Repository #${repository.id}`}
         actions={
           <>
-            <Link href={`/tickets/create?repository_id=${repo.id}`}>
+            <Link href={`/tickets/create?repository_id=${repository.id}`}>
               <Button variant="secondary">Create Ticket</Button>
             </Link>
-            <Link href={`/repositories/${repo.id}/update`}>
+            <Link href={`/repositories/${repository.id}/update`}>
               <Button>Update Repository</Button>
             </Link>
           </>
@@ -31,17 +31,17 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
 
       <Card>
         <div className="-mx-4 px-4 pb-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
-          <h1 className="text-xl font-bold">{repo.name}</h1>
+          <h1 className="text-xl font-bold">{repository.name}</h1>
         </div>
-        {repo.url ? (
+        {repository.url ? (
           <div className="pt-4">
             <a
-              href={repo.url}
+              href={repository.url}
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm text-blue-600 hover:underline dark:text-blue-400 cursor-pointer"
             >
-              {repo.url}
+              {repository.url}
             </a>
           </div>
         ) : (

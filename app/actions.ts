@@ -106,8 +106,8 @@ export async function createRepositoryAction(_prev: unknown, formData: FormData)
   const name = nameFromUrl(url.trim())
 
   try {
-    const repo = createRepository(name, url.trim())
-    redirect(`/repositories/${repo.id}`)
+    const repository = createRepository(name, url.trim())
+    redirect(`/repositories/${repository.id}`)
   } catch (e) {
     if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
     return { error: "Failed to create repository" }
@@ -125,8 +125,8 @@ export async function updateRepositoryAction(_prev: unknown, formData: FormData)
   const name = nameFromUrl(url.trim())
 
   try {
-    const repo = updateRepository(repositoryId, name, url.trim())
-    if (!repo) return { error: "Repository not found" }
+    const repository = updateRepository(repositoryId, name, url.trim())
+    if (!repository) return { error: "Repository not found" }
     redirect(`/repositories/${repositoryId}`)
   } catch (e) {
     if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e

@@ -26,9 +26,9 @@ export default function TicketFilters({ repositories }: { repositories: Reposito
           value={searchParams.get("repository_id") ?? ""}
           onChange={(e) => update("repository_id", e.target.value)}
         >
-          <option value="">All Repos</option>
-          {repositories.map((repo) => (
-            <option key={repo.id} value={repo.id}>{repo.name}</option>
+          <option value="">All Repositories</option>
+          {repositories.map((repository) => (
+            <option key={repository.id} value={repository.id}>{repository.name}</option>
           ))}
         </select>
         <select

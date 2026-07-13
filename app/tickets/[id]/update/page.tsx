@@ -14,8 +14,8 @@ export default async function UpdateTicketPage({
   const ticket = getTicketById(ticketId)
   if (!ticket) notFound()
 
-  const repo = getRepository(ticket.repositoryId)
-  if (!repo) notFound()
+  const repository = getRepository(ticket.repositoryId)
+  if (!repository) notFound()
 
   const repositories = getRepositories()
 
@@ -26,11 +26,11 @@ export default async function UpdateTicketPage({
           { label: "Tickets", href: "/tickets" },
         ]}
         title="Update Ticket"
-        actions={<DeleteTicketButton repositoryId={repo.id} ticketId={ticket.id} />}
+        actions={<DeleteTicketButton repositoryId={repository.id} ticketId={ticket.id} />}
       />
       <Card>
         <UpdateTicketForm
-          repositoryId={repo.id}
+          repositoryId={repository.id}
           ticketId={ticket.id}
           title={ticket.title}
           description={ticket.description}

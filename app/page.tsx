@@ -7,7 +7,7 @@ export default function Dashboard() {
   const stats = getStats()
 
   const statCards = [
-    { label: "Repositories", value: stats.totalRepos, href: "/repositories" },
+    { label: "Repositories", value: stats.totalRepositories, href: "/repositories" },
     { label: "Tickets", value: stats.totalTickets, href: "/tickets" },
     { label: "Notes", value: stats.totalNotes, href: "/notes" },
     { label: "Pending", value: stats.pending, href: "/tickets?status=pending", color: "text-orange-600 dark:text-orange-400" },

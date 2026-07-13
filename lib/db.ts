@@ -93,7 +93,7 @@ export interface Note {
 }
 
 export interface Stats {
-  totalRepos: number
+  totalRepositories: number
   totalTickets: number
   totalNotes: number
   pending: number
@@ -233,13 +233,13 @@ export function addComment(ticketId: string, text: string): Ticket | null {
 
 export function getStats(): Stats {
   const db = getDb()
-  const totalRepos = (db.prepare('SELECT COUNT(*) as count FROM repositories').get() as { count: number }).count
+  const totalRepositories = (db.prepare('SELECT COUNT(*) as count FROM repositories').get() as { count: number }).count
   const totalTickets = (db.prepare('SELECT COUNT(*) as count FROM tickets').get() as { count: number }).count
   const totalNotes = (db.prepare('SELECT COUNT(*) as count FROM notes').get() as { count: number }).count
   const pending = (db.prepare("SELECT COUNT(*) as count FROM tickets WHERE status = 'pending'").get() as { count: number }).count
   const inProgress = (db.prepare("SELECT COUNT(*) as count FROM tickets WHERE status = 'in_progress'").get() as { count: number }).count
   const completed = (db.prepare("SELECT COUNT(*) as count FROM tickets WHERE status = 'completed'").get() as { count: number }).count
-  return { totalRepos, totalTickets, totalNotes, pending, inProgress, completed }
+  return { totalRepositories, totalTickets, totalNotes, pending, inProgress, completed }
 }
 
 export function getNotes(): Note[] {

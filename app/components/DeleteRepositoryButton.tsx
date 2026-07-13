@@ -5,7 +5,7 @@ import { useActionState } from "react"
 import { deleteRepositoryAction } from "@/app/actions"
 import ConfirmModal from "@/app/components/ConfirmModal"
 
-export default function DeleteRepoButton({ repositoryId }: { repositoryId: string }) {
+export default function DeleteRepositoryButton({ repositoryId }: { repositoryId: string }) {
   const [state, action, pending] = useActionState(deleteRepositoryAction, null)
   const [modalOpen, setModalOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)

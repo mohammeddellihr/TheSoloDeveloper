@@ -15,10 +15,10 @@ export default async function RepositoriesPage({
   searchParams: Promise<{ page?: string }>
 }) {
   const { page } = await searchParams
-  const allRepos = getRepositories()
+  const allRepositories = getRepositories()
   const currentPage = Math.max(1, Number(page) || 1)
-  const totalPages = Math.ceil(allRepos.length / PAGE_SIZE)
-  const repos = allRepos.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
+  const totalPages = Math.ceil(allRepositories.length / PAGE_SIZE)
+  const repositories = allRepositories.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
 
   return (
     <>
@@ -32,22 +32,22 @@ export default async function RepositoriesPage({
         }
       />
 
-      {repos.length === 0 ? (
+      {repositories.length === 0 ? (
         <Card>
           <p className="text-center text-sm text-gray-500 dark:text-gray-400">No repositories yet.</p>
         </Card>
       ) : (
         <ul className="grid grid-cols-3 gap-2">
-          {repos.map((repo) => (
-            <li key={repo.id}>
+          {repositories.map((repository) => (
+            <li key={repository.id}>
               <Card>
                 <div className="flex items-center justify-between">
-                  <Link href={`/repositories/${repo.id}`} className="font-medium hover:underline cursor-pointer">
-                    {repo.name}
+                  <Link href={`/repositories/${repository.id}`} className="font-medium hover:underline cursor-pointer">
+                    {repository.name}
                   </Link>
                   <div className="flex items-center gap-2">
-                    <SourceBadge url={repo.url} />
-                    {repo.url && <ExternalLinkButton url={repo.url} />}
+                    <SourceBadge url={repository.url} />
+                    {repository.url && <ExternalLinkButton url={repository.url} />}
                   </div>
                 </div>
               </Card>
