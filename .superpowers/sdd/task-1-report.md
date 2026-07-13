@@ -1,29 +1,35 @@
-## Task 1: Update Button Component Styles
+# Task 1 Report: Database Layer — Add updatedAt and updateComment()
 
-**Status:** DONE_WITH_CONCERNS
+## Status: DONE
 
-### What I Implemented
+## What I Implemented
 
-Replaced the Button component variant class strings in `app/components/Button.tsx:8-13` exactly as specified in the task brief:
+All 6 steps from the task brief in `lib/db.ts`:
 
-- **Primary:** `bg-white text-black border border-white hover:bg-gray-100 disabled:opacity-50`
-- **Secondary:** `bg-black text-white border border-white hover:bg-gray-800 disabled:opacity-50`
+1. **Schema update** (line 31-37): Added `updatedAt TEXT` column to `comments` table CREATE statement.
+2. **Migration** (line 52-56): Added `PRAGMA table_info(comments)` check + `ALTER TABLE` for existing databases without the column.
+3. **Comment interface** (line 60-65): Added `updatedAt: string | null` field.
+4. **updateComment()** (line 278-284): New exported function — updates `text` and sets `updatedAt` to current ISO timestamp, returns updated Comment or null if not found.
+5. **getTickets()** (line 125-145): Updated GROUP_CONCAT to include `COALESCE(c.updatedAt, '')` and destructures the 4th segment as `updatedAt`, mapping empty string to null.
+6. **getTicket()**: No changes needed — already uses `SELECT *` for comments.
 
-### Test Results
+## What I Tested
 
-- **Lint:** PASS (0 errors; 3 pre-existing warnings in unrelated files — unused Button imports in delete components)
-- **Build:** PASS — all 15 routes compile and generate successfully
+- **Lint**: `npm run lint` — 0 errors, 3 pre-existing warnings (unused `Button` imports in unrelated components)
+- **TypeScript**: `npx tsc --noEmit` — clean, no errors
 
-### Files Changed
+## Files Changed
 
-- `app/components/Button.tsx` — lines 8-13 (variant class strings)
+- `lib/db.ts` — 19 insertions, 4 deletions
 
-### Self-Review Findings
+## Commit
 
-**Concern:** The primary variant uses `bg-white text-black border border-white` — the white border on a white background will be invisible in the app's default (light) theme. The header is `bg-black`, but the main content area has no explicit background color set, so it defaults to white. This means primary buttons will have a white background with a white border on a white page — the border provides no visual definition.
+- `35569dd` — `feat: add updatedAt to comments and updateComment function`
 
-This is exactly what the spec requested, so I implemented it faithfully. But it may be a design issue worth flagging to the planner.
+## Self-Review
 
-### Commits
-
-No commits — `git` is not available in this environment. The change is a single edit to `app/components/Button.tsx`.
+- All 8 steps from the brief are addressed (steps 6 noted as no-change-needed, steps 7-8 completed).
+- Code follows existing patterns: `updateComment` matches the style of `updateNote`/`deleteComment`.
+- Migration uses the same `PRAGMA table_info` pattern as the existing `repoId → repositoryId` migration.
+- No overbuilding — exactly what was specified, nothing more.
+- No concerns.

@@ -58,7 +58,7 @@ export default async function TicketsPage({
                     {ticket.description}
                   </p>
                 ) : (
-                  <p className="pt-3 text-sm text-gray-500 italic">No description</p>
+                  <p className="pt-3 text-sm text-gray-500 italic">No content</p>
                 )}
                 <div className="-mx-4 px-4 pt-3 mt-3 border-t border-gray-200 dark:border-gray-800 flex items-center gap-2">
                   <span className="inline-flex items-center rounded bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:text-gray-300">

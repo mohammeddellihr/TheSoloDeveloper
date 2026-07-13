@@ -1,15 +1,17 @@
-# Progress Ledger: Button Styling Redesign
+# Progress Ledger: Inline Comment Update Feature
 
-## Plan: `docs/superpowers/plans/2026-07-13-button-styling-redesign.md`
+## Plan: `docs/superpowers/plans/2026-07-13-comment-update-feature.md`
 
 ## Tasks
 
 | Task | Status | Commits | Review |
 |------|--------|---------|--------|
-| 1: Update Button Component Styles | done | — | — |
+| 1: Database Layer — Add updatedAt and updateComment() | pending | — | — |
+| 2: Server Action — Add updateCommentAction() | pending | — | — |
+| 3: UI Component — Create UpdateCommentButton and Integrate | pending | — | — |
 
 ## Notes
 
 - Dark theme only (no light mode considerations)
-- Primary button: white bg, white border, black text
-- Secondary button: black bg, white border, white text
+- Follow existing patterns (server actions, component structure)
+- Use `useTransition` for pending states (like DeleteButton)
