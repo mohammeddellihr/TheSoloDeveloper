@@ -19,7 +19,7 @@ export default function Dashboard() {
     <>
       <Header breadcrumbs={[]} title="Dashboard" />
 
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+      <div className="grid grid-cols-3 gap-4">
         {statCards.map((stat) => (
           <Link key={stat.label} href={stat.href} className="cursor-pointer hover:opacity-80">
             <Card>
