@@ -204,12 +204,13 @@ export function updateTicket(
   ticketId: string,
   title: string,
   description: string,
-  status: 'pending' | 'in_progress' | 'completed' | 'archived'
+  status: 'pending' | 'in_progress' | 'completed' | 'archived',
+  repositoryId: string
 ): Ticket | null {
   const db = getDb()
   const now = iso()
-  const result = db.prepare('UPDATE tickets SET title = ?, description = ?, status = ?, updatedAt = ? WHERE id = ?')
-    .run(title, description, status, now, ticketId)
+  const result = db.prepare('UPDATE tickets SET title = ?, description = ?, status = ?, repositoryId = ?, updatedAt = ? WHERE id = ?')
+    .run(title, description, status, repositoryId, now, ticketId)
   if (result.changes === 0) return null
   return getTicketById(ticketId)
 }

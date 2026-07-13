@@ -3,7 +3,7 @@
 import { useActionState } from "react"
 import { updateTicketAction } from "@/app/actions"
 import { STATUSES, STATUS_LABELS } from "@/lib/constants"
-import type { Ticket } from "@/lib/db"
+import type { Repository, Ticket } from "@/lib/db"
 import Button from "./Button"
 
 export default function UpdateTicketForm({
@@ -12,19 +12,35 @@ export default function UpdateTicketForm({
   title,
   description,
   status,
+  repositories,
 }: {
   repositoryId: string
   ticketId: string
   title: string
   description: string
   status: Ticket["status"]
+  repositories: Repository[]
 }) {
   const [state, action, pending] = useActionState(updateTicketAction, null)
 
   return (
     <form action={action} className="flex flex-col gap-3">
-      <input type="hidden" name="repositoryId" value={repositoryId} />
       <input type="hidden" name="ticketId" value={ticketId} />
+      <label className="text-sm font-medium text-gray-700 dark:text-gray-300" htmlFor="ticket-repository">Repository</label>
+      <select
+        id="ticket-repository"
+        name="repositoryId"
+        defaultValue={repositoryId}
+        required
+        className="rounded border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-black dark:focus:border-white focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 cursor-pointer"
+      >
+        <option value="" disabled>Select a repository</option>
+        {repositories.map((repo) => (
+          <option key={repo.id} value={repo.id}>
+            {repo.name}
+          </option>
+        ))}
+      </select>
       <label className="text-sm font-medium text-gray-700 dark:text-gray-300" htmlFor="ticket-title">Title</label>
       <input
         id="ticket-title"

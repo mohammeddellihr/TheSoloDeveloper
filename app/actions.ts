@@ -166,7 +166,7 @@ export async function updateTicketAction(_prev: unknown, formData: FormData) {
   }
 
   try {
-    const ticket = updateTicket(ticketId, title.trim(), typeof description === "string" ? description.trim() : "", status as "pending" | "in_progress" | "completed")
+    const ticket = updateTicket(ticketId, title.trim(), typeof description === "string" ? description.trim() : "", status as "pending" | "in_progress" | "completed", repositoryId)
     if (!ticket) return { error: "Ticket not found" }
     redirect(`/tickets/${ticketId}`)
   } catch (e) {

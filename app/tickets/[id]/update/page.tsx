@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation"
-import { getTicketById, getRepository } from "@/lib/db"
+import { getTicketById, getRepository, getRepositories } from "@/lib/db"
 import Header from "@/app/components/Header"
 import Card from "@/app/components/Card"
 import DeleteTicketButton from "@/app/components/DeleteTicketButton"
@@ -17,6 +17,8 @@ export default async function UpdateTicketPage({
   const repo = getRepository(ticket.repositoryId)
   if (!repo) notFound()
 
+  const repositories = getRepositories()
+
   return (
     <>
       <Header
@@ -33,6 +35,7 @@ export default async function UpdateTicketPage({
           title={ticket.title}
           description={ticket.description}
           status={ticket.status}
+          repositories={repositories}
         />
       </Card>
     </>
