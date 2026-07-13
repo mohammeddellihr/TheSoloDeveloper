@@ -38,10 +38,7 @@ export default async function TicketPage({
       <Card>
         <div className="-mx-4 px-4 pb-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
           <h1 className="text-xl font-bold">{ticket.title}</h1>
-          <div className="flex items-center gap-1">
-            <Badge variant={ticket.status} />
-            <CopyContentButton content={`${ticket.title}\n\n${ticket.description}`} />
-          </div>
+          <CopyContentButton content={`${ticket.title}\n\n${ticket.description}`} />
         </div>
         {ticket.description ? (
           <div className="pt-4">
@@ -54,6 +51,12 @@ export default async function TicketPage({
             <p className="text-sm text-gray-500 dark:text-gray-400 italic">No content</p>
           </div>
         )}
+        <div className="-mx-4 px-4 pt-3 mt-3 border-t border-gray-200 dark:border-gray-800 flex items-center gap-2">
+          <span className="inline-flex items-center rounded bg-gray-100 dark:bg-gray-800 px-2.5 py-0.5 text-xs font-medium text-gray-600 dark:text-gray-300">
+            {repository.name}
+          </span>
+          <Badge variant={ticket.status} />
+        </div>
       </Card>
 
       <div className="flex flex-col gap-2">
