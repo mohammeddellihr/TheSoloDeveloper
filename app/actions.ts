@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation"
 import { revalidatePath } from "next/cache"
 import { STATUSES } from "@/lib/constants"
+import { iso, parseKeywords } from "@/lib/utils"
 import { createRepository, createTicket, updateTicketStatus, addComment, addNoteComment, deleteComment, updateComment, updateRepository, deleteRepository, updateTicket, deleteTicket, createNote, updateNote, deleteNote } from "@/lib/db"
 import type { Ticket } from "@/lib/db"
 
@@ -226,9 +227,7 @@ export async function createNoteAction(_prev: unknown, formData: FormData) {
     return { error: "Invalid request" }
   }
 
-  const keywordList = typeof keywords === "string" && keywords.trim()
-    ? keywords.split(",").map(k => k.trim()).filter(Boolean)
-    : []
+  const keywordList = parseKeywords(keywords)
 
   return withRedirect("Failed to create note", () => {
     const note = createNote(title.trim(), typeof content === "string" ? content.trim() : "", keywordList)
@@ -246,9 +245,7 @@ export async function updateNoteAction(_prev: unknown, formData: FormData) {
     return { error: "Invalid request" }
   }
 
-  const keywordList = typeof keywords === "string" && keywords.trim()
-    ? keywords.split(",").map(k => k.trim()).filter(Boolean)
-    : []
+  const keywordList = parseKeywords(keywords)
 
   const note = updateNote(noteId, title.trim(), typeof content === "string" ? content.trim() : "", keywordList)
   if (!note) return { error: "Note not found" }

@@ -38,7 +38,7 @@ export default function CreateTicketForm({
         id="ticket-title"
         name="title"
         placeholder="e.g., Fix login bug"
-        className="rounded border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-gray-100 placeholder:text-gray-400 focus:border-white focus:outline-none"
+        className="input-field"
       />
       <label className="text-sm font-medium text-gray-300" htmlFor="ticket-content">Content</label>
       <AutoResizeTextarea
@@ -53,7 +53,7 @@ export default function CreateTicketForm({
         id="ticket-status"
         name="status"
         defaultValue="pending"
-        className="rounded border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-gray-100 focus:border-white focus:outline-none cursor-pointer"
+        className="input-field cursor-pointer"
       >
         {STATUSES.map((s) => (
           <option key={s} value={s}>

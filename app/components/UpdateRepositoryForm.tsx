@@ -25,7 +25,7 @@ export default function UpdateRepositoryForm({
         placeholder="https://github.com/fastapi/fastapi"
         defaultValue={url}
         required
-        className="rounded border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-gray-100 placeholder:text-gray-400 focus:border-white focus:outline-none"
+        className="input-field"
       />
       {state && "error" in state && (
         <p className="text-sm text-red-500">{state.error}</p>

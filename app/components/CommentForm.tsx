@@ -32,7 +32,7 @@ export default function CommentForm({
         />
       </div>
       {state?.error && <p className="text-xs text-red-500">{state.error}</p>}
-      <div className="-mx-4 px-4 pt-4 border-t border-gray-800 flex justify-end">
+      <div className="form-footer">
         <Button type="submit" disabled={pending}>
           {pending ? "Creating..." : "Create Comment"}
         </Button>

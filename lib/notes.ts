@@ -1,10 +1,7 @@
 import { getDb } from "./db"
 import { nanoid } from "nanoid"
+import { iso } from "./utils"
 import type { Note, Comment } from "./db"
-
-function iso(): string {
-  return new Date().toISOString()
-}
 
 export function getNotes(): Note[] {
   const rows = getDb().prepare('SELECT * FROM notes ORDER BY createdAt DESC').all() as (Omit<Note, 'keywords' | 'comments'> & { keywords: string })[]

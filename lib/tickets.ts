@@ -1,10 +1,7 @@
 import { getDb } from "./db"
 import { nanoid } from "nanoid"
-import type { Ticket, Comment } from "./db"
-
-function iso(): string {
-  return new Date().toISOString()
-}
+import { iso } from "./utils"
+import type { Repository } from "./db"
 
 export function getTickets(repositoryId: string): Ticket[] {
   const db = getDb()

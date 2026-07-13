@@ -1,12 +1,9 @@
 import { getDb } from "./db"
 import { nanoid } from "nanoid"
+import { iso } from "./utils"
 import type { Comment, Ticket, Note } from "./db"
 import { getTicketById } from "./tickets"
 import { getNoteWithComments } from "./notes"
-
-function iso(): string {
-  return new Date().toISOString()
-}
 
 export function addComment(ticketId: string, text: string): Ticket | null {
   const db = getDb()

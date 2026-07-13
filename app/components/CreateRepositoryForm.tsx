@@ -17,12 +17,12 @@ export default function CreateRepositoryForm() {
         inputMode="url"
         placeholder="https://github.com/fastapi/fastapi"
         required
-        className="rounded border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-gray-100 placeholder:text-gray-400 focus:border-white focus:outline-none"
+        className="input-field"
       />
       {state && "error" in state && (
         <p className="text-sm text-red-500">{state.error}</p>
       )}
-      <div className="-mx-4 px-4 pt-4 border-t border-gray-800 flex justify-end">
+      <div className="form-footer">
         <Button type="submit" disabled={pending}>
           {pending ? "Creating..." : "Create Repository"}
         </Button>

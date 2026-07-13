@@ -1,10 +1,7 @@
 import { getDb } from "./db"
 import { nanoid } from "nanoid"
+import { iso } from "./utils"
 import type { Repository } from "./db"
-
-function iso(): string {
-  return new Date().toISOString()
-}
 
 export function getRepositories(): Repository[] {
   return getDb().prepare('SELECT * FROM repositories ORDER BY createdAt DESC').all() as Repository[]

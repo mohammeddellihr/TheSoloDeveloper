@@ -22,7 +22,7 @@ export default function TicketFilters({ repositories }: { repositories: Reposito
   return (
     <div className="flex gap-2">
         <select
-          className="rounded border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-gray-100 focus:border-white focus:outline-none cursor-pointer"
+          className="input-field cursor-pointer"
           value={searchParams.get("repository_id") ?? ""}
           onChange={(e) => update("repository_id", e.target.value)}
         >
