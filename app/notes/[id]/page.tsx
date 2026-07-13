@@ -26,7 +26,7 @@ export default async function ViewNotePage({ params }: { params: Promise<{ id: s
 
       <Card>
         <div className="-mx-4 px-4 pb-4 border-b border-gray-800 flex items-center justify-between">
-          <h1 className="text-xl font-bold">{note.title || "No Title"}</h1>
+          <h1 className={note.title ? "text-xl font-bold" : "text-xl font-bold text-gray-400 italic"}>{note.title || "No Title"}</h1>
           <CopyContentButton content={note.content} />
         </div>
         {note.content ? (

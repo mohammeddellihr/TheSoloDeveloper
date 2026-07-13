@@ -37,7 +37,7 @@ export default async function TicketPage({
 
       <Card>
         <div className="-mx-4 px-4 pb-4 border-b border-gray-800 flex items-center justify-between">
-          <h1 className="text-xl font-bold">{ticket.title || "No Title"}</h1>
+          <h1 className={ticket.title ? "text-xl font-bold" : "text-xl font-bold text-gray-400 italic"}>{ticket.title || "No Title"}</h1>
           <CopyContentButton content={ticket.content} />
         </div>
         {ticket.content ? (

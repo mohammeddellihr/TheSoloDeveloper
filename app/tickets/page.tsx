@@ -49,7 +49,7 @@ export default async function TicketsPage({
             <li key={ticket.id} className="h-full">
               <Card className="h-full">
                 <div className="-mx-4 px-4 pb-3 border-b border-gray-800 flex items-center justify-between">
-                  <Link href={`/tickets/${ticket.id}`} className="font-medium hover:underline cursor-pointer line-clamp-1">
+                  <Link href={`/tickets/${ticket.id}`} className={ticket.title ? "font-medium hover:underline cursor-pointer line-clamp-1" : "font-medium hover:underline cursor-pointer line-clamp-1 text-gray-400 italic"}>
                     {ticket.title || "No Title"}
                   </Link>
                 </div>
