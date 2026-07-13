@@ -271,14 +271,23 @@ export function deleteNote(id: string): boolean {
 }
 
 export function deleteComment(commentId: string): boolean {
-  const result = getDb().prepare('DELETE FROM comments WHERE id = ?').run(commentId)
+  const db = getDb()
+  const row = db.prepare('SELECT ticketId FROM comments WHERE id = ?').get(commentId) as { ticketId: string } | undefined
+  if (!row) return false
+  const result = db.prepare('DELETE FROM comments WHERE id = ?').run(commentId)
+  if (result.changes > 0) {
+    const now = iso()
+    db.prepare('UPDATE tickets SET updatedAt = ? WHERE id = ?').run(now, row.ticketId)
+  }
   return result.changes > 0
 }
 
 export function updateComment(commentId: string, text: string): Comment | null {
   const db = getDb()
   const now = iso()
-  const result = db.prepare('UPDATE comments SET text = ?, updatedAt = ? WHERE id = ?').run(text, now, commentId)
-  if (result.changes === 0) return null
+  const row = db.prepare('SELECT ticketId FROM comments WHERE id = ?').get(commentId) as { ticketId: string } | undefined
+  if (!row) return null
+  db.prepare('UPDATE comments SET text = ?, updatedAt = ? WHERE id = ?').run(text, now, commentId)
+  db.prepare('UPDATE tickets SET updatedAt = ? WHERE id = ?').run(now, row.ticketId)
   return db.prepare('SELECT * FROM comments WHERE id = ?').get(commentId) as Comment
 }

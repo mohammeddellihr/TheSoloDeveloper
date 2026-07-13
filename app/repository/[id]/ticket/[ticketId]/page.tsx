@@ -5,8 +5,6 @@ import Header from "@/app/components/Header"
 import Card from "@/app/components/Card"
 import Badge from "@/app/components/Badge"
 import Button from "@/app/components/Button"
-import CopyContentButton from "@/app/components/CopyContentButton"
-import DeleteButton from "@/app/components/DeleteButton"
 import UpdateCommentButton from "@/app/components/UpdateCommentButton"
 import CommentForm from "@/app/components/CommentForm"
 
@@ -55,21 +53,13 @@ export default async function TicketPage({
 
       <div className="flex flex-col gap-2">
         {ticket.comments.map((comment) => (
-          <Card key={comment.id}>
-            <div className="flex items-start justify-between">
-              <p className="text-sm leading-relaxed whitespace-pre-wrap">{comment.text}</p>
-              <div className="flex items-center gap-1">
-                <UpdateCommentButton
-                  repositoryId={repo.id}
-                  ticketId={ticket.id}
-                  commentId={comment.id}
-                  initialText={comment.text}
-                />
-                <DeleteButton repositoryId={repo.id} ticketId={ticket.id} commentId={comment.id} />
-                <CopyContentButton content={comment.text} />
-              </div>
-            </div>
-          </Card>
+          <UpdateCommentButton
+            key={comment.id}
+            repositoryId={repo.id}
+            ticketId={ticket.id}
+            commentId={comment.id}
+            initialText={comment.text}
+          />
         ))}
 
         <Card>
