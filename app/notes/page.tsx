@@ -60,11 +60,11 @@ export default async function NotesListPage({
                   <CopyContentButton content={note.content} />
                 </div>
                 {note.content ? (
-                  <p className="pt-3 text-sm leading-relaxed whitespace-pre-wrap line-clamp-2">
+                  <p className="flex-1 pt-3 text-sm leading-relaxed whitespace-pre-wrap line-clamp-2">
                     {note.content}
                   </p>
                 ) : (
-                  <p className="pt-3 text-sm text-gray-500 italic">No content</p>
+                  <p className="flex-1 pt-3 text-sm text-gray-500">No content</p>
                 )}
                 {note.keywords.length > 0 && (
                   <div className="-mx-4 px-4 pt-4 mt-4 border-t border-gray-200 dark:border-gray-800 flex gap-2 flex-wrap">

@@ -6,7 +6,7 @@
 
 | Task | Status | Commits | Review |
 |------|--------|---------|--------|
-| 1: Database Layer — Add updatedAt and updateComment() | pending | — | — |
+| 1: Database Layer — Add updatedAt and updateComment() | done | 35569dd | review clean |
 | 2: Server Action — Add updateCommentAction() | pending | — | — |
 | 3: UI Component — Create UpdateCommentButton and Integrate | pending | — | — |
 

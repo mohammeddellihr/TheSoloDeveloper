@@ -1,42 +1,54 @@
-# Task 2: Fix Form Layout Inconsistencies
+### Task 2: Server Action — Add updateCommentAction()
 
 **Files:**
-- Modify: `app/components/CommentForm.tsx`
-- Modify: `app/components/CreateNoteForm.tsx`
-- Modify: `app/components/UpdateNoteForm.tsx`
+- Modify: `app/actions.ts:6` (imports), add new action after line 68
 
-- [ ] **Step 1: Fix CommentForm gap from gap-2 to gap-3**
+**Interfaces:**
+- Consumes: `updateComment()` from `lib/db.ts`
+- Produces: `updateCommentAction()` server action
 
-In `app/components/CommentForm.tsx`, line 17, change `gap-2` to `gap-3`:
+- [ ] **Step 1: Add updateComment to imports**
 
-```tsx
-<form action={formAction} className="flex flex-col gap-3">
+In `app/actions.ts`, add `updateComment` to the imports (line 6):
+
+```ts
+import { createRepository, createTicket, updateTicketStatus, addComment, deleteComment, updateComment, updateRepository, deleteRepository, updateTicket, deleteTicket, createNote, updateNote, deleteNote } from "@/lib/db"
 ```
 
-- [ ] **Step 2: Fix CommentForm footer margin from mt-2 to mt-4**
+- [ ] **Step 2: Add updateCommentAction()**
 
-In `app/components/CommentForm.tsx`, line 34, change `mt-2` to `mt-4`:
+Add after the `addCommentAction` function (after line 68):
 
-```tsx
-<div className="-mx-4 px-4 pt-4 mt-4 border-t border-gray-200 dark:border-gray-800 flex justify-end">
+```ts
+export async function updateCommentAction(_prev: unknown, formData: FormData) {
+  const repositoryId = formData.get("repositoryId")
+  const ticketId = formData.get("ticketId")
+  const commentId = formData.get("commentId")
+  const text = formData.get("text")
+
+  if (typeof repositoryId !== "string" || typeof ticketId !== "string" || typeof commentId !== "string" || typeof text !== "string" || !text.trim()) {
+    return { error: "Comment text is required" }
+  }
+
+  try {
+    const comment = updateComment(commentId, text.trim())
+    if (!comment) return { error: "Comment not found" }
+    revalidatePath(`/repository/${repositoryId}/ticket/${ticketId}`)
+    return { error: null }
+  } catch {
+    return { error: "Failed to update comment" }
+  }
+}
 ```
 
-- [ ] **Step 3: Fix CreateNoteForm error placement**
+- [ ] **Step 3: Run lint to verify no errors**
 
-In `app/components/CreateNoteForm.tsx`, move the error message from the top (just after `<form>`) to just before the submit footer `<div className="-mx-4 px-4 pt-4...`. The final order should be: fields, error, submit button.
+Run: `npm run lint`
+Expected: PASS
 
-Read the file first, then move the `{state?.error && ...}` block from after `<form>` to before the submit `<div>`.
+- [ ] **Step 4: Commit**
 
-- [ ] **Step 4: Fix UpdateNoteForm error placement**
-
-In `app/components/UpdateNoteForm.tsx`, move the error message from the top (just after `<form>`) to just before the submit footer `<div className="-mx-4 px-4 pt-4...`. The final order should be: fields, error, submit button.
-
-Read the file first, then move the `{state?.error && ...}` block from after `<form>` to before the submit `<div>`.
-
-- [ ] **Step 5: Verify**
-
-Run: `& "C:\Program Files\nodejs\npm.cmd" run build`
-Expected: Compiles.
-
-Run: `& "C:\Program Files\nodejs\npm.cmd" run lint`
-Expected: No errors.
+```bash
+git add app/actions.ts
+git commit -m "feat: add updateCommentAction() server action"
+```
