@@ -13,10 +13,8 @@ const FILTER_LABELS: Record<StatusFilter, string> = { all: "All", ...STATUS_LABE
 
 export default function TicketList({
   tickets,
-  repositoryId,
 }: {
   tickets: Ticket[]
-  repositoryId: string
 }) {
   const [filter, setFilter] = useState<StatusFilter>("all")
 
@@ -50,7 +48,7 @@ export default function TicketList({
         <ul className="flex flex-col gap-2">
           {filtered.map((ticket) => (
             <li key={ticket.id}>
-              <Link href={`/repository/${repositoryId}/ticket/${ticket.id}`} className="cursor-pointer hover:opacity-80">
+              <Link href={`/tickets/${ticket.id}`} className="cursor-pointer hover:opacity-80">
                 <Card>
                   <div className="flex items-center justify-between">
                     <span className="font-medium">{ticket.title}</span>

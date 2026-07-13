@@ -54,7 +54,7 @@ export default async function NotesListPage({
             <li key={note.id} className="h-full">
               <Card className="h-full">
                 <div className="-mx-4 px-4 pb-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
-                  <Link href={`/note/${note.id}`} className="font-medium hover:underline cursor-pointer line-clamp-1">
+                  <Link href={`/notes/${note.id}`} className="font-medium hover:underline cursor-pointer line-clamp-1">
                     {note.title}
                   </Link>
                   <CopyContentButton content={note.content} />

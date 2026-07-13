@@ -18,7 +18,7 @@ export default async function ViewNotePage({ params }: { params: Promise<{ id: s
         title={`Note #${note.id}`}
         breadcrumbs={[{ label: "Notes", href: "/notes" }]}
         actions={
-          <Link href={`/note/${note.id}/update`}>
+          <Link href={`/notes/${note.id}/update`}>
             <Button>Update Note</Button>
           </Link>
         }

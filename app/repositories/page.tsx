@@ -26,7 +26,7 @@ export default async function RepositoriesPage({
         breadcrumbs={[{ label: "Dashboard", href: "/" }]}
         title="Repositories"
         actions={
-          <Link href="/repository/create">
+          <Link href="/repositories/create">
             <Button variant="primary">Create Repository</Button>
           </Link>
         }
@@ -42,7 +42,7 @@ export default async function RepositoriesPage({
             <li key={repo.id}>
               <Card>
                 <div className="flex items-center justify-between">
-                  <Link href={`/repository/${repo.id}`} className="font-medium hover:underline cursor-pointer">
+                  <Link href={`/repositories/${repo.id}`} className="font-medium hover:underline cursor-pointer">
                     {repo.name}
                   </Link>
                   <div className="flex items-center gap-2">

@@ -22,7 +22,7 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
             <Link href={`/tickets/create?repository_id=${repo.id}`}>
               <Button variant="secondary">Create Ticket</Button>
             </Link>
-            <Link href={`/repository/${repo.id}/update`}>
+            <Link href={`/repositories/${repo.id}/update`}>
               <Button>Update Repository</Button>
             </Link>
           </>
@@ -51,7 +51,7 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
         )}
       </Card>
 
-      <TicketList tickets={tickets} repositoryId={repo.id} />
+      <TicketList tickets={tickets} />
     </>
   )
 }

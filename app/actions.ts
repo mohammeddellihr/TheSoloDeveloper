@@ -20,7 +20,7 @@ export async function createTicketAction(_prev: unknown, formData: FormData) {
 
   try {
     const ticket = createTicket(repositoryId, title.trim(), typeof description === "string" ? description.trim() : "", validStatus)
-    redirect(`/repository/${repositoryId}/ticket/${ticket.id}`)
+    redirect(`/tickets/${ticket.id}`)
   } catch (e) {
     if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
     return { error: "Failed to create ticket" }
@@ -41,9 +41,9 @@ export async function updateTicketStatusAction(_prev: unknown, formData: FormDat
   }
 
   try {
-    const ticket = updateTicketStatus(repositoryId, ticketId, status as "pending" | "in_progress" | "completed")
+    const ticket = updateTicketStatus(ticketId, status as "pending" | "in_progress" | "completed")
     if (!ticket) return { error: "Ticket not found" }
-    revalidatePath(`/repository/${repositoryId}/ticket/${ticketId}`)
+    revalidatePath(`/tickets/${ticketId}`)
   } catch {
     return { error: "Failed to update status" }
   }
@@ -59,8 +59,8 @@ export async function addCommentAction(_prev: unknown, formData: FormData) {
   }
 
   try {
-    addComment(repositoryId, ticketId, text.trim())
-    revalidatePath(`/repository/${repositoryId}/ticket/${ticketId}`)
+    addComment(ticketId, text.trim())
+    revalidatePath(`/tickets/${ticketId}`)
     return { error: null }
   } catch {
     return { error: "Failed to add comment" }
@@ -80,7 +80,7 @@ export async function updateCommentAction(_prev: unknown, formData: FormData) {
   try {
     const comment = updateComment(commentId, text.trim())
     if (!comment) return { error: "Comment not found" }
-    revalidatePath(`/repository/${repositoryId}/ticket/${ticketId}`)
+    revalidatePath(`/tickets/${ticketId}`)
     return { error: null }
   } catch {
     return { error: "Failed to update comment" }
@@ -107,7 +107,7 @@ export async function createRepositoryAction(_prev: unknown, formData: FormData)
 
   try {
     const repo = createRepository(name, url.trim())
-    redirect(`/repository/${repo.id}`)
+    redirect(`/repositories/${repo.id}`)
   } catch (e) {
     if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
     return { error: "Failed to create repository" }
@@ -127,7 +127,7 @@ export async function updateRepositoryAction(_prev: unknown, formData: FormData)
   try {
     const repo = updateRepository(repositoryId, name, url.trim())
     if (!repo) return { error: "Repository not found" }
-    redirect(`/repository/${repositoryId}`)
+    redirect(`/repositories/${repositoryId}`)
   } catch (e) {
     if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
     return { error: "Failed to update repository" }
@@ -166,9 +166,9 @@ export async function updateTicketAction(_prev: unknown, formData: FormData) {
   }
 
   try {
-    const ticket = updateTicket(repositoryId, ticketId, title.trim(), typeof description === "string" ? description.trim() : "", status as "pending" | "in_progress" | "completed")
+    const ticket = updateTicket(ticketId, title.trim(), typeof description === "string" ? description.trim() : "", status as "pending" | "in_progress" | "completed")
     if (!ticket) return { error: "Ticket not found" }
-    redirect(`/repository/${repositoryId}/ticket/${ticketId}`)
+    redirect(`/tickets/${ticketId}`)
   } catch (e) {
     if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
     return { error: "Failed to update ticket" }
@@ -184,8 +184,8 @@ export async function deleteTicketAction(_prev: unknown, formData: FormData) {
   }
 
   try {
-    deleteTicket(repositoryId, ticketId)
-    redirect(`/repository/${repositoryId}`)
+    deleteTicket(ticketId)
+    redirect(`/tickets`)
   } catch (e) {
     if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
     return { error: "Failed to delete ticket" }
@@ -207,7 +207,7 @@ export async function createNoteAction(_prev: unknown, formData: FormData) {
 
   try {
     const note = createNote(title.trim(), typeof content === "string" ? content.trim() : "", keywordList)
-    redirect(`/note/${note.id}`)
+    redirect(`/notes/${note.id}`)
   } catch (e) {
     if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
     return { error: "Failed to create note" }
@@ -231,7 +231,7 @@ export async function updateNoteAction(_prev: unknown, formData: FormData) {
   try {
     const note = updateNote(noteId, title.trim(), typeof content === "string" ? content.trim() : "", keywordList)
     if (!note) return { error: "Note not found" }
-    redirect(`/note/${note.id}`)
+    redirect(`/notes/${note.id}`)
   } catch (e) {
     if (e instanceof Error && 'digest' in e && typeof e.digest === 'string' && e.digest.startsWith("NEXT_REDIRECT")) throw e
     return { error: "Failed to update note" }
@@ -265,7 +265,7 @@ export async function deleteCommentAction(_prev: unknown, formData: FormData) {
 
   try {
     deleteComment(commentId)
-    revalidatePath(`/repository/${repositoryId}/ticket/${ticketId}`)
+    revalidatePath(`/tickets/${ticketId}`)
     return { error: null }
   } catch {
     return { error: "Failed to delete comment" }

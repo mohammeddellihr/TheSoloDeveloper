@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { getRepository, getTicket } from "@/lib/db"
+import { getTicketById, getRepository } from "@/lib/db"
 import Header from "@/app/components/Header"
 import Card from "@/app/components/Card"
 import Badge from "@/app/components/Badge"
@@ -11,13 +11,14 @@ import CommentForm from "@/app/components/CommentForm"
 export default async function TicketPage({
   params,
 }: {
-  params: Promise<{ id: string; ticketId: string }>
+  params: Promise<{ id: string }>
 }) {
-  const { id, ticketId } = await params
-  const repo = getRepository(id)
-  const ticket = getTicket(id, ticketId)
+  const { id: ticketId } = await params
+  const ticket = getTicketById(ticketId)
+  if (!ticket) notFound()
 
-  if (!repo || !ticket) notFound()
+  const repo = getRepository(ticket.repositoryId)
+  if (!repo) notFound()
 
   return (
     <>
@@ -27,7 +28,7 @@ export default async function TicketPage({
         ]}
         title={`Ticket #${ticket.id}`}
         actions={
-          <Link href={`/repository/${repo.id}/ticket/${ticket.id}/update`}>
+          <Link href={`/tickets/${ticket.id}/update`}>
             <Button>Update Ticket</Button>
           </Link>
         }

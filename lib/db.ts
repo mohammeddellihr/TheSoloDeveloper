@@ -144,12 +144,17 @@ export function getTickets(repositoryId: string): Ticket[] {
   }))
 }
 
-export function getTicket(repositoryId: string, ticketId: string): Ticket | null {
+export function getTicketById(ticketId: string): Ticket | null {
   const db = getDb()
-  const row = db.prepare('SELECT * FROM tickets WHERE id = ? AND repositoryId = ?').get(ticketId, repositoryId) as Omit<Ticket, 'comments'> | undefined
+  const row = db.prepare('SELECT * FROM tickets WHERE id = ?').get(ticketId) as Omit<Ticket, 'comments'> | undefined
   if (!row) return null
   const comments = db.prepare('SELECT * FROM comments WHERE ticketId = ? ORDER BY createdAt ASC').all(ticketId) as Comment[]
   return { ...row, comments }
+}
+
+// ponytail: kept old signature for backward compat; callers updated later
+export function getTicket(_repositoryId: string, ticketId: string): Ticket | null {
+  return getTicketById(ticketId)
 }
 
 export function createTicket(repositoryId: string, title: string, description: string, status: Ticket["status"] = "pending"): Ticket {
@@ -161,15 +166,14 @@ export function createTicket(repositoryId: string, title: string, description: s
 }
 
 export function updateTicketStatus(
-  repositoryId: string,
   ticketId: string,
   status: 'pending' | 'in_progress' | 'completed' | 'archived'
 ): Ticket | null {
   const db = getDb()
   const now = iso()
-  const result = db.prepare('UPDATE tickets SET status = ?, updatedAt = ? WHERE id = ? AND repositoryId = ?').run(status, now, ticketId, repositoryId)
+  const result = db.prepare('UPDATE tickets SET status = ?, updatedAt = ? WHERE id = ?').run(status, now, ticketId)
   if (result.changes === 0) return null
-  return getTicket(repositoryId, ticketId)
+  return getTicketById(ticketId)
 }
 
 export function getAllTickets(filters?: { repositoryId?: string; status?: string }): (Omit<Ticket, "comments"> & { repoName: string })[] {
@@ -197,7 +201,6 @@ export function deleteRepository(id: string): boolean {
 }
 
 export function updateTicket(
-  repositoryId: string,
   ticketId: string,
   title: string,
   description: string,
@@ -205,26 +208,26 @@ export function updateTicket(
 ): Ticket | null {
   const db = getDb()
   const now = iso()
-  const result = db.prepare('UPDATE tickets SET title = ?, description = ?, status = ?, updatedAt = ? WHERE id = ? AND repositoryId = ?')
-    .run(title, description, status, now, ticketId, repositoryId)
+  const result = db.prepare('UPDATE tickets SET title = ?, description = ?, status = ?, updatedAt = ? WHERE id = ?')
+    .run(title, description, status, now, ticketId)
   if (result.changes === 0) return null
-  return getTicket(repositoryId, ticketId)
+  return getTicketById(ticketId)
 }
 
-export function deleteTicket(repositoryId: string, ticketId: string): boolean {
-  const result = getDb().prepare('DELETE FROM tickets WHERE id = ? AND repositoryId = ?').run(ticketId, repositoryId)
+export function deleteTicket(ticketId: string): boolean {
+  const result = getDb().prepare('DELETE FROM tickets WHERE id = ?').run(ticketId)
   return result.changes > 0
 }
 
-export function addComment(repositoryId: string, ticketId: string, text: string): Ticket | null {
+export function addComment(ticketId: string, text: string): Ticket | null {
   const db = getDb()
-  const ticket = getTicket(repositoryId, ticketId)
+  const ticket = getTicketById(ticketId)
   if (!ticket) return null
   const id = nanoid()
   const now = iso()
   db.prepare('INSERT INTO comments (id, ticketId, text, createdAt) VALUES (?, ?, ?, ?)').run(id, ticketId, text, now)
   db.prepare('UPDATE tickets SET updatedAt = ? WHERE id = ?').run(now, ticketId)
-  return getTicket(repositoryId, ticketId)
+  return getTicketById(ticketId)
 }
 
 export function getStats(): Stats {
