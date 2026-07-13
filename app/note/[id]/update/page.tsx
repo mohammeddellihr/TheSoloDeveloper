@@ -11,14 +11,14 @@ export default async function UpdateNotePage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const note = getNote(Number(id))
+  const note = getNote(id)
 
   if (!note) notFound()
 
   return (
     <>
       <Header
-        title={`Update Note: ${note.title}`}
+        title="Update Note"
         breadcrumbs={[
           { label: "Notes", href: "/notes" },
           { label: note.title, href: `/note/${note.id}` },

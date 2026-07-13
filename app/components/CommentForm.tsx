@@ -14,11 +14,11 @@ export default function CommentForm({
   const [state, formAction, pending] = useActionState(addCommentAction, undefined)
 
   return (
-    <form action={formAction} className="flex flex-col gap-2">
+    <form action={formAction} className="flex flex-col gap-3">
       <input type="hidden" name="repositoryId" value={repositoryId} />
       <input type="hidden" name="ticketId" value={ticketId} />
-      <div className="border-b border-gray-200 dark:border-gray-800 pb-4">
-        <h3 className="text-sm font-semibold">Comment</h3>
+      <div className="-mx-4 px-4 pb-4 border-b border-gray-200 dark:border-gray-800">
+        <h3 className="text-sm font-semibold">Create Comment</h3>
       </div>
       <div className="pt-2">
         <textarea
@@ -31,9 +31,9 @@ export default function CommentForm({
         />
       </div>
       {state?.error && <p className="text-xs text-red-500">{state.error}</p>}
-      <div className="border-t border-gray-200 dark:border-gray-800 pt-4 mt-2 flex justify-end">
+      <div className="-mx-4 px-4 pt-4 mt-4 border-t border-gray-200 dark:border-gray-800 flex justify-end">
         <Button type="submit" disabled={pending}>
-          {pending ? "Adding..." : "Add Comment"}
+          {pending ? "Creating..." : "Create Comment"}
         </Button>
       </div>
     </form>

@@ -19,18 +19,18 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
         title={`Repository #${repo.id}`}
         actions={
           <>
-            <Link href={`/repository/${repo.id}/update`}>
-              <Button variant="secondary">Update Repository</Button>
-            </Link>
             <Link href={`/tickets/create?repository_id=${repo.id}`}>
-              <Button variant="primary">Create Ticket</Button>
+              <Button variant="secondary">Create Ticket</Button>
+            </Link>
+            <Link href={`/repository/${repo.id}/update`}>
+              <Button>Update Repository</Button>
             </Link>
           </>
         }
       />
 
       <Card>
-        <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-4">
+        <div className="-mx-4 px-4 pb-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
           <h1 className="text-xl font-bold">{repo.name}</h1>
         </div>
         {repo.url ? (
@@ -46,7 +46,7 @@ export default async function RepoPage({ params }: { params: Promise<{ id: strin
           </div>
         ) : (
           <div className="pt-4">
-            <p className="text-sm text-gray-500 italic">No content</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 italic">No content</p>
           </div>
         )}
       </Card>

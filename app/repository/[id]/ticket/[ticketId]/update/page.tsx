@@ -19,8 +19,7 @@ export default async function UpdateTicketPage({
     <>
       <Header
         breadcrumbs={[
-          { label: "Repositories", href: "/repositories" },
-          { label: repo.name, href: `/repository/${repo.id}` },
+          { label: "Tickets", href: "/tickets" },
         ]}
         title="Update Ticket"
         actions={<DeleteTicketButton repositoryId={repo.id} ticketId={ticket.id} />}

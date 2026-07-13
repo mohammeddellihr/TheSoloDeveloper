@@ -5,6 +5,7 @@ import Header from "@/app/components/Header"
 import Card from "@/app/components/Card"
 import Badge from "@/app/components/Badge"
 import Button from "@/app/components/Button"
+import UpdateCommentButton from "@/app/components/UpdateCommentButton"
 import CommentForm from "@/app/components/CommentForm"
 
 export default async function TicketPage({
@@ -21,7 +22,9 @@ export default async function TicketPage({
   return (
     <>
       <Header
-        breadcrumbs={[{ label: "Tickets", href: "/tickets" }]}
+        breadcrumbs={[
+          { label: "Tickets", href: "/tickets" },
+        ]}
         title={`Ticket #${ticket.id}`}
         actions={
           <Link href={`/repository/${repo.id}/ticket/${ticket.id}/update`}>
@@ -31,7 +34,7 @@ export default async function TicketPage({
       />
 
       <Card>
-        <div className="flex items-center justify-between border-b border-gray-200 dark:border-gray-800 pb-4">
+        <div className="-mx-4 px-4 pb-4 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
           <h1 className="text-xl font-bold">{ticket.title}</h1>
           <Badge variant={ticket.status} />
         </div>
@@ -43,16 +46,20 @@ export default async function TicketPage({
           </div>
         ) : (
           <div className="pt-4">
-            <p className="text-sm text-gray-500 italic">No content</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 italic">No content</p>
           </div>
         )}
       </Card>
 
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-2">
         {ticket.comments.map((comment) => (
-          <Card key={comment.id}>
-            <p className="text-sm whitespace-pre-wrap">{comment.text}</p>
-          </Card>
+          <UpdateCommentButton
+            key={comment.id}
+            repositoryId={repo.id}
+            ticketId={ticket.id}
+            commentId={comment.id}
+            initialText={comment.text}
+          />
         ))}
 
         <Card>

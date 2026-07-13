@@ -32,10 +32,11 @@ function getDb(): Database.Database {
       id TEXT PRIMARY KEY,
       ticketId TEXT NOT NULL REFERENCES tickets(id) ON DELETE CASCADE,
       text TEXT NOT NULL,
-      createdAt TEXT NOT NULL
+      createdAt TEXT NOT NULL,
+      updatedAt TEXT
     );
     CREATE TABLE IF NOT EXISTS notes (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id TEXT PRIMARY KEY,
       title TEXT NOT NULL,
       content TEXT NOT NULL DEFAULT '',
       keywords TEXT NOT NULL DEFAULT '[]',
@@ -48,6 +49,11 @@ function getDb(): Database.Database {
   if (columns.some(c => c.name === "repoId") && !columns.some(c => c.name === "repositoryId")) {
     _db.exec("ALTER TABLE tickets RENAME COLUMN repoId TO repositoryId")
   }
+  // ponytail: migration for comments updatedAt column
+  const commentColumns = _db.prepare("PRAGMA table_info(comments)").all() as { name: string }[]
+  if (!commentColumns.some(c => c.name === "updatedAt")) {
+    _db.exec("ALTER TABLE comments ADD COLUMN updatedAt TEXT")
+  }
   return _db
 }
 
@@ -55,6 +61,7 @@ export interface Comment {
   id: string
   text: string
   createdAt: string
+  updatedAt: string | null
 }
 
 export interface Ticket {
@@ -62,7 +69,7 @@ export interface Ticket {
   repositoryId: string
   title: string
   description: string
-  status: 'pending' | 'in_progress' | 'completed'
+  status: 'pending' | 'in_progress' | 'completed' | 'archived'
   comments: Comment[]
   createdAt: string
   updatedAt: string
@@ -77,7 +84,7 @@ export interface Repository {
 }
 
 export interface Note {
-  id: number
+  id: string
   title: string
   content: string
   keywords: string[]
@@ -118,7 +125,7 @@ export function createRepository(name: string, url?: string): Repository {
 export function getTickets(repositoryId: string): Ticket[] {
   const db = getDb()
   const rows = db.prepare(`
-    SELECT t.*, GROUP_CONCAT(c.id || '::' || c.text || '::' || c.createdAt) as commentData
+    SELECT t.*, GROUP_CONCAT(c.id || '::' || c.text || '::' || c.createdAt || '::' || COALESCE(c.updatedAt, '')) as commentData
     FROM tickets t
     LEFT JOIN comments c ON c.ticketId = t.id
     WHERE t.repositoryId = ?
@@ -130,8 +137,8 @@ export function getTickets(repositoryId: string): Ticket[] {
     ...row,
     comments: row.commentData
       ? row.commentData.split(',').map(raw => {
-          const [id, text, createdAt] = raw.split('::')
-          return { id, text, createdAt }
+          const [id, text, createdAt, updatedAt] = raw.split('::')
+          return { id, text, createdAt, updatedAt: updatedAt || null }
         })
       : [],
   }))
@@ -156,7 +163,7 @@ export function createTicket(repositoryId: string, title: string, description: s
 export function updateTicketStatus(
   repositoryId: string,
   ticketId: string,
-  status: 'pending' | 'in_progress' | 'completed'
+  status: 'pending' | 'in_progress' | 'completed' | 'archived'
 ): Ticket | null {
   const db = getDb()
   const now = iso()
@@ -194,7 +201,7 @@ export function updateTicket(
   ticketId: string,
   title: string,
   description: string,
-  status: 'pending' | 'in_progress' | 'completed'
+  status: 'pending' | 'in_progress' | 'completed' | 'archived'
 ): Ticket | null {
   const db = getDb()
   const now = iso()
@@ -236,7 +243,7 @@ export function getNotes(): Note[] {
   return rows.map(r => ({ ...r, keywords: JSON.parse(r.keywords) }))
 }
 
-export function getNote(id: number): Note | null {
+export function getNote(id: string): Note | null {
   const row = getDb().prepare('SELECT * FROM notes WHERE id = ?').get(id) as (Omit<Note, 'keywords'> & { keywords: string }) | undefined
   if (!row) return null
   return { ...row, keywords: JSON.parse(row.keywords) }
@@ -244,12 +251,13 @@ export function getNote(id: number): Note | null {
 
 export function createNote(title: string, content: string, keywords: string[]): Note {
   const db = getDb()
+  const id = nanoid()
   const now = iso()
-  const result = db.prepare('INSERT INTO notes (title, content, keywords, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?)').run(title, content, JSON.stringify(keywords), now, now)
-  return getNote(result.lastInsertRowid as number)!
+  db.prepare('INSERT INTO notes (id, title, content, keywords, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?, ?)').run(id, title, content, JSON.stringify(keywords), now, now)
+  return getNote(id)!
 }
 
-export function updateNote(id: number, title: string, content: string, keywords: string[]): Note | null {
+export function updateNote(id: string, title: string, content: string, keywords: string[]): Note | null {
   const db = getDb()
   const now = iso()
   const result = db.prepare('UPDATE notes SET title = ?, content = ?, keywords = ?, updatedAt = ? WHERE id = ?').run(title, content, JSON.stringify(keywords), now, id)
@@ -257,7 +265,29 @@ export function updateNote(id: number, title: string, content: string, keywords:
   return getNote(id)
 }
 
-export function deleteNote(id: number): boolean {
+export function deleteNote(id: string): boolean {
   const result = getDb().prepare('DELETE FROM notes WHERE id = ?').run(id)
   return result.changes > 0
+}
+
+export function deleteComment(commentId: string): boolean {
+  const db = getDb()
+  const row = db.prepare('SELECT ticketId FROM comments WHERE id = ?').get(commentId) as { ticketId: string } | undefined
+  if (!row) return false
+  const result = db.prepare('DELETE FROM comments WHERE id = ?').run(commentId)
+  if (result.changes > 0) {
+    const now = iso()
+    db.prepare('UPDATE tickets SET updatedAt = ? WHERE id = ?').run(now, row.ticketId)
+  }
+  return result.changes > 0
+}
+
+export function updateComment(commentId: string, text: string): Comment | null {
+  const db = getDb()
+  const now = iso()
+  const row = db.prepare('SELECT ticketId FROM comments WHERE id = ?').get(commentId) as { ticketId: string } | undefined
+  if (!row) return null
+  db.prepare('UPDATE comments SET text = ?, updatedAt = ? WHERE id = ?').run(text, now, commentId)
+  db.prepare('UPDATE tickets SET updatedAt = ? WHERE id = ?').run(now, row.ticketId)
+  return db.prepare('SELECT * FROM comments WHERE id = ?').get(commentId) as Comment
 }

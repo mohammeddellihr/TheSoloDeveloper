@@ -24,7 +24,7 @@ export default function RootLayout({
       className={`${josefinSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
-        <header className="bg-gray-50 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+        <header className="bg-black border-b border-gray-200 dark:border-gray-800">
           <nav className="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-3">
             <Link href="/" className="text-lg font-bold">
               The Solo Developer

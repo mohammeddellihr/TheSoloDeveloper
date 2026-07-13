@@ -1,35 +1,40 @@
-# Task 4: Add "Create Ticket" button to the Tickets list header
+# Task 4: Fix Button Style Inconsistencies
 
 **Files:**
-- Modify: `app/tickets/page.tsx`
+- Modify: `app/repository/[id]/page.tsx`
+- Modify: `app/components/Button.tsx`
+- Modify: `app/components/ConfirmModal.tsx`
 
-**Step 1: Add the button alongside TicketFilters**
+- [ ] **Step 1: Fix "Update Repository" button to primary**
 
-Change the Header `actions` from:
-
-```tsx
-actions={<TicketFilters repositories={repositories} />}
-```
-
-to:
+In `app/repository/[id]/page.tsx`, find the "Update Repository" button and remove `variant="secondary"`:
 
 ```tsx
-actions={
-  <div className="flex items-center gap-2">
-    <TicketFilters repositories={repositories} />
-    <Link href="/tickets/create">
-      <Button>Create Ticket</Button>
-    </Link>
-  </div>
-}
+<Link href={`/repository/${repo.id}/update`}>
+  <Button>Update Repository</Button>
+</Link>
 ```
 
-Add the `Link` and `Button` imports if not already present (they are both currently imported in this file: `Link` at line 1, `Button` is NOT imported yet — add `import Button from "../components/Button"`).
+- [ ] **Step 2: Add disabled:cursor-not-allowed to Button component**
 
-**Step 2: Verify**
+In `app/components/Button.tsx`, add `disabled:cursor-not-allowed` to the button className string, before the `${variants[variant]}` part:
 
-Run: `npm run build`
-Expected: Compiles. `app/tickets/page.tsx` now shows the filter + Create Ticket button in the header.
+```tsx
+className={`rounded px-4 py-2 text-sm font-medium whitespace-nowrap cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black dark:focus-visible:outline-white disabled:cursor-not-allowed ${variants[variant]} ${className}`}
+```
 
-Run: `npm run lint`
+- [ ] **Step 3: Add disabled styles to ConfirmModal delete button**
+
+In `app/components/ConfirmModal.tsx`, find the red delete button and add `disabled:opacity-50 disabled:cursor-not-allowed`:
+
+```tsx
+className="rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+```
+
+- [ ] **Step 4: Verify**
+
+Run: `& "C:\Program Files\nodejs\npm.cmd" run build`
+Expected: Compiles.
+
+Run: `& "C:\Program Files\nodejs\npm.cmd" run lint`
 Expected: No errors.

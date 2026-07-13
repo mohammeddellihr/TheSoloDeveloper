@@ -23,7 +23,7 @@ export default function Dashboard() {
         {statCards.map((stat) => (
           <Link key={stat.label} href={stat.href} className="cursor-pointer hover:opacity-80">
             <Card>
-              <p className="text-sm text-gray-500">{stat.label}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{stat.label}</p>
               <p className={`mt-1 text-2xl font-bold ${stat.color || ""}`}>{stat.value}</p>
             </Card>
           </Link>
