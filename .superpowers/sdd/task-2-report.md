@@ -1,31 +1,30 @@
-# Task 2: Enable Next.js standalone output
+## Task 2: Server Action — Add updateCommentAction()
 
-**Status:** DONE
+### What I implemented
 
-## What I implemented
+Added `updateCommentAction()` server action to `app/actions.ts`:
 
-Added `output: "standalone"` to `next.config.ts` to enable Next.js standalone build output mode. This produces a self-contained build in `.next/standalone` that includes only the server files needed to run the app (~15-20MB), required for Docker deployment.
+1. **Import updateComment** — added `updateComment` to the imports from `@/lib/db` on line 6
+2. **updateCommentAction()** — new exported async function (lines 70-88) that:
+   - Extracts `repositoryId`, `ticketId`, `commentId`, and `text` from `formData`
+   - Validates all are strings and text is non-empty
+   - Calls `updateComment(commentId, text.trim())`
+   - Returns `{ error: "Comment not found" }` if the comment doesn't exist
+   - Revalidates the ticket page path on success
+   - Returns `{ error: null }` on success, `{ error: "..." }` on failure
 
-## Files changed
+### What I tested
 
-- `next.config.ts` — Replaced placeholder comment with `output: "standalone"`
+- **`npm run lint`**: PASS — 0 errors, 3 pre-existing warnings (unused imports in delete button components, unrelated)
+- **`npx tsc --noEmit`**: PASS — no type errors
 
-## Verification
+### Files changed
 
-- `npm run build` succeeded
-- `.next/standalone` directory confirmed to exist after build
-- No TypeScript errors
+- `app/actions.ts` — added import + `updateCommentAction()` function
 
-## Self-review
+### Self-review findings
 
-- Implementation matches the plan spec exactly
-- Clean, minimal change — only the config option added
-- Follows existing code conventions
-
-## Concerns
-
-- Git was not available in this environment, so the commit step was skipped. The user should run:
-  ```
-  git add next.config.ts
-  git commit -m "feat: enable Next.js standalone output for Docker"
-  ```
+- Implementation exactly matches the task brief spec
+- Follows the same pattern as `addCommentAction` and `deleteCommentAction`
+- `updateComment()` already exists in `lib/db.ts:278` and returns `Comment | null` — correct usage
+- No overbuilding, no missing requirements

@@ -1,39 +1,30 @@
-# Task 3: Create Dockerfile — Report
+## Task 3: UI Component — Create UpdateCommentButton and Integrate
 
-## What Was Implemented
+**Status:** DONE
 
-Created the multi-stage Dockerfile as specified in the plan.
+### What I implemented
 
-**Dockerfile** (25 lines):
-- **deps stage** (node:20): Installs dependencies via `npm ci`
-- **builder stage** (node:20): Builds Next.js with standalone output
-- **runner stage** (node:20-alpine): Slim final image with:
-  - libc6-compat for better-sqlite3 native modules
-  - Non-root user (nextjs:nodejs) for security
-  - Standalone output and static assets
-  - Port 3000 exposed, serving on 0.0.0.0
+1. **Created `app/components/UpdateCommentButton.tsx`** — Client component with inline editing for comments. Shows a pencil icon button; on click, expands to a textarea with Save/Cancel buttons. Uses `useTransition` for pending state, `updateCommentAction` for persistence, and `router.refresh()` after successful save. Validates non-empty text client-side.
 
-## Files Changed
+2. **Modified `app/repository/[id]/ticket/[ticketId]/page.tsx`** — Added import for `UpdateCommentButton` and placed it alongside `DeleteButton` and `CopyContentButton` in the comment action bar (edit button first, then delete, then copy).
 
-- `Dockerfile` — Created (25 lines)
+### What I tested
 
-## Self-Review
+- **Lint:** `npm run lint` — PASS (0 errors, 3 pre-existing warnings in unrelated files)
+- No test suite exists in this project per AGENTS.md.
 
-**Completeness:**
-- All three stages implemented exactly per plan
-- No comments (as required)
-- libc6-compat installed for native module compatibility
-- Non-root user created with correct UID/GID
+### Files changed
 
-**Quality:**
-- Matches plan specification exactly
-- Follows Next.js Docker best practices
-- Multi-stage build ensures minimal image size
+- `app/components/UpdateCommentButton.tsx` (created)
+- `app/repository/[id]/ticket/[ticketId]/page.tsx` (added import + component usage)
 
-**Discipline:**
-- Only built what was requested
-- No modifications beyond plan scope
+### Commit
 
-## Concerns
+- `465408f` — feat: add inline comment editing with UpdateCommentButton
 
-None. The implementation matches the plan exactly with no deviations.
+### Self-review findings
+
+- Follows existing patterns exactly (matches `DeleteButton` structure: "use client", same imports pattern, same button styling conventions, same e.stopPropagation/preventDefault pattern).
+- Uses the `Button` component for Save/Cancel as specified in the brief.
+- Empty-text validation handled both client-side (inline error) and server-side (action returns error).
+- No overbuilding — exactly what the brief specified.
