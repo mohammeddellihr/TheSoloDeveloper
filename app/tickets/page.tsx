@@ -50,7 +50,7 @@ export default async function TicketsPage({
               <Card className="h-full">
                 <div className="-mx-4 px-4 pb-3 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
                   <Link href={`/tickets/${ticket.id}`} className="font-medium hover:underline cursor-pointer line-clamp-1">
-                    {ticket.title}
+                    {ticket.title || "No Title"}
                   </Link>
                 </div>
                 {ticket.description ? (

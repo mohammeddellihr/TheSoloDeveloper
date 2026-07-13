@@ -12,8 +12,8 @@ export async function createTicketAction(_prev: unknown, formData: FormData) {
   const description = formData.get("description")
   const status = formData.get("status")
 
-  if (typeof repositoryId !== "string" || typeof title !== "string" || !title.trim()) {
-    return { error: "Title is required" }
+  if (typeof repositoryId !== "string" || typeof title !== "string") {
+    return { error: "Invalid request" }
   }
 
   const validStatus = STATUSES.includes(status as Ticket["status"]) ? status as Ticket["status"] : "pending"
@@ -157,8 +157,8 @@ export async function updateTicketAction(_prev: unknown, formData: FormData) {
   const description = formData.get("description")
   const status = formData.get("status")
 
-  if (typeof repositoryId !== "string" || typeof ticketId !== "string" || typeof title !== "string" || typeof status !== "string" || !title.trim()) {
-    return { error: "Title and status are required" }
+  if (typeof repositoryId !== "string" || typeof ticketId !== "string" || typeof title !== "string" || typeof status !== "string") {
+    return { error: "Invalid request" }
   }
 
   if (!(STATUSES as readonly string[]).includes(status)) {
@@ -197,8 +197,8 @@ export async function createNoteAction(_prev: unknown, formData: FormData) {
   const content = formData.get("content")
   const keywords = formData.get("keywords")
 
-  if (typeof title !== "string" || !title.trim()) {
-    return { error: "Title is required" }
+  if (typeof title !== "string") {
+    return { error: "Invalid request" }
   }
 
   const keywordList = typeof keywords === "string" && keywords.trim()
@@ -220,8 +220,8 @@ export async function updateNoteAction(_prev: unknown, formData: FormData) {
   const content = formData.get("content")
   const keywords = formData.get("keywords")
 
-  if (typeof noteId !== "string" || typeof title !== "string" || !title.trim()) {
-    return { error: "Title is required" }
+  if (typeof noteId !== "string" || typeof title !== "string") {
+    return { error: "Invalid request" }
   }
 
   const keywordList = typeof keywords === "string" && keywords.trim()

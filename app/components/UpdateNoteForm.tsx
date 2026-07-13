@@ -15,7 +15,6 @@ export default function UpdateNoteForm({ note }: { note: Note }) {
       <input
         id="title"
         name="title"
-        required
         defaultValue={note.title}
         placeholder="e.g., Meeting notes"
         className="rounded border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-black dark:focus:border-white focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"

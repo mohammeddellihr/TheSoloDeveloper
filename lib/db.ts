@@ -22,7 +22,7 @@ function getDb(): Database.Database {
     CREATE TABLE IF NOT EXISTS tickets (
       id TEXT PRIMARY KEY,
       repositoryId TEXT NOT NULL REFERENCES repositories(id) ON DELETE CASCADE,
-      title TEXT NOT NULL,
+      title TEXT NOT NULL DEFAULT '',
       description TEXT NOT NULL DEFAULT '',
       status TEXT NOT NULL DEFAULT 'pending',
       createdAt TEXT NOT NULL,
@@ -37,7 +37,7 @@ function getDb(): Database.Database {
     );
     CREATE TABLE IF NOT EXISTS notes (
       id TEXT PRIMARY KEY,
-      title TEXT NOT NULL,
+      title TEXT NOT NULL DEFAULT '',
       content TEXT NOT NULL DEFAULT '',
       keywords TEXT NOT NULL DEFAULT '[]',
       createdAt TEXT NOT NULL,

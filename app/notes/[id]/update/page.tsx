@@ -21,7 +21,7 @@ export default async function UpdateNotePage({
         title="Update Note"
         breadcrumbs={[
           { label: "Notes", href: "/notes" },
-          { label: note.title, href: `/notes/${note.id}` },
+          { label: note.title || "No Title", href: `/notes/${note.id}` },
         ]}
         actions={<DeleteNoteButton noteId={note.id} />}
       />

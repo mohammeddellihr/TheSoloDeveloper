@@ -47,7 +47,6 @@ export default function UpdateTicketForm({
         name="title"
         placeholder="e.g., Fix login bug"
         defaultValue={title}
-        required
         className="rounded border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-black dark:focus:border-white focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100"
       />
       <label className="text-sm font-medium text-gray-700 dark:text-gray-300" htmlFor="ticket-description">Description</label>
