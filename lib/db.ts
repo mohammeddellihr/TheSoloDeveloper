@@ -32,7 +32,8 @@ function getDb(): Database.Database {
       id TEXT PRIMARY KEY,
       ticketId TEXT NOT NULL REFERENCES tickets(id) ON DELETE CASCADE,
       text TEXT NOT NULL,
-      createdAt TEXT NOT NULL
+      createdAt TEXT NOT NULL,
+      updatedAt TEXT
     );
     CREATE TABLE IF NOT EXISTS notes (
       id TEXT PRIMARY KEY,
@@ -48,6 +49,11 @@ function getDb(): Database.Database {
   if (columns.some(c => c.name === "repoId") && !columns.some(c => c.name === "repositoryId")) {
     _db.exec("ALTER TABLE tickets RENAME COLUMN repoId TO repositoryId")
   }
+  // ponytail: migration for comments updatedAt column
+  const commentColumns = _db.prepare("PRAGMA table_info(comments)").all() as { name: string }[]
+  if (!commentColumns.some(c => c.name === "updatedAt")) {
+    _db.exec("ALTER TABLE comments ADD COLUMN updatedAt TEXT")
+  }
   return _db
 }
 
@@ -55,6 +61,7 @@ export interface Comment {
   id: string
   text: string
   createdAt: string
+  updatedAt: string | null
 }
 
 export interface Ticket {
@@ -118,7 +125,7 @@ export function createRepository(name: string, url?: string): Repository {
 export function getTickets(repositoryId: string): Ticket[] {
   const db = getDb()
   const rows = db.prepare(`
-    SELECT t.*, GROUP_CONCAT(c.id || '::' || c.text || '::' || c.createdAt) as commentData
+    SELECT t.*, GROUP_CONCAT(c.id || '::' || c.text || '::' || c.createdAt || '::' || COALESCE(c.updatedAt, '')) as commentData
     FROM tickets t
     LEFT JOIN comments c ON c.ticketId = t.id
     WHERE t.repositoryId = ?
@@ -130,8 +137,8 @@ export function getTickets(repositoryId: string): Ticket[] {
     ...row,
     comments: row.commentData
       ? row.commentData.split(',').map(raw => {
-          const [id, text, createdAt] = raw.split('::')
-          return { id, text, createdAt }
+          const [id, text, createdAt, updatedAt] = raw.split('::')
+          return { id, text, createdAt, updatedAt: updatedAt || null }
         })
       : [],
   }))
@@ -266,4 +273,12 @@ export function deleteNote(id: string): boolean {
 export function deleteComment(commentId: string): boolean {
   const result = getDb().prepare('DELETE FROM comments WHERE id = ?').run(commentId)
   return result.changes > 0
+}
+
+export function updateComment(commentId: string, text: string): Comment | null {
+  const db = getDb()
+  const now = iso()
+  const result = db.prepare('UPDATE comments SET text = ?, updatedAt = ? WHERE id = ?').run(text, now, commentId)
+  if (result.changes === 0) return null
+  return db.prepare('SELECT * FROM comments WHERE id = ?').get(commentId) as Comment
 }
