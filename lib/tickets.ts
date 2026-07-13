@@ -1,7 +1,8 @@
 import { getDb } from "./db"
 import { nanoid } from "nanoid"
 import { iso } from "./utils"
-import type { Repository } from "./db"
+import type { Repository, Ticket } from "./db"
+import type { Comment } from "./db"
 
 export function getTickets(repositoryId: string): Ticket[] {
   const db = getDb()
@@ -43,7 +44,7 @@ export function createTicket(repositoryId: string, title: string, content: strin
 
 export function updateTicketStatus(
   ticketId: string,
-  status: 'pending' | 'in_progress' | 'completed' | 'archived'
+  status: Ticket["status"]
 ): Ticket | null {
   const db = getDb()
   const now = iso()
@@ -66,7 +67,7 @@ export function updateTicket(
   ticketId: string,
   title: string,
   content: string,
-  status: 'pending' | 'in_progress' | 'completed' | 'archived',
+  status: Ticket["status"],
   repositoryId: string
 ): Ticket | null {
   const db = getDb()

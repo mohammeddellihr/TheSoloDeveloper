@@ -2,21 +2,21 @@
 
 import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
-import { updateCommentAction } from "@/app/actions"
+import { updateCommentAction, deleteCommentAction } from "@/app/actions"
 import Button from "@/app/components/Button"
 import Card from "@/app/components/Card"
-import DeleteButton from "@/app/components/DeleteButton"
+import ConfirmDeleteButton from "@/app/components/ConfirmDeleteButton"
 import CopyContentButton from "@/app/components/CopyContentButton"
 import AutoResizeTextarea from "@/app/components/AutoResizeTextarea"
 
 export default function UpdateCommentButton({
-  repositoryId,
-  ticketId,
+  ownerType,
+  ownerId,
   commentId,
   initialText,
 }: {
-  repositoryId: string
-  ticketId: string
+  ownerType: "ticket" | "note"
+  ownerId: string
   commentId: string
   initialText: string
 }) {
@@ -32,8 +32,11 @@ export default function UpdateCommentButton({
       return
     }
     const formData = new FormData()
-    formData.set("repositoryId", repositoryId)
-    formData.set("ticketId", ticketId)
+    if (ownerType === "ticket") {
+      formData.set("ticketId", ownerId)
+    } else {
+      formData.set("noteId", ownerId)
+    }
     formData.set("commentId", commentId)
     formData.set("text", text.trim())
     startTransition(async () => {
@@ -48,59 +51,24 @@ export default function UpdateCommentButton({
     })
   }
 
-  function handleCancel() {
-    setText(initialText)
-    setEditing(false)
-    setError(null)
-  }
-
-  if (editing) {
-    return (
-      <Card>
-        <div className="flex flex-col gap-3">
-          <div className="-mx-4 px-4 pb-4 border-b border-gray-800">
-            <h3 className="text-sm font-semibold">Update Comment</h3>
-          </div>
-          <div className="pt-2">
-            <AutoResizeTextarea
-              value={text}
-              onChange={(e) => {
-                setText(e.target.value)
-                setError(null)
-              }}
-              rows={5}
-              className="w-full rounded border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-gray-100 placeholder:text-gray-400 focus:border-white focus:outline-none"
-              disabled={pending}
-            />
-          </div>
-          {error && <p className="text-xs text-red-500">{error}</p>}
-          <div className="-mx-4 px-4 pt-4 border-t border-gray-800 flex justify-end gap-2">
-            <Button
-              variant="secondary"
-              onClick={handleCancel}
-              disabled={pending}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="primary"
-              onClick={handleSave}
-              disabled={pending}
-            >
-              {pending ? "Saving..." : "Update Comment"}
-            </Button>
-          </div>
-        </div>
-      </Card>
-    )
-  }
+  const deleteHiddenFields =
+    ownerType === "ticket"
+      ? ({ ticketId: ownerId, commentId } as Record<string, string>)
+      : ({ noteId: ownerId, commentId } as Record<string, string>)
 
   return (
     <Card>
       <div className="flex items-start justify-between">
         <p className="text-sm leading-relaxed whitespace-pre-wrap">{initialText}</p>
         <div className="flex items-center gap-1">
-          <DeleteButton repositoryId={repositoryId} ticketId={ticketId} commentId={commentId} />
+          <ConfirmDeleteButton
+            action={deleteCommentAction}
+            hiddenFields={deleteHiddenFields}
+            title="Delete Comment?"
+            message="This comment will be permanently deleted."
+            label="Delete comment"
+            variant="icon"
+          />
           <button
             onClick={(e) => {
               e.stopPropagation()

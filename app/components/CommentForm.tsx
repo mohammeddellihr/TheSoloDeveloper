@@ -1,23 +1,24 @@
 "use client"
 
 import { useActionState } from "react"
-import { addCommentAction } from "@/app/actions"
+import { addCommentAction, addNoteCommentAction } from "@/app/actions"
 import Button from "./Button"
 import AutoResizeTextarea from "./AutoResizeTextarea"
 
 export default function CommentForm({
-  repositoryId,
-  ticketId,
+  ownerType,
+  ownerId,
 }: {
-  repositoryId: string
-  ticketId: string
+  ownerType: "ticket" | "note"
+  ownerId: string
 }) {
-  const [state, formAction, pending] = useActionState(addCommentAction, undefined)
+  const action = ownerType === "ticket" ? addCommentAction : addNoteCommentAction
+  const hiddenFieldName = ownerType === "ticket" ? "ticketId" : "noteId"
+  const [state, formAction, pending] = useActionState(action, undefined)
 
   return (
     <form action={formAction} className="flex flex-col gap-3">
-      <input type="hidden" name="repositoryId" value={repositoryId} />
-      <input type="hidden" name="ticketId" value={ticketId} />
+      <input type="hidden" name={hiddenFieldName} value={ownerId} />
       <div className="-mx-4 px-4 pb-4 border-b border-gray-800">
         <h3 className="text-sm font-semibold">Create Comment</h3>
       </div>

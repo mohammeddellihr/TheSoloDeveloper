@@ -32,7 +32,7 @@ export default function TicketFilters({ repositories }: { repositories: Reposito
           ))}
         </select>
         <select
-          className="rounded border border-gray-700 bg-gray-900 px-3 py-2 text-sm text-gray-100 focus:border-white focus:outline-none cursor-pointer"
+          className="input-field cursor-pointer"
           value={searchParams.get("status") ?? ""}
           onChange={(e) => update("status", e.target.value)}
         >

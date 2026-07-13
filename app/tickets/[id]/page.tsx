@@ -59,19 +59,19 @@ export default async function TicketPage({
         </div>
       </Card>
 
-      <div className="flex flex-col gap-2">
-        {ticket.comments.map((comment) => (
-          <UpdateCommentButton
-            key={comment.id}
-            repositoryId={repository.id}
-            ticketId={ticket.id}
-            commentId={comment.id}
-            initialText={comment.text}
-          />
+        <div className="flex flex-col gap-2">
+          {ticket.comments.map((comment: { id: string; text: string }) => (
+            <UpdateCommentButton
+              key={comment.id}
+              ownerType="ticket"
+              ownerId={ticket.id}
+              commentId={comment.id}
+              initialText={comment.text}
+            />
         ))}
 
         <Card>
-          <CommentForm repositoryId={repository.id} ticketId={ticket.id} />
+          <CommentForm ownerType="ticket" ownerId={ticket.id} />
         </Card>
       </div>
     </>
